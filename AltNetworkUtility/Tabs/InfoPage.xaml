@@ -53,7 +53,7 @@
             </ListView>
 
             <StackLayout Orientation="Vertical" Grid.Column="1">
-                <Image Source="{Binding FAIcon}" />
+                <Label>Interface Information</Label>
             </StackLayout>
         </Grid>
     </ContentPage.Content>

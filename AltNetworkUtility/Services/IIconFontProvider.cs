@@ -10,12 +10,6 @@ namespace AltNetworkUtility.Services
         ImageSource GetImage(string name);
     }
 
-    //public static class IconFontConverters
-    //{
-    //    public static readonly IValueConverter ToImageSource =
-    //        ValueConverter.Create<string, ImageSource>(s => Xamarin.Forms.DependencyService.Get<IIconFontProvider>().GetImage(s));
-    //}
-
     public class IconFontConverter : IValueConverter
     {
         public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)

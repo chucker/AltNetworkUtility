@@ -1,12 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
-using FontAwesome5.Extensions;
-
 using AltNetworkUtility.Services;
 
 using Xamarin.Forms;
-using FontAwesome5;
 using AltNetworkUtility.ViewModels;
 
 namespace AltNetworkUtility.Tabs
@@ -24,21 +21,6 @@ namespace AltNetworkUtility.Tabs
             {
                 AvailableNetworkInterfaces.Add(item);
             }            
-        }
-
-        public ImageSource FAIcon { get; set; }
-
-        public InfoPageViewModel()
-        {
-            //if (FontAwesome5.EFontAwesomeIcon.Solid_Ethernet.GetSvg(out var path, out var width, out var height))
-            //    SvgPath = path;
-
-            FAIcon = CreateImageSource( EFontAwesomeIcon.Brands_Accusoft);
-        }
-
-        public static ImageSource CreateImageSource(EFontAwesomeIcon icon)
-        {
-            return Xamarin.Forms.DependencyService.Get<IIconFontProvider>().GetImage("car.fill");
         }
     }
 }
