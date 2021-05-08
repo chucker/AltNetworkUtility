@@ -24,7 +24,8 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <ListView ItemsSource="{Binding AvailableNetworkInterfaces}" Grid.Column="0">
+            <ListView ItemsSource="{Binding AvailableNetworkInterfaces}" Grid.Column="0"
+                      SelectedItem="{Binding SelectedNetworkInterface}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -52,8 +53,52 @@
                 </ListView.ItemTemplate>
             </ListView>
 
-            <StackLayout Orientation="Vertical" Grid.Column="1">
+            <StackLayout Orientation="Vertical" Grid.Column="1" BindingContext="{Binding SelectedNetworkInterface}">
                 <Label>Interface Information</Label>
+
+                <Frame HasShadow="False">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="130" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <!--<Label Text="{Binding Name}" />-->
+
+                        <Label Grid.Row="0" HorizontalOptions="End">Hardware Address:</Label>
+                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding PhysicalAddress}" />
+
+                        <Label Grid.Row="1" HorizontalOptions="End">Link Speed:</Label>
+                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding Speed}" />
+                    </Grid>
+                </Frame>
+
+                <Label>Transfer Statistics</Label>
+
+                <Frame HasShadow="False">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="130" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <Label>TODO</Label>
+                    </Grid>
+                </Frame>
             </StackLayout>
         </Grid>
     </ContentPage.Content>

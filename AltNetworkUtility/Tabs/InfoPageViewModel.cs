@@ -13,6 +13,9 @@ namespace AltNetworkUtility.Tabs
         // TODO: should probably not be a string later (do we want to use NetworkInterface?)
         public ObservableCollection<NetworkInterfaceViewModel> AvailableNetworkInterfaces { get; } = new();
 
+        private NetworkInterfaceViewModel? _SelectedNetworkInterface;
+        public NetworkInterfaceViewModel? SelectedNetworkInterface { get => _SelectedNetworkInterface; set => SetProperty(ref _SelectedNetworkInterface, value); }
+
         public async Task InitAsync()
         {
             var svc = DependencyService.Get<INetworkInterfacesService>();
