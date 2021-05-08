@@ -64,6 +64,9 @@
     <Reference Include="Xamarin.Forms.Xaml">
       <HintPath>..\packages\Xamarin.Forms.5.0.0.2012\lib\Xamarin.Mac\Xamarin.Forms.Xaml.dll</HintPath>
     </Reference>
+    <Reference Include="FontAwesome5">
+      <HintPath>..\packages\FontAwesome5.2.1.1\lib\netstandard1.4\FontAwesome5.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
@@ -94,6 +97,7 @@
     <Compile Include="Nullable\MemberNotNullWhenAttribute.cs" />
     <Compile Include="Nullable\MemberNotNullAttribute.cs" />
     <Compile Include="Services\MacNetworkInterfacesService.cs" />
+    <Compile Include="Services\MacIconFontProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Main.storyboard" />

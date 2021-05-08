@@ -1,19 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net.NetworkInformation;
-using System.Threading.Tasks;
 
 using AltNetworkUtility.Services;
+using AltNetworkUtility.ViewModels;
 
 namespace AltNetworkUtility.macOS.Services
 {
     public class MacNetworkInterfacesService : INetworkInterfacesService
     {
-        public async Task<IEnumerable<string>> GetAvailableInterfacesAsync()
+        public IEnumerable<NetworkInterfaceViewModel> GetAvailableInterfaces()
         {
             var interfaces = NetworkInterface.GetAllNetworkInterfaces();
 
-            return interfaces.Select(i => i.Name);
+            return interfaces.Select(ni => new NetworkInterfaceViewModel(ni));
         }
     }
 }

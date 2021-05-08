@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+
+using AltNetworkUtility.ViewModels;
 
 namespace AltNetworkUtility.Services
 {
     public interface INetworkInterfacesService
     {
-        Task<IEnumerable<string>> GetAvailableInterfacesAsync();
+        IEnumerable<NetworkInterfaceViewModel> GetAvailableInterfaces();
     }
 }

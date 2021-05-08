@@ -3,6 +3,8 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:AltNetworkUtility.Tabs"
+    xmlns:localservices="clr-namespace:AltNetworkUtility.Services"
+    xmlns:fa="clr-namespace:FontAwesome5;assembly=FontAwesome5"
     x:Class="AltNetworkUtility.Tabs.InfoPage"
     BindingContextChanged="ContentPage_BindingContextChanged"
     Title="Info">
@@ -11,18 +13,48 @@
         <local:InfoPageViewModel />
     </ContentPage.BindingContext>
 
+    <ContentPage.Resources>
+        <localservices:IconFontConverter x:Key="IconFontConverter" />
+    </ContentPage.Resources>
+
     <ContentPage.Content>
         <Grid VerticalOptions="Start" Padding="20">
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="170" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
 
-            <!-- FIXME wrong font -->
-            <Label>Select a network interface for information.</Label>
+            <ListView ItemsSource="{Binding AvailableNetworkInterfaces}" Grid.Column="0">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid Margin="0,0,0,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="16" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
 
-            <Picker ItemsSource="{Binding AvailableNetworkInterfaces}"
-                    Grid.Row="1" HorizontalOptions="Start" />
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+
+                                <Image Source="{Binding Icon, Converter={StaticResource IconFontConverter}}" Grid.RowSpan="2" />
+
+                                <Label Text="{Binding Name}" VerticalOptions="Center" Grid.Column="1" />
+
+                                <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="1">
+                                    <Label FontSize="Small" TextColor="Gray">up</Label>
+                                </StackLayout>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <StackLayout Orientation="Vertical" Grid.Column="1">
+                <Image Source="{Binding FAIcon}" />
+            </StackLayout>
         </Grid>
     </ContentPage.Content>
 </ContentPage>
