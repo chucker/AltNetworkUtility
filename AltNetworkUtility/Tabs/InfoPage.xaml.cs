@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 
 namespace AltNetworkUtility.Tabs
 {
@@ -12,8 +9,10 @@ namespace AltNetworkUtility.Tabs
             InitializeComponent();
         }
 
-        void ContentPage_BindingContextChanged(System.Object sender, System.EventArgs e)
+        async void ContentPage_BindingContextChanged(object sender, System.EventArgs e)
         {
+            if (BindingContext is InfoPageViewModel viewModel)
+                await viewModel.InitAsync();
         }
     }
 }

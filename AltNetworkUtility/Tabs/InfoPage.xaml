@@ -4,7 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:AltNetworkUtility.Tabs"
     x:Class="AltNetworkUtility.Tabs.InfoPage"
-    BindingContextChanged="ContentPage_BindingContextChanged">
+    BindingContextChanged="ContentPage_BindingContextChanged"
+    Title="Info">
 
     <ContentPage.BindingContext>
         <local:InfoPageViewModel />

@@ -1,17 +1,25 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+
+using AltNetworkUtility.Services;
+
+using Xamarin.Forms;
 
 namespace AltNetworkUtility.Tabs
 {
     public class InfoPageViewModel : ViewModelBase
     {
-        // TODO: should probably not be a string later
-        public ObservableCollection<string> AvailableNetworkInterfaces = new();
+        // TODO: should probably not be a string later (do we want to use NetworkInterface?)
+        public ObservableCollection<string> AvailableNetworkInterfaces { get; } = new();
 
-        internal Task InitAsync()
+        public async Task InitAsync()
         {
-            throw new NotImplementedException();
+            var svc = DependencyService.Get<INetworkInterfacesService>();
+
+            foreach (var item in await svc.GetAvailableInterfacesAsync())
+            {
+                AvailableNetworkInterfaces.Add(item);
+            }            
         }
     }
 }

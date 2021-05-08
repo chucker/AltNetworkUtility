@@ -1,4 +1,7 @@
-﻿using AppKit;
+﻿using AltNetworkUtility.macOS.Services;
+using AltNetworkUtility.Services;
+
+using AppKit;
 
 using Foundation;
 
@@ -14,6 +17,8 @@ namespace AltNetworkUtility.macOS
 
         public AppDelegate()
         {
+            DependencyService.Register<INetworkInterfacesService, MacNetworkInterfacesService>();
+
             var style = NSWindowStyle.Closable | NSWindowStyle.Resizable | NSWindowStyle.Titled;
             var rect = new CoreGraphics.CGRect(200, 200, 640, 388);
             MainWindow = new NSWindow(rect, style, NSBackingStore.Buffered, false)

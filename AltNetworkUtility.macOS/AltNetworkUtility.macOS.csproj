@@ -81,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
+    <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -92,6 +93,7 @@
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Nullable\MemberNotNullWhenAttribute.cs" />
     <Compile Include="Nullable\MemberNotNullAttribute.cs" />
+    <Compile Include="Services\MacNetworkInterfacesService.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Main.storyboard" />
