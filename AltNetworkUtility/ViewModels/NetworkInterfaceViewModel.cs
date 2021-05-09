@@ -1,4 +1,7 @@
-﻿using System.Net.NetworkInformation;
+﻿using System;
+using System.Linq;
+using System.Net;
+using System.Net.NetworkInformation;
 
 namespace AltNetworkUtility.ViewModels
 {
@@ -16,6 +19,13 @@ namespace AltNetworkUtility.ViewModels
         {
             get => _Icon;
             set => SetProperty(ref _Icon, value);
+        }
+
+        private string? _IPAddresses;
+        public string? IPAddresses
+        {
+            get => _IPAddresses;
+            set => SetProperty(ref _IPAddresses, value);
         }
 
         private bool _IsUp = false;
@@ -56,6 +66,8 @@ namespace AltNetworkUtility.ViewModels
                 NetworkInterfaceType.Wireless80211 => "wifi",
                 _ => "questionmark.diamond"
             };
+
+            IPAddresses = string.Join("\t", networkInterface.GetIPProperties().UnicastAddresses.Select(ua => ua.Address));
 
             IsUp = networkInterface.OperationalStatus == OperationalStatus.Up;
 

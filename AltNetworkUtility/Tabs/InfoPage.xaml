@@ -75,8 +75,38 @@
                         <Label Grid.Row="0" HorizontalOptions="End">Hardware Address:</Label>
                         <Label Grid.Row="0" Grid.Column="1" Text="{Binding PhysicalAddress}" />
 
-                        <Label Grid.Row="1" HorizontalOptions="End">Link Speed:</Label>
-                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding Speed}" />
+                        <Label Grid.Row="1" HorizontalOptions="End" VerticalOptions="Start">IP Address:</Label>
+
+                        
+
+                        <!--<ListView Grid.Row="1" Grid.Column="1" VerticalOptions="StartAndExpand"
+                                  ItemsSource="{Binding IPAddresses}"
+                                  HorizontalScrollBarVisibility="Never"
+                                  VerticalScrollBarVisibility="Never" StyleClass="Compact"
+                                  Background="Blue">
+
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <TextCell Text="{Binding Path=.}" />
+                                    <ViewCell><Label Margin="0" Padding="0" Background="Red" Text="{Binding Path=.}" /></ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+
+                        </ListView>-->
+
+                        <Label Grid.Row="1" Grid.Column="1" VerticalOptions="StartAndExpand"
+                               LineBreakMode="WordWrap" MaxLines="4" Text="{Binding IPAddresses}" />
+
+                            <!--Text="{Binding IPAddresses}" />-->
+                        <!--<Editor IsReadOnly="True">
+                            <Entry.Text>
+                                as
+                                sfdg
+                                fdg
+                            </Entry.Text>
+                        </Editor>-->
+                        <Label Grid.Row="2" HorizontalOptions="End">Link Speed:</Label>
+                        <Label Grid.Row="2" Grid.Column="1" Text="{Binding Speed}" />
                     </Grid>
                 </Frame>
 
