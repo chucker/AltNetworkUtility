@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:AltNetworkUtility.Tabs"
     xmlns:localservices="clr-namespace:AltNetworkUtility.Services"
-    xmlns:fa="clr-namespace:FontAwesome5;assembly=FontAwesome5"
     x:Class="AltNetworkUtility.Tabs.InfoPage"
     BindingContextChanged="ContentPage_BindingContextChanged"
     Title="Info">
