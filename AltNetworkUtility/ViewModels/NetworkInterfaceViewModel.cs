@@ -5,11 +5,21 @@ namespace AltNetworkUtility.ViewModels
 {
     public class NetworkInterfaceViewModel : ViewModelBase
     {
-        private string? _Description;
-        public string? Description
+        public string DisplayName
         {
-            get => _Description;
-            set => SetProperty(ref _Description, value);
+            get
+            {
+                if (LocalizedDisplayName != null && Name != null)
+                    return $"{LocalizedDisplayName} ({Name})";
+
+                if (LocalizedDisplayName != null)
+                    return LocalizedDisplayName;
+
+                if (Name != null)
+                    return Name;
+
+                return "(unknown)";
+            }
         }
 
         private string? _Icon;
@@ -26,11 +36,26 @@ namespace AltNetworkUtility.ViewModels
             set => SetProperty(ref _IsUp, value);
         }
 
+        private string? _LocalizedDisplayName;
+        public string? LocalizedDisplayName
+        {
+            get => _LocalizedDisplayName;
+            set
+            {
+                SetProperty(ref _LocalizedDisplayName, value);
+                OnPropertyChanged(nameof(DisplayName));
+            }
+        }
+
         private string? _Name;
         public string? Name
         {
             get => _Name;
-            set => SetProperty(ref _Name, value);
+            set
+            {
+                SetProperty(ref _Name, value);
+                OnPropertyChanged(nameof(DisplayName));
+            }
         }
 
         private OperationalStatus _OperationalStatus;
@@ -56,8 +81,6 @@ namespace AltNetworkUtility.ViewModels
 
         public NetworkInterfaceViewModel(NetworkInterface networkInterface)
         {
-            Description = networkInterface.Description;
-
             Icon = networkInterface.NetworkInterfaceType switch
             {
                 NetworkInterfaceType.Ethernet => "network",
@@ -66,9 +89,10 @@ namespace AltNetworkUtility.ViewModels
             };
 
             IsUp = networkInterface.OperationalStatus == OperationalStatus.Up;
-            OperationalStatus = networkInterface.OperationalStatus;
 
             Name = networkInterface.Name;
+
+            OperationalStatus = networkInterface.OperationalStatus;
 
             PhysicalAddress = BitConverter.ToString(networkInterface.GetPhysicalAddress().GetAddressBytes()).Replace("-", ":");
 

@@ -82,6 +82,7 @@
   <ItemGroup>
     <Folder Include="Resources\" />
     <Folder Include="Services\" />
+    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -95,6 +96,7 @@
     <Compile Include="Nullable\MemberNotNullAttribute.cs" />
     <Compile Include="Services\MacNetworkInterfacesService.cs" />
     <Compile Include="Services\MacIconFontProvider.cs" />
+    <Compile Include="Models\SCNetworkInterface.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Main.storyboard" />

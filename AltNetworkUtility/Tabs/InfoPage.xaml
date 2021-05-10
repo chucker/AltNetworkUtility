@@ -41,7 +41,7 @@
 
                                 <Image Source="{Binding Icon, Converter={StaticResource IconFontConverter}}" Grid.RowSpan="2" />
 
-                                <Label Text="{Binding Name}" VerticalOptions="Center" Grid.Column="1" />
+                                <Label Text="{Binding DisplayName}" VerticalOptions="Center" Grid.Column="1" />
 
                                 <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="1">
                                     <Label FontSize="Small" TextColor="Gray">up</Label>

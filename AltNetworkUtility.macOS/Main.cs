@@ -1,5 +1,7 @@
 ﻿using AppKit;
 
+#nullable enable
+
 namespace AltNetworkUtility.macOS
 {
     static class MainClass
