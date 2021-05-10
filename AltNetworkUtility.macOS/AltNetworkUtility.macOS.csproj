@@ -64,6 +64,15 @@
     <Reference Include="Xamarin.Forms.Xaml">
       <HintPath>..\packages\Xamarin.Forms.5.0.0.2012\lib\Xamarin.Mac\Xamarin.Forms.Xaml.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Toolkit.Mvvm">
+      <HintPath>..\packages\Microsoft.Toolkit.Mvvm.7.0.1\lib\netstandard2.1\Microsoft.Toolkit.Mvvm.dll</HintPath>
+    </Reference>
+    <Reference Include="CliWrap">
+      <HintPath>..\packages\CliWrap.3.3.2\lib\netstandard2.1\CliWrap.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
@@ -83,6 +92,7 @@
     <Folder Include="Resources\" />
     <Folder Include="Services\" />
     <Folder Include="Models\" />
+    <Folder Include="Renderers\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -97,6 +107,7 @@
     <Compile Include="Services\MacNetworkInterfacesService.cs" />
     <Compile Include="Services\MacIconFontProvider.cs" />
     <Compile Include="Models\SCNetworkInterface.cs" />
+    <Compile Include="Renderers\MacOSRadioButtonRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Main.storyboard" />

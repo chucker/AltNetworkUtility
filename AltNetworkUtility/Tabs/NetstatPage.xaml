@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:AltNetworkUtility.Tabs"
+    xmlns:localconverters="clr-namespace:AltNetworkUtility.Converters"
+    x:Class="AltNetworkUtility.Tabs.NetstatPage"
+    BindingContextChanged="ContentPage_BindingContextChanged"
+    Title="Netstat">
+
+    <ContentPage.BindingContext>
+        <local:NetstatPageViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <localconverters:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <Grid VerticalOptions="Start" Padding="20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <StackLayout Orientation="Vertical" Grid.ColumnSpan="2">
+                <RadioButton IsChecked="{Binding Mode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=RoutingTable}"
+                             Content="Display routing table information" />
+                <RadioButton IsChecked="{Binding Mode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=NetworkStatistics}"
+                             Content="Display comprehensive network statistics for each protocol" />
+                <RadioButton IsChecked="{Binding Mode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=MulticastInformation}"
+                             Content="Display multicast information" />
+                <RadioButton IsChecked="{Binding Mode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=SocketState}"
+                             Content="Display the state of all current socket connections" />
+
+                <RadioButton IsChecked="{Binding What}" Content="What" />
+                <RadioButton IsChecked="{Binding The}" Content="The" />
+                <RadioButton IsChecked="{Binding Hell}" Content="Hell" />
+            </StackLayout>
+
+            <!--<Label Grid.Row="1" Text="{Binding Mode}" />-->
+
+            <Button Grid.Row="1" Grid.Column="1" Text="Netstat" Padding="5"
+                    Command="{Binding NetstatCommand}" />
+
+            <Editor Grid.Row="2" Grid.ColumnSpan="2" IsReadOnly="True"
+                    Text="{Binding Output}" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

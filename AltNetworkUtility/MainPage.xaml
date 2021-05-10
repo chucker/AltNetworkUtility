@@ -7,8 +7,7 @@
 
     <tabs:InfoPage />
 
-    <ContentPage Title="Netstat">
-    </ContentPage>
+    <tabs:NetstatPage />
 
     <ContentPage Title="Ping">
     </ContentPage>
