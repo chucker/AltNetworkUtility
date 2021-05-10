@@ -53,36 +53,34 @@
             </ListView>
 
             <StackLayout Orientation="Vertical" Grid.Column="1" BindingContext="{Binding SelectedNetworkInterface}">
-                <Label>Interface Information</Label>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="130" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
 
-                <Frame HasShadow="False">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="130" />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40" />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
 
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Grid.ColumnSpan="2" FontAttributes="Bold"
+                           Text="{Binding DisplayName}" Margin="10" VerticalOptions="Start" />
 
-                        <!--<Label Text="{Binding Name}" />-->
+                    <Label Grid.Row="1" HorizontalOptions="End">Hardware Address:</Label>
+                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding PhysicalAddress}" />
 
-                        <Label Grid.Row="0" HorizontalOptions="End">Hardware Address:</Label>
-                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding PhysicalAddress}" />
+                    <Label Grid.Row="3" HorizontalOptions="End">Link Speed:</Label>
+                    <Label Grid.Row="3" Grid.Column="1" Text="{Binding Speed}" />
 
-                        <Label Grid.Row="2" HorizontalOptions="End">Link Speed:</Label>
-                        <Label Grid.Row="2" Grid.Column="1" Text="{Binding Speed}" />
+                    <Label Grid.Row="4" HorizontalOptions="End">Link Status:</Label>
+                    <Label Grid.Row="4" Grid.Column="1" Text="{Binding OperationalStatus}" />
+                </Grid>
 
-                        <Label Grid.Row="3" HorizontalOptions="End">Link Status:</Label>
-                        <Label Grid.Row="3" Grid.Column="1" Text="{Binding OperationalStatus}" />
-                    </Grid>
-                </Frame>
-
-                <Label>Transfer Statistics</Label>
+                <!--<Label>Transfer Statistics</Label>
 
                 <Frame HasShadow="False">
                     <Grid>
@@ -100,7 +98,7 @@
 
                         <Label>TODO</Label>
                     </Grid>
-                </Frame>
+                </Frame>-->
             </StackLayout>
         </Grid>
     </ContentPage.Content>
