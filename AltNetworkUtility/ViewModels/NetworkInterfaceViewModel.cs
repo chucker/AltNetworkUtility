@@ -33,6 +33,13 @@ namespace AltNetworkUtility.ViewModels
             set => SetProperty(ref _Name, value);
         }
 
+        private OperationalStatus _OperationalStatus;
+        public OperationalStatus OperationalStatus
+        {
+            get => _OperationalStatus;
+            set => SetProperty(ref _OperationalStatus, value);
+        }
+
         private string? _PhysicalAddress;
         public string? PhysicalAddress
         {
@@ -59,9 +66,10 @@ namespace AltNetworkUtility.ViewModels
             };
 
             IsUp = networkInterface.OperationalStatus == OperationalStatus.Up;
+            OperationalStatus = networkInterface.OperationalStatus;
 
             Name = networkInterface.Name;
-            
+
             PhysicalAddress = BitConverter.ToString(networkInterface.GetPhysicalAddress().GetAddressBytes()).Replace("-", ":");
 
             Speed = networkInterface.Speed switch
