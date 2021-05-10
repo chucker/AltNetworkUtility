@@ -1,9 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using AltNetworkUtility.iOS.Services;
+using AltNetworkUtility.Services;
 
 using Foundation;
+
 using UIKit;
+
+using Xamarin.Forms;
 
 namespace AltNetworkUtility.iOS
 {
@@ -22,6 +24,9 @@ namespace AltNetworkUtility.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
+            DependencyService.Register<INetworkInterfacesService, IOSNetworkInterfacesService>();
+            DependencyService.Register<IIconFontProvider, IOSIconFontProvider>();
+
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
 

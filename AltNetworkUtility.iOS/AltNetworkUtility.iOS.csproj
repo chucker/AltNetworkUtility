@@ -68,6 +68,8 @@
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\IOSIconFontProvider.cs" />
+    <Compile Include="Services\IOSNetworkInterfacesService.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
@@ -132,5 +134,8 @@
       <Project>{F438D518-D0E2-45CB-B1F0-6A19E80017B7}</Project>
       <Name>AltNetworkUtility</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services\" />
   </ItemGroup>
 </Project>
