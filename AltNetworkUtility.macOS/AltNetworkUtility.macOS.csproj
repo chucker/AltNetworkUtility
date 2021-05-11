@@ -73,6 +73,12 @@
     <Reference Include="CliWrap">
       <HintPath>..\packages\CliWrap.3.3.2\lib\netstandard2.1\CliWrap.dll</HintPath>
     </Reference>
+    <Reference Include="Serilog">
+      <HintPath>..\packages\Serilog.2.10.0\lib\netstandard2.1\Serilog.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog.Sinks.AppleUnifiedLogging">
+      <HintPath>Serilog.Sinks.AppleUnifiedLogging\Serilog.Sinks.AppleUnifiedLogging.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
@@ -117,6 +123,12 @@
       <Project>{F438D518-D0E2-45CB-B1F0-6A19E80017B7}</Project>
       <Name>AltNetworkUtility</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <NativeReference Include="Serilog.Sinks.AppleUnifiedLogging\libAppleUnifiedLoggingSink.Native.dylib">
+      <Kind>Dynamic</Kind>
+      <SmartLink>False</SmartLink>
+    </NativeReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.5.0.0.2012\build\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.5.0.0.2012\build\Xamarin.Forms.targets')" />
