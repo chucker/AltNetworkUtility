@@ -27,16 +27,19 @@
             <StackLayout Orientation="Vertical" Grid.ColumnSpan="2"
                          RadioButtonGroup.GroupName="Mode"
                          RadioButtonGroup.SelectedValue="{Binding Mode}">
-                <RadioButton Value="RoutingTable" Content="Display routing table information" />
+                <RadioButton Value="RoutingTable" IsChecked="True" Content="Display routing table information" />
                 <RadioButton Value="NetworkStatistics" Content="Display comprehensive network statistics for each protocol" />
                 <RadioButton Value="MulticastInformation" Content="Display multicast information" />
                 <RadioButton Value="SocketState" Content="Display the state of all current socket connections" />
             </StackLayout>
 
-            <!--<Label Grid.Row="1" Text="{Binding Mode}" />-->
+            <StackLayout Grid.Row="1" Grid.Column="1"  Orientation="Horizontal">
+                <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
+                                   WidthRequest="20" />
 
-            <Button Grid.Row="1" Grid.Column="1" Text="Netstat" Padding="5"
-                    Command="{Binding NetstatCommand}" />
+                <Button Text="Netstat" Padding="5" IsEnabled="{Binding IsNotBusy}"
+                        Command="{Binding NetstatCommand}" />
+            </StackLayout>
 
             <Editor Grid.Row="2" Grid.ColumnSpan="2" IsReadOnly="True"
                     Text="{Binding Output}" />

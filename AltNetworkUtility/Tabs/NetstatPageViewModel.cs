@@ -1,8 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
-using CliWrap.Buffered;
+using CliWrap;
 
 using Microsoft.Toolkit.Mvvm.Input;
+
+using Xamarin.Forms;
 
 namespace AltNetworkUtility.Tabs
 {
@@ -43,26 +46,18 @@ namespace AltNetworkUtility.Tabs
             }
         }
 
-        private bool _What;
-        public bool What
+        private bool _IsBusy;
+        public bool IsBusy
         {
-            get => _What;
-            set => SetProperty(ref _What, value);
+            get => _IsBusy;
+            set
+            {
+                SetProperty(ref _IsBusy, value);
+                OnPropertyChanged(nameof(IsNotBusy));
+            }
         }
 
-        private bool _The;
-        public bool The
-        {
-            get => _The;
-            set => SetProperty(ref _The, value);
-        }
-
-        private bool _Hell;
-        public bool Hell
-        {
-            get => _Hell;
-            set => SetProperty(ref _Hell, value);
-        }
+        public bool IsNotBusy => !IsBusy;
 
         private string _Output = "";
         public string Output
@@ -87,10 +82,19 @@ namespace AltNetworkUtility.Tabs
 
         public async Task Netstat()
         {
-            var result = await CliWrap.Cli.Wrap("/usr/sbin/netstat")
-                                      .WithArguments("-nr")
-                                      .ExecuteBufferedAsync();
-            Output = result.StandardOutput;
+            IsBusy = true;
+
+            Output = "";
+
+            await Cli.Wrap("/usr/sbin/netstat")
+                     .WithArguments("-r")
+                     .WithStandardOutputPipe(PipeTarget.ToDelegate(async s =>
+                     {
+                         await Device.InvokeOnMainThreadAsync(() => Output += s + Environment.NewLine);
+                     }))
+                     .ExecuteAsync();
+
+            IsBusy = false;
         }
     }
 }
