@@ -3,7 +3,6 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:AltNetworkUtility.Tabs"
-    xmlns:localconverters="clr-namespace:AltNetworkUtility.Converters"
     x:Class="AltNetworkUtility.Tabs.NetstatPage"
     BindingContextChanged="ContentPage_BindingContextChanged"
     Title="Netstat">
@@ -11,10 +10,6 @@
     <ContentPage.BindingContext>
         <local:NetstatPageViewModel />
     </ContentPage.BindingContext>
-
-    <ContentPage.Resources>
-        <localconverters:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
-    </ContentPage.Resources>
 
     <ContentPage.Content>
         <Grid VerticalOptions="Start" Padding="20">
@@ -29,19 +24,13 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
 
-            <StackLayout Orientation="Vertical" Grid.ColumnSpan="2">
-                <RadioButton IsChecked="{Binding Mode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=RoutingTable}"
-                             Content="Display routing table information" />
-                <RadioButton IsChecked="{Binding Mode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=NetworkStatistics}"
-                             Content="Display comprehensive network statistics for each protocol" />
-                <RadioButton IsChecked="{Binding Mode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=MulticastInformation}"
-                             Content="Display multicast information" />
-                <RadioButton IsChecked="{Binding Mode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=SocketState}"
-                             Content="Display the state of all current socket connections" />
-
-                <RadioButton IsChecked="{Binding What}" Content="What" />
-                <RadioButton IsChecked="{Binding The}" Content="The" />
-                <RadioButton IsChecked="{Binding Hell}" Content="Hell" />
+            <StackLayout Orientation="Vertical" Grid.ColumnSpan="2"
+                         RadioButtonGroup.GroupName="Mode"
+                         RadioButtonGroup.SelectedValue="{Binding Mode}">
+                <RadioButton Value="RoutingTable" Content="Display routing table information" />
+                <RadioButton Value="NetworkStatistics" Content="Display comprehensive network statistics for each protocol" />
+                <RadioButton Value="MulticastInformation" Content="Display multicast information" />
+                <RadioButton Value="SocketState" Content="Display the state of all current socket connections" />
             </StackLayout>
 
             <!--<Label Grid.Row="1" Text="{Binding Mode}" />-->

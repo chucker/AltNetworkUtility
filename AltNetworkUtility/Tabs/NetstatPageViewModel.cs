@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 using CliWrap.Buffered;
 
@@ -18,11 +17,30 @@ namespace AltNetworkUtility.Tabs
 
     public class NetstatPageViewModel : ViewModelBase
     {
-        private NetstatMode _Mode = NetstatMode.RoutingTable;
-        public NetstatMode Mode
+        readonly Serilog.ILogger Log = Serilog.Log.ForContext<NetstatPageViewModel>();
+
+        // WORKAROUND for https://github.com/chucker/AltNetworkUtility/issues/10
+        private object _Mode = NetstatMode.RoutingTable;
+        public object Mode
         {
             get => _Mode;
-            set => SetProperty(ref _Mode, value);
+            set
+            {
+                SetProperty(ref _Mode, value);
+
+                Log.Debug($"Mode: {value}");
+            }
+        }
+
+        private NetstatMode NetstatMode
+        {
+            get
+            {
+                if (Mode is NetstatMode netstatMode)
+                    return netstatMode;
+
+                return 0;
+            }
         }
 
         private bool _What;
@@ -59,7 +77,7 @@ namespace AltNetworkUtility.Tabs
         {
             NetstatCommand = new AsyncRelayCommand(
                 Netstat,
-                () => Mode > 0);
+                () => NetstatMode > 0);
         }
 
         public async Task InitAsync()

@@ -24,6 +24,5 @@
     <Folder Include="Tabs\" />
     <Folder Include="Services\" />
     <Folder Include="ViewModels\" />
-    <Folder Include="Converters\" />
   </ItemGroup>
 </Project>
