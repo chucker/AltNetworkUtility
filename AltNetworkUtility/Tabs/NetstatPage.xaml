@@ -3,25 +3,24 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:AltNetworkUtility.Tabs"
-    x:Class="AltNetworkUtility.Tabs.NetstatPage"
-    BindingContextChanged="ContentPage_BindingContextChanged"
-    Title="Netstat">
+    x:Class="AltNetworkUtility.Tabs.NetstatPage" Title="Netstat">
 
     <ContentPage.BindingContext>
         <local:NetstatPageViewModel />
     </ContentPage.BindingContext>
 
     <ContentPage.Content>
-        <Grid VerticalOptions="Start" Padding="20">
+        <Grid Padding="20">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions>
-                <RowDefinition />
                 <RowDefinition Height="Auto" />
-                <RowDefinition />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*"  />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <StackLayout Orientation="Vertical" Grid.ColumnSpan="2"
@@ -33,7 +32,7 @@
                 <RadioButton Value="SocketState" Content="Display the state of all current socket connections" />
             </StackLayout>
 
-            <StackLayout Grid.Row="1" Grid.Column="1"  Orientation="Horizontal">
+            <StackLayout Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
                 <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
                                    WidthRequest="20" />
 
@@ -43,6 +42,12 @@
 
             <Editor Grid.Row="2" Grid.ColumnSpan="2" IsReadOnly="True"
                     Text="{Binding Output}" />
+
+            <StackLayout Grid.Row="3" Grid.ColumnSpan="2" Orientation="Horizontal">
+                <Label>Command:</Label>
+                <Editor Grid.Row="3" Grid.ColumnSpan="2" IsReadOnly="True"
+                        Text="{Binding CommandLine}" />
+            </StackLayout>
         </Grid>
     </ContentPage.Content>
 </ContentPage>
