@@ -111,8 +111,13 @@ namespace AltNetworkUtility.Tabs
 
             Output = "";
 
-            await Cli.Wrap(NetstatBinary)
-                     .WithArguments(Arguments)
+            // we wrap this in 'script -q /dev/null' because it buffers too much:
+            // https://github.com/Tyrrrz/CliWrap/discussions/113#discussioncomment-731047
+            await Cli.Wrap("/usr/bin/script")
+                     .WithArguments(ab => ab.Add("-q")
+                                            .Add("/dev/null")
+                                            .Add(NetstatBinary)
+                                            .Add(Arguments, false))
                      .WithStandardOutputPipe(PipeTarget.ToDelegate(async s =>
                      {
                          await Device.InvokeOnMainThreadAsync(() => Output += s + Environment.NewLine);
