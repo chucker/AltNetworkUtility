@@ -34,9 +34,9 @@
 
             <StackLayout Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
                 <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
-                                   WidthRequest="20" />
+                                   HeightRequest="16" WidthRequest="16" />
 
-                <Button Text="Netstat" Padding="5" IsEnabled="{Binding IsNotBusy}"
+                <Button Text="Netstat" Padding="2" IsEnabled="{Binding IsNotBusy}"
                         Command="{Binding NetstatCommand}" />
             </StackLayout>
 
@@ -45,8 +45,8 @@
 
             <StackLayout Grid.Row="3" Grid.ColumnSpan="2" Orientation="Horizontal">
                 <Label>Command:</Label>
-                <Editor Grid.Row="3" Grid.ColumnSpan="2" IsReadOnly="True"
-                        Text="{Binding CommandLine}" />
+
+                <Editor IsReadOnly="True" Text="{Binding CommandLine}" />
             </StackLayout>
         </Grid>
     </ContentPage.Content>
