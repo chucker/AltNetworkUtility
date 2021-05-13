@@ -52,7 +52,9 @@
                 </ListView.ItemTemplate>
             </ListView>
 
-            <StackLayout Orientation="Vertical" Grid.Column="1" BindingContext="{Binding SelectedNetworkInterface}">
+            <StackLayout Orientation="Vertical" Grid.Column="1" BindingContext="{Binding SelectedNetworkInterface}"
+                         IsEnabled="{Binding IsAnyNetworkInterfaceSelected}">
+                <!-- TODO IsAnyNetworkInterfaceSelected binding can't work like that -->
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="130" />
