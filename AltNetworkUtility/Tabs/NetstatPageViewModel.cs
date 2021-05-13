@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 
 using CliWrap;
+using CliWrap.Builders;
 
 using Microsoft.Toolkit.Mvvm.Input;
 
@@ -31,6 +32,18 @@ namespace AltNetworkUtility.Tabs
         {
             get => _CommandLine;
             set => SetProperty(ref _CommandLine, value);
+        }
+
+        private bool _DisableHostnameLookup;
+        public bool DisableHostnameLookup
+        {
+            get => _DisableHostnameLookup;
+            set
+            {
+                SetProperty(ref _DisableHostnameLookup, value);
+
+                UpdateCommandLine();
+            }
         }
 
         private bool _IsBusy;
@@ -89,7 +102,15 @@ namespace AltNetworkUtility.Tabs
             switch (NetstatMode)
             {
                 case NetstatMode.RoutingTable:
-                    Arguments = "-r";
+                    var arguments = new ArgumentsBuilder();
+
+                    if (DisableHostnameLookup)
+                        arguments.Add("-n");
+
+                    arguments.Add("-r");
+
+                    Arguments = arguments.Build();
+
                     break;
                 default:
                     break;
