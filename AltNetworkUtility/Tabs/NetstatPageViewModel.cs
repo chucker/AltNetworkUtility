@@ -141,7 +141,11 @@ namespace AltNetworkUtility.Tabs
                                             .Add(Arguments, false))
                      .WithStandardOutputPipe(PipeTarget.ToDelegate(async s =>
                      {
-                         await Device.InvokeOnMainThreadAsync(() => Output += s + Environment.NewLine);
+                         await Device.InvokeOnMainThreadAsync(() =>
+                         {
+                             // UGLY: need to filter out ^D from `script`, apparently
+                             return Output += s.Replace("^D", "") + Environment.NewLine;
+                         });
                      }))
                      .ExecuteAsync();
 
