@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.NetworkInformation;
+using System.Reactive.Linq;
 
 namespace AltNetworkUtility.ViewModels
 {
@@ -72,11 +73,53 @@ namespace AltNetworkUtility.ViewModels
             set => SetProperty(ref _PhysicalAddress, value);
         }
 
+        private double _RandomNumber;
+        public double RandomNumber
+        {
+            get => _RandomNumber;
+            set => SetProperty(ref _RandomNumber, value);
+        }
+
         private string? _Speed;
         public string? Speed
         {
             get => _Speed;
             set => SetProperty(ref _Speed, value);
+        }
+
+        private ulong _SentPackets;
+        public ulong SentPackets
+        {
+            get => _SentPackets;
+            set => SetProperty(ref _SentPackets, value);
+        }
+
+        private ulong _SendErrors;
+        public ulong SendErrors
+        {
+            get => _SendErrors;
+            set => SetProperty(ref _SendErrors, value);
+        }
+
+        private ulong _RecvPackets;
+        public ulong RecvPackets
+        {
+            get => _RecvPackets;
+            set => SetProperty(ref _RecvPackets, value);
+        }
+
+        private ulong _RecvErrors;
+        public ulong RecvErrors
+        {
+            get => _RecvErrors;
+            set => SetProperty(ref _RecvErrors, value);
+        }
+
+        private ulong _Collisions;
+        public ulong Collisions
+        {
+            get => _Collisions;
+            set => SetProperty(ref _Collisions, value);
         }
 
         public NetworkInterfaceViewModel(NetworkInterface networkInterface)
@@ -104,6 +147,10 @@ namespace AltNetworkUtility.ViewModels
                 >= 1 => $"{networkInterface.Speed} kbits/s",
                 _ => networkInterface.Speed.ToString()
             };
+
+            // TODO: keep updating network statistics
+            //var random = new Random();
+            //Observable.Interval(TimeSpan.FromMilliseconds(10)).Subscribe(token => RandomNumber += random.NextDouble());
         }
     }
 }

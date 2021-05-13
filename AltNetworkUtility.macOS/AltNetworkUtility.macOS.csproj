@@ -79,6 +79,9 @@
     <Reference Include="Serilog.Sinks.AppleUnifiedLogging">
       <HintPath>Serilog.Sinks.AppleUnifiedLogging\Serilog.Sinks.AppleUnifiedLogging.dll</HintPath>
     </Reference>
+    <Reference Include="System.Reactive">
+      <HintPath>..\packages\System.Reactive.5.0.0\lib\netstandard2.0\System.Reactive.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />

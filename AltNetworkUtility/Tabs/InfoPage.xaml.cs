@@ -9,10 +9,10 @@ namespace AltNetworkUtility.Tabs
             InitializeComponent();
         }
 
-        async void ContentPage_BindingContextChanged(object sender, System.EventArgs e)
+        void ContentPage_BindingContextChanged(object sender, System.EventArgs e)
         {
             if (BindingContext is InfoPageViewModel viewModel)
-                await viewModel.InitAsync();
+                viewModel.Init();
         }
     }
 }

@@ -82,12 +82,12 @@
                     <Label Grid.Row="4" Grid.Column="1" Text="{Binding OperationalStatus}" />
                 </Grid>
 
-                <!--<Label>Transfer Statistics</Label>
+                <Label FontAttributes="Bold" Margin="10">Transfer Statistics</Label>
 
-                <Frame HasShadow="False">
+                <Frame HasShadow="False" Margin="10,0,0,0">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="130" />
+                            <ColumnDefinition Width="100" />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
 
@@ -96,11 +96,21 @@
                             <RowDefinition />
                             <RowDefinition />
                             <RowDefinition />
+                            <RowDefinition />
                         </Grid.RowDefinitions>
 
-                        <Label>TODO</Label>
+                        <Label Grid.Row="0" HorizontalOptions="End">Sent Packets:</Label>
+                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding SentPackets, StringFormat='{0:n0}'}" />
+                        <Label Grid.Row="1" HorizontalOptions="End">Send Errors:</Label>
+                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding SendErrors, StringFormat='{0:n0}'}" />
+                        <Label Grid.Row="2" HorizontalOptions="End">Recv Packets:</Label>
+                        <Label Grid.Row="2" Grid.Column="1" Text="{Binding RecvPackets, StringFormat='{0:n0}'}" />
+                        <Label Grid.Row="3" HorizontalOptions="End">Recv Errors:</Label>
+                        <Label Grid.Row="3" Grid.Column="1" Text="{Binding RecvErrors, StringFormat='{0:n0}'}" />
+                        <Label Grid.Row="4" HorizontalOptions="End">Collisions:</Label>
+                        <Label Grid.Row="4" Grid.Column="1" Text="{Binding Collisions, StringFormat='{0:n0}'}" />
                     </Grid>
-                </Frame>-->
+                </Frame>
             </StackLayout>
         </Grid>
     </ContentPage.Content>
