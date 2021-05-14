@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 
 using AltNetworkUtility.macOS.Models;
+using AltNetworkUtility.Models;
 using AltNetworkUtility.Services;
 using AltNetworkUtility.ViewModels;
 
@@ -130,8 +132,6 @@ namespace AltNetworkUtility.macOS.Services
 
             var scNetworkInterfaces = GetSystemConfigurationNetworkInterfaces();
 
-            var bsdNetworkInterfaceStatistics = GetBsdNetworkInterfaceStatistics();
-
             var viewModels = new List<NetworkInterfaceViewModel>();
 
             foreach (var item in monoNetworkInterfaces)
@@ -142,15 +142,6 @@ namespace AltNetworkUtility.macOS.Services
                 if (scNetworkInterfaces.TryGetValue(item.Name, out var scNetworkInterface))
                 {
                     viewModel.LocalizedDisplayName = scNetworkInterface.LocalizedDisplayName;
-                }
-
-                if (bsdNetworkInterfaceStatistics.TryGetValue(item.Name, out var statistics))
-                {
-                    viewModel.SentPackets = statistics.ifi_opackets;
-                    viewModel.SendErrors = statistics.ifi_oerrors;
-                    viewModel.RecvPackets = statistics.ifi_ipackets;
-                    viewModel.RecvErrors = statistics.ifi_ierrors;
-                    viewModel.Collisions = statistics.ifi_collisions;
                 }
             }
 
@@ -174,32 +165,49 @@ namespace AltNetworkUtility.macOS.Services
             return scNetworkInterfaces;
         }
 
-        private static Dictionary<string, NativeMethods.if_data64> GetBsdNetworkInterfaceStatistics()
+        public bool TryGetStatistics(NetworkInterfaceViewModel viewModel, [NotNullWhen(true)] out NetworkInterfaceStatistics? statistics)
         {
-            var dict = new Dictionary<string, NativeMethods.if_data64>();
+            statistics = null;
 
-            if (NativeMethods.getifaddrs(out var ifPointer) != 0)
-                return dict;
+            if (NativeMethods.getifaddrs(out var initialIfPointer) != 0)
+                return false;
 
-            while (ifPointer != IntPtr.Zero)
+            try
             {
-                var addr = Marshal.PtrToStructure<NativeMethods.ifaddrs>(ifPointer);
+                IntPtr ifPointer = initialIfPointer;
 
-                var sockaddr = Marshal.PtrToStructure<NativeMethods.sockaddr>(addr.ifa_addr);
-
-                if ((NativeMethods.sockaddr_family)sockaddr.sa_family == NativeMethods.sockaddr_family.AF_LINK)
+                while (ifPointer != IntPtr.Zero)
                 {
-                    var data = Marshal.PtrToStructure<NativeMethods.if_data64>(addr.ifa_data);
+                    var addr = Marshal.PtrToStructure<NativeMethods.ifaddrs>(ifPointer);
 
-                    dict[addr.ifa_name] = data;
+                    var sockaddr = Marshal.PtrToStructure<NativeMethods.sockaddr>(addr.ifa_addr);
+
+                    if ((NativeMethods.sockaddr_family)sockaddr.sa_family == NativeMethods.sockaddr_family.AF_LINK &&
+                        addr.ifa_name == viewModel.Name)
+                    {
+                        var data = Marshal.PtrToStructure<NativeMethods.if_data64>(addr.ifa_data);
+
+                        statistics = new NetworkInterfaceStatistics
+                        {
+                            SentPackets = data.ifi_opackets,
+                            SendErrors = data.ifi_oerrors,
+                            RecvPackets = data.ifi_ipackets,
+                            RecvErrors = data.ifi_ierrors,
+                            Collisions = data.ifi_collisions
+                        };
+
+                        return true;
+                    }
+
+                    ifPointer = addr.ifa_next;
                 }
-
-                ifPointer = addr.ifa_next;
+            }
+            finally
+            {
+                NativeMethods.freeifaddrs(initialIfPointer);
             }
 
-            NativeMethods.freeifaddrs(ifPointer);
-
-            return dict;
+            return false;
         }
     }
 }

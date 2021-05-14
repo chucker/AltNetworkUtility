@@ -2,10 +2,17 @@
 using System.Net.NetworkInformation;
 using System.Reactive.Linq;
 
+using AltNetworkUtility.Services;
+using AltNetworkUtility.Tabs;
+
+using Xamarin.Forms;
+
 namespace AltNetworkUtility.ViewModels
 {
     public class NetworkInterfaceViewModel : ViewModelBase
     {
+        INetworkInterfacesService NetworkInterfacesService;
+
         public string DisplayName
         {
             get
@@ -65,6 +72,8 @@ namespace AltNetworkUtility.ViewModels
             get => _OperationalStatus;
             set => SetProperty(ref _OperationalStatus, value);
         }
+
+        public InfoPageViewModel ParentVM { get; internal set; }
 
         private string? _PhysicalAddress;
         public string? PhysicalAddress
@@ -148,9 +157,22 @@ namespace AltNetworkUtility.ViewModels
                 _ => networkInterface.Speed.ToString()
             };
 
-            // TODO: keep updating network statistics
-            //var random = new Random();
-            //Observable.Interval(TimeSpan.FromMilliseconds(10)).Subscribe(token => RandomNumber += random.NextDouble());
+            NetworkInterfacesService = DependencyService.Get<INetworkInterfacesService>();
+
+            Observable.Interval(TimeSpan.FromSeconds(1)).Subscribe(token =>
+            {
+                if (ParentVM?.SelectedNetworkInterface == this)
+                {
+                    if (NetworkInterfacesService.TryGetStatistics(this, out var statistics))
+                    {
+                        SentPackets = statistics.SentPackets;
+                        SendErrors = statistics.SendErrors;
+                        RecvPackets = statistics.RecvPackets;
+                        RecvErrors = statistics.RecvErrors;
+                        Collisions = statistics.Collisions;
+                    }
+                }
+            });
         }
     }
 }

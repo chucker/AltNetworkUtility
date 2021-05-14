@@ -18,9 +18,13 @@ namespace AltNetworkUtility.Tabs
         {
             var svc = DependencyService.Get<INetworkInterfacesService>();
 
-            foreach (var item in svc.GetAvailableInterfaces())
+            var interfaces = svc.GetAvailableInterfaces();
+
+            foreach (var item in interfaces)
             {
                 AvailableNetworkInterfaces.Add(item);
+
+                item.ParentVM = this;
             }
         }
     }
