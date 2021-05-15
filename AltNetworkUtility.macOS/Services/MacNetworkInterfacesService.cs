@@ -92,6 +92,10 @@ namespace AltNetworkUtility.macOS.Services
                 public uint ifi_reserved2;     /* for future use */
             };
 
+            /*
+             * we can't actually use this (at this point), because we would need
+             * an equivalent of getifaddrs for it.
+             */
             public struct if_data64
             {
                 /* generic interface information */
@@ -186,16 +190,12 @@ namespace AltNetworkUtility.macOS.Services
                     if ((NativeMethods.sockaddr_family)sockaddr.sa_family == NativeMethods.sockaddr_family.AF_LINK &&
                         addr.ifa_name == viewModel.Name)
                     {
-                        var data = Marshal.PtrToStructure<NativeMethods.if_data64>(addr.ifa_data);
+                        var data = Marshal.PtrToStructure<NativeMethods.if_data>(addr.ifa_data);
 
-                        statistics = new NetworkInterfaceStatistics.RawValues
-                        {
-                            SentPackets = data.ifi_opackets,
-                            SendErrors = data.ifi_oerrors,
-                            RecvPackets = data.ifi_ipackets,
-                            RecvErrors = data.ifi_ierrors,
-                            Collisions = data.ifi_collisions
-                        };
+                        statistics = new NetworkInterfaceStatistics.RawValues(data.ifi_opackets, data.ifi_obytes,
+                                                                              data.ifi_oerrors, data.ifi_ipackets,
+                                                                              data.ifi_ibytes, data.ifi_ierrors,
+                                                                              data.ifi_collisions);
 
                         return true;
                     }
