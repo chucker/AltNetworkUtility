@@ -24,11 +24,13 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Microcharts.Forms" Version="0.9.5.9" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Tabs\" />
     <Folder Include="Services\" />
     <Folder Include="ViewModels\" />
     <Folder Include="Models\" />
+    <Folder Include="Converters\" />
   </ItemGroup>
 </Project>

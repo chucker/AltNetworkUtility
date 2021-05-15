@@ -14,11 +14,11 @@ namespace AltNetworkUtility.Models
             public ulong Collisions;
         }
 
-        public RecentValues<ulong> SentPackets { get; set; } = new RecentValues<ulong>();
-        public RecentValues<ulong> SendErrors { get; set; } = new RecentValues<ulong>();
-        public RecentValues<ulong> RecvPackets { get; set; } = new RecentValues<ulong>();
-        public RecentValues<ulong> RecvErrors { get; set; } = new RecentValues<ulong>();
-        public RecentValues<ulong> Collisions { get; set; } = new RecentValues<ulong>();
+        public RecentValues<ulong> SentPackets { get; set; } = new RecentValues<ulong> { RetainSeconds = 60 };
+        public RecentValues<ulong> SendErrors { get; set; } = new RecentValues<ulong> { RetainSeconds = 60 };
+        public RecentValues<ulong> RecvPackets { get; set; } = new RecentValues<ulong> { RetainSeconds = 60 };
+        public RecentValues<ulong> RecvErrors { get; set; } = new RecentValues<ulong> { RetainSeconds = 60 };
+        public RecentValues<ulong> Collisions { get; set; } = new RecentValues<ulong> { RetainSeconds = 60 };
 
         public bool TryUpdate(INetworkInterfacesService networkInterfacesService, NetworkInterfaceViewModel networkInterfaceViewModel)
         {
