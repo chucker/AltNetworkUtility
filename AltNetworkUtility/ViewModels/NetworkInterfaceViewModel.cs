@@ -2,6 +2,7 @@
 using System.Net.NetworkInformation;
 using System.Reactive.Linq;
 
+using AltNetworkUtility.Models;
 using AltNetworkUtility.Services;
 using AltNetworkUtility.Tabs;
 
@@ -73,7 +74,7 @@ namespace AltNetworkUtility.ViewModels
             set => SetProperty(ref _OperationalStatus, value);
         }
 
-        public InfoPageViewModel ParentVM { get; internal set; }
+        public InfoPageViewModel? ParentVM { get; internal set; }
 
         private string? _PhysicalAddress;
         public string? PhysicalAddress
@@ -82,11 +83,11 @@ namespace AltNetworkUtility.ViewModels
             set => SetProperty(ref _PhysicalAddress, value);
         }
 
-        private double _RandomNumber;
-        public double RandomNumber
+        private NetworkInterfaceStatistics? _Statistics;
+        public NetworkInterfaceStatistics? Statistics
         {
-            get => _RandomNumber;
-            set => SetProperty(ref _RandomNumber, value);
+            get => _Statistics;
+            set => SetProperty(ref _Statistics, value);
         }
 
         private string? _Speed;
@@ -94,41 +95,6 @@ namespace AltNetworkUtility.ViewModels
         {
             get => _Speed;
             set => SetProperty(ref _Speed, value);
-        }
-
-        private ulong _SentPackets;
-        public ulong SentPackets
-        {
-            get => _SentPackets;
-            set => SetProperty(ref _SentPackets, value);
-        }
-
-        private ulong _SendErrors;
-        public ulong SendErrors
-        {
-            get => _SendErrors;
-            set => SetProperty(ref _SendErrors, value);
-        }
-
-        private ulong _RecvPackets;
-        public ulong RecvPackets
-        {
-            get => _RecvPackets;
-            set => SetProperty(ref _RecvPackets, value);
-        }
-
-        private ulong _RecvErrors;
-        public ulong RecvErrors
-        {
-            get => _RecvErrors;
-            set => SetProperty(ref _RecvErrors, value);
-        }
-
-        private ulong _Collisions;
-        public ulong Collisions
-        {
-            get => _Collisions;
-            set => SetProperty(ref _Collisions, value);
         }
 
         public NetworkInterfaceViewModel(NetworkInterface networkInterface)
@@ -157,20 +123,16 @@ namespace AltNetworkUtility.ViewModels
                 _ => networkInterface.Speed.ToString()
             };
 
+            Statistics = new NetworkInterfaceStatistics();
+
             NetworkInterfacesService = DependencyService.Get<INetworkInterfacesService>();
 
             Observable.Interval(TimeSpan.FromSeconds(1)).Subscribe(token =>
             {
                 if (ParentVM?.SelectedNetworkInterface == this)
                 {
-                    if (NetworkInterfacesService.TryGetStatistics(this, out var statistics))
-                    {
-                        SentPackets = statistics.SentPackets;
-                        SendErrors = statistics.SendErrors;
-                        RecvPackets = statistics.RecvPackets;
-                        RecvErrors = statistics.RecvErrors;
-                        Collisions = statistics.Collisions;
-                    }
+                    if (Statistics.TryUpdate(NetworkInterfacesService, this))
+                        Device.BeginInvokeOnMainThread(() => OnPropertyChanged(nameof(Statistics)));
                 }
             });
         }

@@ -165,7 +165,8 @@ namespace AltNetworkUtility.macOS.Services
             return scNetworkInterfaces;
         }
 
-        public bool TryGetStatistics(NetworkInterfaceViewModel viewModel, [NotNullWhen(true)] out NetworkInterfaceStatistics? statistics)
+        public bool TryGetStatistics(NetworkInterfaceViewModel viewModel,
+                                     [NotNullWhen(true)] out NetworkInterfaceStatistics.RawValues? statistics)
         {
             statistics = null;
 
@@ -187,7 +188,7 @@ namespace AltNetworkUtility.macOS.Services
                     {
                         var data = Marshal.PtrToStructure<NativeMethods.if_data64>(addr.ifa_data);
 
-                        statistics = new NetworkInterfaceStatistics
+                        statistics = new NetworkInterfaceStatistics.RawValues
                         {
                             SentPackets = data.ifi_opackets,
                             SendErrors = data.ifi_oerrors,
