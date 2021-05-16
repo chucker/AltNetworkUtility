@@ -17,6 +17,26 @@ namespace AltNetworkUtility.Models
             Values.Add((DateTime.Now, value));
         }
 
+        public IEnumerable<ulong> Deltas
+        {
+            get
+            {
+                // maybe this will be nicer in C# 10 or whatever
+                if (typeof(TValue) != typeof(ulong))
+                    throw new NotImplementedException();
+
+                if (Values.Count < 2)
+                    return Enumerable.Empty<ulong>();
+
+                var values = Values.Select(v => (ulong)(object)v.Value).ToList();
+
+                //return values.Skip(1).Select((next, index) =>
+                //next - values[index - 1]);
+
+                return values.Zip(values.Skip(1), (current, next) => next - current);
+            }
+        }
+
         public double DeltaPerSecond
         {
             get
@@ -25,7 +45,7 @@ namespace AltNetworkUtility.Models
                 if (typeof(TValue) != typeof(ulong))
                     throw new NotImplementedException();
 
-                if (Values.Count() < 2)
+                if (Values.Count < 2)
                     return default;
 
                 var last = Values.Last();

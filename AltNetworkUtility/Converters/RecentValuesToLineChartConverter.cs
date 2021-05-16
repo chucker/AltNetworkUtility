@@ -6,6 +6,8 @@ using AltNetworkUtility.Models;
 
 using Microcharts;
 
+using SkiaSharp;
+
 using Xamarin.Forms;
 
 namespace AltNetworkUtility.Converters
@@ -14,23 +16,47 @@ namespace AltNetworkUtility.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is not RecentValues<ulong> recentValues)
+            if (value is not NetworkInterfaceStatistics statistics)
                 return Binding.DoNothing;
 
-            if (recentValues.Values.Count < 10)
+            if (statistics.RecvPackets.Values.Count < 3)
                 return Binding.DoNothing;
 
-            var chartEntries = recentValues.Values.Select(v => new ChartEntry(v.Value)
+            var series = new ChartSerie[]
             {
-                Color = new SkiaSharp.SKColor(0, 200, 0)
-            });
+                //new ChartSerie
+                //{
+                //    Color = new SKColor(0x16, 0x69, 0x7A),
+                //    Entries = statistics.SentPackets.Values.Select(v => new ChartEntry(v.Value)),
+                //    Name = nameof(statistics.SentPackets)
+                //},
+                new ChartSerie
+                {
+                    Color = new SKColor(0xF0, 0x42, 0x76),
+                    Entries = statistics.SentBytes.Deltas.Select(v => new ChartEntry((float)v * -1)),
+                    Name = nameof(statistics.SentBytes)
+                },
+                //new ChartSerie
+                //{
+                //    Color = new SKColor(0x9C, 0x0D, 0x38),
+                //    Entries = statistics.RecvPackets.Values.Select(v => new ChartEntry(v.Value)),
+                //    Name = nameof(statistics.RecvPackets)
+                //},
+                new ChartSerie
+                {
+                    Color = new SKColor(0x26, 0xB3, 0xCF),
+                    Entries = statistics.RecvBytes.Deltas.Select(v => new ChartEntry(v)),
+                    Name = nameof(statistics.RecvBytes)
+                },
+            };
 
             return new LineChart
             {
-                BackgroundColor = new SkiaSharp.SKColor(0, 0, 0, 0),
-                Entries = chartEntries.ToArray(),
                 IsAnimated = false,
-                LineSize = 1
+                LineMode = LineMode.Straight,
+                LineSize = 1,
+                PointMode = PointMode.None,
+                Series = series,
             };
         }
 

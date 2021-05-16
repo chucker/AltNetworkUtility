@@ -88,17 +88,14 @@
     <Reference Include="SkiaSharp.Views.Mac">
       <HintPath>..\packages\SkiaSharp.Views.2.80.2\lib\xamarinmac2.0\SkiaSharp.Views.Mac.dll</HintPath>
     </Reference>
-    <Reference Include="Microcharts">
-      <HintPath>..\packages\Microcharts.Forms.0.9.5.9\lib\netstandard2.0\Microcharts.dll</HintPath>
-    </Reference>
-    <Reference Include="Microcharts.macOS">
-      <HintPath>..\packages\Microcharts.0.9.5.9\lib\xamarinmac2.0\Microcharts.macOS.dll</HintPath>
-    </Reference>
     <Reference Include="SkiaSharp.Views.Forms">
       <HintPath>..\packages\SkiaSharp.Views.Forms.2.80.2\lib\xamarinmac2.0\SkiaSharp.Views.Forms.dll</HintPath>
     </Reference>
+    <Reference Include="Microcharts">
+      <HintPath>..\packages\Microcharts.Forms.1.0.0-preview1\lib\netstandard2.0\Microcharts.dll</HintPath>
+    </Reference>
     <Reference Include="Microcharts.Forms">
-      <HintPath>..\packages\Microcharts.Forms.0.9.5.9\lib\netstandard2.0\Microcharts.Forms.dll</HintPath>
+      <HintPath>..\packages\Microcharts.Forms.1.0.0-preview1\lib\netstandard2.0\Microcharts.Forms.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
