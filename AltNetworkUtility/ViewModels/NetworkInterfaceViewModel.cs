@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net.NetworkInformation;
 using System.Reactive.Linq;
 
@@ -113,7 +114,7 @@ namespace AltNetworkUtility.ViewModels
                 _ => "questionmark.diamond"
             };
 
-            IPAddresses = string.Join("\t", networkInterface.GetIPProperties().UnicastAddresses.Select(ua => ua.Address));
+            IPAddresses = string.Join("\n", networkInterface.GetIPProperties().UnicastAddresses.Select(ua => ua.Address));
 
             IsUp = networkInterface.OperationalStatus == OperationalStatus.Up;
 
