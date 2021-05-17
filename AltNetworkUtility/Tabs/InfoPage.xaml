@@ -2,6 +2,7 @@
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:AltNetworkUtility.Converters"
     xmlns:local="clr-namespace:AltNetworkUtility.Tabs"
     xmlns:localservices="clr-namespace:AltNetworkUtility.Services"
     x:Class="AltNetworkUtility.Tabs.InfoPage"
@@ -75,7 +76,9 @@
                     <Label Grid.Row="1" HorizontalOptions="End">Hardware Address:</Label>
                     <Label Grid.Row="1" Grid.Column="1" Text="{Binding PhysicalAddress}" />
 
-                    <Label Grid.Row="2" HorizontalOptions="End" VerticalOptions="Start">IP Address:</Label>
+                    <Label Grid.Row="2" HorizontalOptions="End" VerticalOptions="Start"
+                           Text="{Binding Source='IP', Converter={x:Static converters:Humanizer.Pluralize},
+                                          ConverterParameter={Binding IPAddresses}, StringFormat='{0}:'}" />
                     <Label Grid.Row="2" Grid.Column="1" VerticalOptions="StartAndExpand"
                            Text="{Binding IPAddresses}" />
 
