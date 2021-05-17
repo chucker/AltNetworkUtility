@@ -82,6 +82,9 @@
     <Reference Include="System.Reactive">
       <HintPath>..\packages\System.Reactive.5.0.0\lib\netstandard2.0\System.Reactive.dll</HintPath>
     </Reference>
+    <Reference Include="LambdaConverters.XF">
+      <HintPath>..\packages\LambdaConverters.XF.4.0.0-alpha1\lib\netstandard2.0\LambdaConverters.XF.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
