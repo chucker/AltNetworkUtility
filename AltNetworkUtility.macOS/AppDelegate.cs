@@ -8,6 +8,8 @@ using Foundation;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.MacOS;
 
+#nullable enable
+
 namespace AltNetworkUtility.macOS
 {
     [Register("AppDelegate")]

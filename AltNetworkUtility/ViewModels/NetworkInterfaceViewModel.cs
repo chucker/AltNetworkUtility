@@ -1,17 +1,34 @@
 ﻿using System;
-using System.Linq;
-using System.Net;
 using System.Net.NetworkInformation;
+using System.Reactive.Linq;
+
+using AltNetworkUtility.Models;
+using AltNetworkUtility.Services;
+using AltNetworkUtility.Tabs;
+
+using Xamarin.Forms;
 
 namespace AltNetworkUtility.ViewModels
 {
     public class NetworkInterfaceViewModel : ViewModelBase
     {
-        private string? _Description;
-        public string? Description
+        INetworkInterfacesService NetworkInterfacesService;
+
+        public string DisplayName
         {
-            get => _Description;
-            set => SetProperty(ref _Description, value);
+            get
+            {
+                if (LocalizedDisplayName != null && Name != null)
+                    return $"{LocalizedDisplayName} ({Name})";
+
+                if (LocalizedDisplayName != null)
+                    return LocalizedDisplayName;
+
+                if (Name != null)
+                    return Name;
+
+                return "(unknown)";
+            }
         }
 
         private string? _Icon;
@@ -35,18 +52,49 @@ namespace AltNetworkUtility.ViewModels
             set => SetProperty(ref _IsUp, value);
         }
 
+        private string? _LocalizedDisplayName;
+        public string? LocalizedDisplayName
+        {
+            get => _LocalizedDisplayName;
+            set
+            {
+                SetProperty(ref _LocalizedDisplayName, value);
+                OnPropertyChanged(nameof(DisplayName));
+            }
+        }
+
         private string? _Name;
         public string? Name
         {
             get => _Name;
-            set => SetProperty(ref _Name, value);
+            set
+            {
+                SetProperty(ref _Name, value);
+                OnPropertyChanged(nameof(DisplayName));
+            }
         }
+
+        private OperationalStatus _OperationalStatus;
+        public OperationalStatus OperationalStatus
+        {
+            get => _OperationalStatus;
+            set => SetProperty(ref _OperationalStatus, value);
+        }
+
+        public InfoPageViewModel? ParentVM { get; internal set; }
 
         private string? _PhysicalAddress;
         public string? PhysicalAddress
         {
             get => _PhysicalAddress;
             set => SetProperty(ref _PhysicalAddress, value);
+        }
+
+        private NetworkInterfaceStatistics? _Statistics;
+        public NetworkInterfaceStatistics? Statistics
+        {
+            get => _Statistics;
+            set => SetProperty(ref _Statistics, value);
         }
 
         private string? _Speed;
@@ -58,8 +106,6 @@ namespace AltNetworkUtility.ViewModels
 
         public NetworkInterfaceViewModel(NetworkInterface networkInterface)
         {
-            Description = networkInterface.Description;
-
             Icon = networkInterface.NetworkInterfaceType switch
             {
                 NetworkInterfaceType.Ethernet => "network",
@@ -72,7 +118,9 @@ namespace AltNetworkUtility.ViewModels
             IsUp = networkInterface.OperationalStatus == OperationalStatus.Up;
 
             Name = networkInterface.Name;
-            
+
+            OperationalStatus = networkInterface.OperationalStatus;
+
             PhysicalAddress = BitConverter.ToString(networkInterface.GetPhysicalAddress().GetAddressBytes()).Replace("-", ":");
 
             Speed = networkInterface.Speed switch
@@ -83,6 +131,19 @@ namespace AltNetworkUtility.ViewModels
                 >= 1 => $"{networkInterface.Speed} kbits/s",
                 _ => networkInterface.Speed.ToString()
             };
+
+            Statistics = new NetworkInterfaceStatistics();
+
+            NetworkInterfacesService = DependencyService.Get<INetworkInterfacesService>();
+
+            Observable.Interval(TimeSpan.FromSeconds(1)).Subscribe(token =>
+            {
+                if (ParentVM?.SelectedNetworkInterface == this)
+                {
+                    if (Statistics.TryUpdate(NetworkInterfacesService, this))
+                        Device.BeginInvokeOnMainThread(() => OnPropertyChanged(nameof(Statistics)));
+                }
+            });
         }
     }
 }
