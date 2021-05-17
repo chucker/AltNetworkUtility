@@ -3,6 +3,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
+using AltNetworkUtility.Services;
+
 using CliWrap;
 using CliWrap.Builders;
 
@@ -41,12 +43,17 @@ namespace AltNetworkUtility.Tabs
         }
 
         private bool _DisableHostnameLookup;
+
+        public PreferencesService Preferences { get; }
+
         public bool DisableHostnameLookup
         {
             get => _DisableHostnameLookup;
             set
             {
                 SetProperty(ref _DisableHostnameLookup, value);
+
+                Preferences.Set(nameof(DisableHostnameLookup), value);
 
                 UpdateCommandLine();
             }
@@ -127,6 +134,10 @@ namespace AltNetworkUtility.Tabs
 
         public NetstatPageViewModel()
         {
+            Preferences = PreferencesService.GetInstance<NetstatPageViewModel>();
+
+            DisableHostnameLookup = Preferences.Get(nameof(DisableHostnameLookup), false);
+
             RunCommand = new AsyncRelayCommand(
                 Netstat,
                 () => NetstatMode > 0);
