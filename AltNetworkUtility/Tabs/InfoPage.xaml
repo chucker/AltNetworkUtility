@@ -2,6 +2,7 @@
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:AltNetworkUtility.Converters"
     xmlns:local="clr-namespace:AltNetworkUtility.Tabs"
     xmlns:localservices="clr-namespace:AltNetworkUtility.Services"
     x:Class="AltNetworkUtility.Tabs.InfoPage"
@@ -77,7 +78,7 @@
 
                     <Label Grid.Row="2" HorizontalOptions="End" VerticalOptions="Start">IP Address:</Label>
                     <Label Grid.Row="2" Grid.Column="1" VerticalOptions="StartAndExpand"
-                           Text="{Binding IPAddresses}" />
+                           Text="{Binding IPAddresses, Converter={x:Static converters:Converters.EnumerableToMultilineString}}" />
 
                     <Label Grid.Row="3" HorizontalOptions="End">Link Speed:</Label>
                     <Label Grid.Row="3" Grid.Column="1" Text="{Binding Speed}" />

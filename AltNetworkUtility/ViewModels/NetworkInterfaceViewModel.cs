@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
 using System.Net.NetworkInformation;
 using System.Reactive.Linq;
 
@@ -39,8 +40,8 @@ namespace AltNetworkUtility.ViewModels
             set => SetProperty(ref _Icon, value);
         }
 
-        private string? _IPAddresses;
-        public string? IPAddresses
+        private IPAddress[]? _IPAddresses;
+        public IPAddress[]? IPAddresses
         {
             get => _IPAddresses;
             set => SetProperty(ref _IPAddresses, value);
@@ -114,7 +115,7 @@ namespace AltNetworkUtility.ViewModels
                 _ => "questionmark.diamond"
             };
 
-            IPAddresses = string.Join("\n", networkInterface.GetIPProperties().UnicastAddresses.Select(ua => ua.Address));
+            IPAddresses = networkInterface.GetIPProperties().UnicastAddresses.Select(ua => ua.Address).ToArray();
 
             IsUp = networkInterface.OperationalStatus == OperationalStatus.Up;
 
