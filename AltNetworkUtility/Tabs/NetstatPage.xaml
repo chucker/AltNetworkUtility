@@ -40,11 +40,14 @@
             </StackLayout>
 
             <StackLayout Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+                <Button Text="Run" Padding="2" IsVisible="{Binding IsNotBusy}"
+                        Command="{Binding RunCommand}" />
+
                 <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
                                    HeightRequest="16" WidthRequest="16" />
 
-                <Button Text="Netstat" Padding="2" IsEnabled="{Binding IsNotBusy}"
-                        Command="{Binding NetstatCommand}" />
+                <Button Text="Cancel" Padding="2" IsVisible="{Binding IsBusy}"
+                        Command="{Binding CancelCommand}" />
             </StackLayout>
 
             <Editor Grid.Row="2" Grid.ColumnSpan="2" IsReadOnly="True"

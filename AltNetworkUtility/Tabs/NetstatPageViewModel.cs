@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 using CliWrap;
 using CliWrap.Builders;
@@ -26,6 +28,10 @@ namespace AltNetworkUtility.Tabs
         readonly Serilog.ILogger Log = Serilog.Log.ForContext<NetstatPageViewModel>();
 
         public string Arguments { get; set; } = "";
+
+        public ICommand CancelCommand { get; }
+
+        public CancellationTokenSource? CancellationTokenSource;
 
         private string _CommandLine = "";
         public string CommandLine
@@ -77,8 +83,6 @@ namespace AltNetworkUtility.Tabs
             }
         }
 
-        public IAsyncRelayCommand NetstatCommand { get; }
-
         private NetstatMode NetstatMode
         {
             get
@@ -96,6 +100,8 @@ namespace AltNetworkUtility.Tabs
             get => _Output;
             set => SetProperty(ref _Output, value);
         }
+
+        public IAsyncRelayCommand RunCommand { get; }
 
         private void UpdateCommandLine()
         {
@@ -121,14 +127,23 @@ namespace AltNetworkUtility.Tabs
 
         public NetstatPageViewModel()
         {
-            NetstatCommand = new AsyncRelayCommand(
+            RunCommand = new AsyncRelayCommand(
                 Netstat,
                 () => NetstatMode > 0);
+
+            CancelCommand = new RelayCommand(Cancel);
+        }
+
+        public void Cancel()
+        {
+            CancellationTokenSource?.Cancel();
+            IsBusy = false;
         }
 
         public async Task Netstat()
         {
             IsBusy = true;
+            CancellationTokenSource = new CancellationTokenSource();
 
             Output = "";
 
@@ -147,7 +162,7 @@ namespace AltNetworkUtility.Tabs
                              return Output += s.Replace("^D", "") + Environment.NewLine;
                          });
                      }))
-                     .ExecuteAsync();
+                     .ExecuteAsync(CancellationTokenSource.Token);
 
             IsBusy = false;
         }
