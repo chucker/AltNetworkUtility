@@ -36,7 +36,7 @@
                     <Label Text="Skip looking up hostnames" />
                 </StackLayout>
 
-                <Label FontSize="Micro" Text="Hostname lookup can be very slow" />
+                <Label FontSize="11" Text="Hostname lookup can be very slow" />
             </StackLayout>
 
             <StackLayout Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
@@ -45,7 +45,7 @@
 
                 <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
                                    HeightRequest="16" WidthRequest="16" />
-
+                
                 <Button Text="Cancel" Padding="2" IsVisible="{Binding IsBusy}"
                         Command="{Binding CancelCommand}" />
             </StackLayout>
