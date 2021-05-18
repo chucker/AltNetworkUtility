@@ -9,8 +9,7 @@
 
     <tabs:NetstatPage />
 
-    <ContentPage Title="Ping">
-    </ContentPage>
+    <tabs:PingPage />
 
     <ContentPage Title="Lookup">
     </ContentPage>
