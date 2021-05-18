@@ -53,100 +53,101 @@
                 </ListView.ItemTemplate>
             </ListView>
 
-            <StackLayout Orientation="Vertical" Grid.Column="1" BindingContext="{Binding SelectedNetworkInterface}"
-                         IsEnabled="{Binding IsAnyNetworkInterfaceSelected}">
-                <!-- TODO IsAnyNetworkInterfaceSelected binding can't work like that -->
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="130" />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="40" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-
-                    <Label Grid.Row="0" Grid.ColumnSpan="2" FontAttributes="Bold"
-                           Text="{Binding DisplayName}" Margin="10" VerticalOptions="Start" />
-
-                    <Label Grid.Row="1" HorizontalOptions="End">Hardware Address:</Label>
-                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding PhysicalAddress}" />
-
-                    <Label Grid.Row="2" HorizontalOptions="End" VerticalOptions="Start">IP Address:</Label>
-                    <Label Grid.Row="2" Grid.Column="1" VerticalOptions="StartAndExpand"
-                           Text="{Binding IPAddresses, Converter={x:Static converters:Converters.EnumerableToMultilineString}}" />
-
-                    <Label Grid.Row="3" HorizontalOptions="End">Link Speed:</Label>
-                    <Label Grid.Row="3" Grid.Column="1" Text="{Binding Speed}" />
-
-                    <Label Grid.Row="4" HorizontalOptions="End">Link Status:</Label>
-                    <Label Grid.Row="4" Grid.Column="1" Text="{Binding OperationalStatus}" />
-                </Grid>
-
-                <Label FontAttributes="Bold" Margin="10">Transfer Statistics</Label>
-
-                <Frame HasShadow="False" Margin="10,0,0,0" Padding="0">
+            <Grid Grid.Column="1"
+                  IsVisible="{Binding SelectedNetworkInterface, Converter={x:Static converters:Converters.TrueIfNotNull}}">
+                <StackLayout Orientation="Vertical" BindingContext="{Binding SelectedNetworkInterface}">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="120" />
-                            <ColumnDefinition />
+                            <ColumnDefinition Width="130" />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
 
                         <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
+                            <RowDefinition Height="40" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <Label Grid.Row="0" HorizontalOptions="End">Sent Packets:</Label>
-                        <Label Grid.Row="0" Grid.Column="1"
-                               Text="{Binding Statistics.SentPackets.MostRecentValue_SI}" />
-                        <Label Grid.Row="0" Grid.Column="2"
-                               Text="{Binding Statistics.SentPackets.DeltaPerSecond_SI, StringFormat='{0}/sec'}" />
-                        <Label Grid.Row="1" HorizontalOptions="End">Sent Bytes:</Label>
-                        <Label Grid.Row="1" Grid.Column="1"
-                               Text="{Binding Statistics.SentBytes.MostRecentValue_SI, StringFormat='{0}B'}" />
-                        <Label Grid.Row="1" Grid.Column="2"
-                               Text="{Binding Statistics.SentBytes.DeltaPerSecond_SI, StringFormat='{0}B/sec'}" />
-                        <Label Grid.Row="2" HorizontalOptions="End">Send Errors:</Label>
-                        <Label Grid.Row="2" Grid.Column="1"
-                               Text="{Binding Statistics.SendErrors.MostRecentValue_SI}" />
-                        <Label Grid.Row="2" Grid.Column="2"
-                               Text="{Binding Statistics.SendErrors.DeltaPerSecond_SI, StringFormat='{0}/sec'}" />
+                        <Label Grid.Row="0" Grid.ColumnSpan="2" FontAttributes="Bold"
+                               Text="{Binding DisplayName}" Margin="10" VerticalOptions="Start" />
 
-                        <Label Grid.Row="3" HorizontalOptions="End">Recv Packets:</Label>
-                        <Label Grid.Row="3" Grid.Column="1"
-                               Text="{Binding Statistics.RecvPackets.MostRecentValue_SI}" />
-                        <Label Grid.Row="3" Grid.Column="2"
-                               Text="{Binding Statistics.RecvPackets.DeltaPerSecond_SI, StringFormat='{0}/sec'}" />
-                        <Label Grid.Row="4" HorizontalOptions="End">Recv Bytes:</Label>
-                        <Label Grid.Row="4" Grid.Column="1"
-                               Text="{Binding Statistics.RecvBytes.MostRecentValue_SI, StringFormat='{0}B'}" />
-                        <Label Grid.Row="4" Grid.Column="2"
-                               Text="{Binding Statistics.RecvBytes.DeltaPerSecond_SI, StringFormat='{0}B/sec'}" />
-                        <Label Grid.Row="5" HorizontalOptions="End">Recv Errors:</Label>
-                        <Label Grid.Row="5" Grid.Column="1"
-                               Text="{Binding Statistics.RecvErrors.MostRecentValue_SI}" />
-                        <Label Grid.Row="5" Grid.Column="2"
-                               Text="{Binding Statistics.RecvErrors.DeltaPerSecond_SI, StringFormat='{0}/sec'}" />
+                        <Label Grid.Row="1" HorizontalOptions="End">Hardware Address:</Label>
+                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding PhysicalAddress}" />
 
-                        <Label Grid.Row="6" HorizontalOptions="End">Collisions:</Label>
-                        <Label Grid.Row="6" Grid.Column="1"
-                               Text="{Binding Statistics.Collisions.MostRecentValue_SI}" />
-                        <Label Grid.Row="6" Grid.Column="2"
-                               Text="{Binding Statistics.Collisions.DeltaPerSecond_SI, StringFormat='{0}/sec'}" />
+                        <Label Grid.Row="2" HorizontalOptions="End" VerticalOptions="Start">IP Address:</Label>
+                        <Label Grid.Row="2" Grid.Column="1" VerticalOptions="StartAndExpand"
+                               Text="{Binding IPAddresses, Converter={x:Static converters:Converters.EnumerableToMultilineString}}" />
+
+                        <Label Grid.Row="3" HorizontalOptions="End">Link Speed:</Label>
+                        <Label Grid.Row="3" Grid.Column="1" Text="{Binding Speed}" />
+
+                        <Label Grid.Row="4" HorizontalOptions="End">Link Status:</Label>
+                        <Label Grid.Row="4" Grid.Column="1" Text="{Binding OperationalStatus}" />
                     </Grid>
-                </Frame>
-            </StackLayout>
+
+                    <Label FontAttributes="Bold" Margin="10">Transfer Statistics</Label>
+
+                    <Frame HasShadow="False" Margin="10,0,0,0" Padding="0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="120" />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+
+                            <Label Grid.Row="0" HorizontalOptions="End">Sent Packets:</Label>
+                            <Label Grid.Row="0" Grid.Column="1"
+                                   Text="{Binding Statistics.SentPackets.MostRecentValue_SI}" />
+                            <Label Grid.Row="0" Grid.Column="2"
+                                   Text="{Binding Statistics.SentPackets.DeltaPerSecond_SI, StringFormat='{0}/sec'}" />
+                            <Label Grid.Row="1" HorizontalOptions="End">Sent Bytes:</Label>
+                            <Label Grid.Row="1" Grid.Column="1"
+                                   Text="{Binding Statistics.SentBytes.MostRecentValue_SI, StringFormat='{0}B'}" />
+                            <Label Grid.Row="1" Grid.Column="2"
+                                   Text="{Binding Statistics.SentBytes.DeltaPerSecond_SI, StringFormat='{0}B/sec'}" />
+                            <Label Grid.Row="2" HorizontalOptions="End">Send Errors:</Label>
+                            <Label Grid.Row="2" Grid.Column="1"
+                                   Text="{Binding Statistics.SendErrors.MostRecentValue_SI}" />
+                            <Label Grid.Row="2" Grid.Column="2"
+                                   Text="{Binding Statistics.SendErrors.DeltaPerSecond_SI, StringFormat='{0}/sec'}" />
+
+                            <Label Grid.Row="3" HorizontalOptions="End">Recv Packets:</Label>
+                            <Label Grid.Row="3" Grid.Column="1"
+                                   Text="{Binding Statistics.RecvPackets.MostRecentValue_SI}" />
+                            <Label Grid.Row="3" Grid.Column="2"
+                                   Text="{Binding Statistics.RecvPackets.DeltaPerSecond_SI, StringFormat='{0}/sec'}" />
+                            <Label Grid.Row="4" HorizontalOptions="End">Recv Bytes:</Label>
+                            <Label Grid.Row="4" Grid.Column="1"
+                                   Text="{Binding Statistics.RecvBytes.MostRecentValue_SI, StringFormat='{0}B'}" />
+                            <Label Grid.Row="4" Grid.Column="2"
+                                   Text="{Binding Statistics.RecvBytes.DeltaPerSecond_SI, StringFormat='{0}B/sec'}" />
+                            <Label Grid.Row="5" HorizontalOptions="End">Recv Errors:</Label>
+                            <Label Grid.Row="5" Grid.Column="1"
+                                   Text="{Binding Statistics.RecvErrors.MostRecentValue_SI}" />
+                            <Label Grid.Row="5" Grid.Column="2"
+                                   Text="{Binding Statistics.RecvErrors.DeltaPerSecond_SI, StringFormat='{0}/sec'}" />
+
+                            <Label Grid.Row="6" HorizontalOptions="End">Collisions:</Label>
+                            <Label Grid.Row="6" Grid.Column="1"
+                                   Text="{Binding Statistics.Collisions.MostRecentValue_SI}" />
+                            <Label Grid.Row="6" Grid.Column="2"
+                                   Text="{Binding Statistics.Collisions.DeltaPerSecond_SI, StringFormat='{0}/sec'}" />
+                        </Grid>
+                    </Frame>
+                </StackLayout>
+            </Grid>
         </Grid>
     </ContentPage.Content>
 </ContentPage>
