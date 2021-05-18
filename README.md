@@ -1,6 +1,10 @@
 # AltNetworkUtility
 A clone of Apple's now-discontinued Network Utility
 
+# Status
+
+It's in pre-alpha stage. That means some conceptual decisions still need to be made, and many features are missing.
+
 # Build
 
 ANU is written in C# against Xamarin Forms / MAUI, although it currently only targets macOS.
