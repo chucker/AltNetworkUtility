@@ -1,4 +1,6 @@
-﻿using Xamarin.Forms;
+﻿using Rotorsoft.Forms;
+
+using Xamarin.Forms;
 
 namespace AltNetworkUtility.Tabs
 {
@@ -11,8 +13,12 @@ namespace AltNetworkUtility.Tabs
 
         void ContentPage_BindingContextChanged(object sender, System.EventArgs e)
         {
-            if (BindingContext is InfoPageViewModel viewModel)
-                viewModel.Init();
+            if (BindingContext is InfoPageViewModel viewModel &&
+                Resources.TryGetValue("NetworkInterfaces", out var resource) &&
+                resource is CollectionViewSource collectionViewSource)
+            {
+                viewModel.Init(collectionViewSource.View);
+            }
         }
     }
 }

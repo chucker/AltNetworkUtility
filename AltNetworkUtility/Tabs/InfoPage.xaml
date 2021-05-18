@@ -5,17 +5,30 @@
     xmlns:converters="clr-namespace:AltNetworkUtility.Converters"
     xmlns:local="clr-namespace:AltNetworkUtility.Tabs"
     xmlns:localservices="clr-namespace:AltNetworkUtility.Services"
-    x:Class="AltNetworkUtility.Tabs.InfoPage"
+    xmlns:rotorsoft="clr-namespace:Rotorsoft.Forms;assembly=CollectionViewSource.Forms"
+    x:Class="AltNetworkUtility.Tabs.InfoPage" x:Name="_page"
     BindingContextChanged="ContentPage_BindingContextChanged"
     Title="Info">
+
+    <ContentPage.Resources>
+        <localservices:IconFontConverter x:Key="IconFontConverter" />
+
+        <rotorsoft:CollectionViewSource x:Key="NetworkInterfaces"
+                                        BindingContext="{Binding Path=BindingContext, Source={x:Reference _page}, Mode=OneWay}"
+                                        Source="{Binding AvailableNetworkInterfaces, Mode=OneWay}"
+                                        Filter="{Binding NetworkInterfaceFilter, Mode=OneWay}">
+            <rotorsoft:CollectionViewSource.SortDescriptions>
+                <x:Array Type="{x:Type rotorsoft:SortDescription}">
+                    <rotorsoft:SortDescription Direction="Ascending" PropertyName="OperationalStatus" />
+                    <rotorsoft:SortDescription Direction="Ascending" PropertyName="DisplayName" />
+                </x:Array>
+            </rotorsoft:CollectionViewSource.SortDescriptions>
+        </rotorsoft:CollectionViewSource>
+    </ContentPage.Resources>
 
     <ContentPage.BindingContext>
         <local:InfoPageViewModel />
     </ContentPage.BindingContext>
-
-    <ContentPage.Resources>
-        <localservices:IconFontConverter x:Key="IconFontConverter" />
-    </ContentPage.Resources>
 
     <ContentPage.Content>
         <Grid VerticalOptions="Start" Padding="20">
@@ -24,12 +37,18 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <ListView ItemsSource="{Binding AvailableNetworkInterfaces}" Grid.Column="0"
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <ListView Grid.Column="0" Background="White"
+                      ItemsSource="{Binding View, Source={StaticResource NetworkInterfaces}}"
                       SelectedItem="{Binding SelectedNetworkInterface}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Grid Margin="0,0,0,10">
+                            <Grid Margin="0,0,0,10" Background="White">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="16" />
                                     <ColumnDefinition />
@@ -53,7 +72,18 @@
                 </ListView.ItemTemplate>
             </ListView>
 
-            <Grid Grid.Column="1"
+            <!-- MAYBE replace this with one toggle button per interface type later -->
+            <StackLayout Orientation="Horizontal" Grid.Column="0" Grid.Row="1">
+                <CheckBox IsChecked="{Binding ShowAllNetworkInterfaces}" />
+
+                <Label Text="Show All Interfaces">
+                    <Label.GestureRecognizers>
+                        <ClickGestureRecognizer Command="{Binding ToggleShowAllNetworkInterfacesCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
+
+            <Grid Grid.Column="1" Grid.RowSpan="2"
                   IsVisible="{Binding SelectedNetworkInterface, Converter={x:Static converters:Converters.TrueIfNotNull}}">
                 <StackLayout Orientation="Vertical" BindingContext="{Binding SelectedNetworkInterface}">
                     <Grid>

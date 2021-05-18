@@ -24,7 +24,8 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="LambdaConverters.XF" Version="4.0.0-alpha1" />
+    <PackageReference Include="LambdaConverters.XF" Version="4.0.0-alpha2" />
+    <PackageReference Include="CollectionViewSource.Forms" Version="1.0.0.2" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Tabs\" />

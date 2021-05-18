@@ -14,6 +14,8 @@ namespace AltNetworkUtility.ViewModels
 {
     public class NetworkInterfaceViewModel : ViewModelBase
     {
+        readonly Serilog.ILogger Log = Serilog.Log.ForContext<NetworkInterfaceViewModel>();
+
         INetworkInterfacesService NetworkInterfacesService;
 
         public string DisplayName
@@ -76,6 +78,13 @@ namespace AltNetworkUtility.ViewModels
             }
         }
 
+        private NetworkInterfaceType _NetworkInterfaceType;
+        public NetworkInterfaceType NetworkInterfaceType
+        {
+            get => _NetworkInterfaceType;
+            set => SetProperty(ref _NetworkInterfaceType, value);
+        }
+
         private OperationalStatus _OperationalStatus;
         public OperationalStatus OperationalStatus
         {
@@ -108,6 +117,8 @@ namespace AltNetworkUtility.ViewModels
 
         public NetworkInterfaceViewModel(NetworkInterface networkInterface)
         {
+            Log.Debug($"{networkInterface.Name}: {networkInterface.NetworkInterfaceType}");
+
             Icon = networkInterface.NetworkInterfaceType switch
             {
                 NetworkInterfaceType.Ethernet => "network",
@@ -120,6 +131,8 @@ namespace AltNetworkUtility.ViewModels
             IsUp = networkInterface.OperationalStatus == OperationalStatus.Up;
 
             Name = networkInterface.Name;
+
+            NetworkInterfaceType = networkInterface.NetworkInterfaceType;
 
             OperationalStatus = networkInterface.OperationalStatus;
 
