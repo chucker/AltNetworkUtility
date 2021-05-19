@@ -35,11 +35,14 @@ namespace AltNetworkUtility.ViewModels
             }
         }
 
-        private string? _Icon;
-        public string? Icon
+        public string Icon
         {
-            get => _Icon;
-            set => SetProperty(ref _Icon, value);
+            get => NetworkInterfaceType switch
+            {
+                NetworkInterfaceType.Ethernet => "network",
+                NetworkInterfaceType.Wireless80211 => "wifi",
+                _ => "questionmark.diamond"
+            };
         }
 
         private IPAddress[]? _IPAddresses;
@@ -82,7 +85,12 @@ namespace AltNetworkUtility.ViewModels
         public NetworkInterfaceType NetworkInterfaceType
         {
             get => _NetworkInterfaceType;
-            set => SetProperty(ref _NetworkInterfaceType, value);
+            set
+            {
+                SetProperty(ref _NetworkInterfaceType, value);
+
+                OnPropertyChanged(nameof(Icon));
+            }
         }
 
         private OperationalStatus _OperationalStatus;
@@ -117,14 +125,8 @@ namespace AltNetworkUtility.ViewModels
 
         public NetworkInterfaceViewModel(NetworkInterface networkInterface)
         {
-            Log.Debug($"{networkInterface.Name}: {networkInterface.NetworkInterfaceType}");
-
-            Icon = networkInterface.NetworkInterfaceType switch
-            {
-                NetworkInterfaceType.Ethernet => "network",
-                NetworkInterfaceType.Wireless80211 => "wifi",
-                _ => "questionmark.diamond"
-            };
+            Log.Debug($"{networkInterface.Name}: " +
+                      $"{networkInterface.NetworkInterfaceType}, {networkInterface.OperationalStatus}");
 
             IPAddresses = networkInterface.GetIPProperties().UnicastAddresses.Select(ua => ua.Address).ToArray();
 

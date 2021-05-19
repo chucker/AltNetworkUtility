@@ -18,11 +18,15 @@ namespace AltNetworkUtility.macOS.Models
 
             [DllImport("/System/Library/Frameworks/SystemConfiguration.framework/SystemConfiguration")]
             public static extern IntPtr SCNetworkInterfaceGetLocalizedDisplayName(IntPtr scNetworkInterfaceRef);
+
+            [DllImport("/System/Library/Frameworks/SystemConfiguration.framework/SystemConfiguration")]
+            public static extern IntPtr SCNetworkInterfaceGetInterfaceType(IntPtr scNetworkInterfaceRef);
         }
 
         public IntPtr SCNetworkInterfaceRef { get; }
 
         public NSString BsdName { get; }
+        public NSString InterfaceType { get; }
         public NSString LocalizedDisplayName { get; }
 
         public SCNetworkInterface(IntPtr scNetworkInterfaceRef)
@@ -32,8 +36,11 @@ namespace AltNetworkUtility.macOS.Models
             IntPtr bsdName = NativeMethods.SCNetworkInterfaceGetBSDName(scNetworkInterfaceRef);
             BsdName = Runtime.GetNSObject<NSString>(bsdName);
 
-            IntPtr localizeDisplayName = NativeMethods.SCNetworkInterfaceGetLocalizedDisplayName(scNetworkInterfaceRef);
-            LocalizedDisplayName = Runtime.GetNSObject<NSString>(localizeDisplayName);
+            IntPtr localizedDisplayName = NativeMethods.SCNetworkInterfaceGetLocalizedDisplayName(scNetworkInterfaceRef);
+            LocalizedDisplayName = Runtime.GetNSObject<NSString>(localizedDisplayName);
+
+            IntPtr interfaceType = NativeMethods.SCNetworkInterfaceGetInterfaceType(scNetworkInterfaceRef);
+            InterfaceType = Runtime.GetNSObject<NSString>(interfaceType);
         }
     }
 }

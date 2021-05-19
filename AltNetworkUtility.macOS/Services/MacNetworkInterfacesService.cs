@@ -19,6 +19,8 @@ namespace AltNetworkUtility.macOS.Services
 {
     public class MacNetworkInterfacesService : INetworkInterfacesService
     {
+        readonly Serilog.ILogger Log = Serilog.Log.ForContext<MacNetworkInterfacesService>();
+
         private class NativeMethods
         {
             [DllImport("/System/Library/Frameworks/SystemConfiguration.framework/SystemConfiguration")]
@@ -146,6 +148,20 @@ namespace AltNetworkUtility.macOS.Services
                 if (scNetworkInterfaces.TryGetValue(item.Name, out var scNetworkInterface))
                 {
                     viewModel.LocalizedDisplayName = scNetworkInterface.LocalizedDisplayName;
+
+                    // this may be obsolete once .NET 6 rolls out:
+                    // https://github.com/dotnet/runtime/pull/43737
+                    viewModel.NetworkInterfaceType = (string)scNetworkInterface.InterfaceType switch
+                    {
+                        "IEEE80211" => NetworkInterfaceType.Wireless80211,
+                        "Ethernet" => NetworkInterfaceType.Ethernet,
+                        _ => NetworkInterfaceType.Unknown
+                    };
+
+                    if (viewModel.NetworkInterfaceType == NetworkInterfaceType.Unknown)
+                        Log.Information($"Unknown network interface type for {item.Name}. " +
+                                        $"macOS gives {nameof(scNetworkInterface.LocalizedDisplayName)} {scNetworkInterface.LocalizedDisplayName}, " +
+                                        $"{nameof(scNetworkInterface.InterfaceType)} {scNetworkInterface.InterfaceType}");
                 }
             }
 
