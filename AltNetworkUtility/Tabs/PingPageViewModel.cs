@@ -30,9 +30,44 @@ namespace AltNetworkUtility.Tabs
 
         public PreferencesService Preferences { get; }
 
+        private int _SpecificCount;
+        public int SpecificCount
+        {
+            get => _SpecificCount;
+            set
+            {
+                SetProperty(ref _SpecificCount, value);
+
+                Preferences.Set(nameof(SpecificCount), value);
+
+                UpdateCommandLine();
+            }
+        }
+
+        private bool _UseSpecificCount;
+        public bool UseSpecificCount
+        {
+            get => _UseSpecificCount;
+            set
+            {
+                // FIXME binding is broken
+                SetProperty(ref _UseSpecificCount, value);
+
+                Preferences.Set(nameof(UseSpecificCount), value);
+
+                UpdateCommandLine();
+            }
+        }
+
         private void UpdateCommandLine()
         {
             var arguments = new ArgumentsBuilder();
+
+            if (UseSpecificCount && SpecificCount > 0)
+            {
+                arguments.Add("-c");
+                arguments.Add(SpecificCount);
+            }
 
             arguments.Add(Host);
 
@@ -50,6 +85,8 @@ namespace AltNetworkUtility.Tabs
             Preferences = PreferencesService.GetInstance<PingPageViewModel>();
 
             Host = Preferences.Get(nameof(Host), "");
+            SpecificCount = Preferences.Get(nameof(SpecificCount), 10);
+            UseSpecificCount = Preferences.Get(nameof(UseSpecificCount), false);
         }
     }
 }

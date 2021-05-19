@@ -2,6 +2,7 @@
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:AltNetworkUtility.Converters"
     xmlns:local="clr-namespace:AltNetworkUtility.Tabs"
     x:Class="AltNetworkUtility.Tabs.PingPage"
     Title="Ping">
@@ -32,13 +33,12 @@
                 <Label FontSize="11">(ex. 10.0.2.1 or www.example.com)</Label>
             </StackLayout>
 
-            <StackLayout Grid.Row="2" Orientation="Vertical" Margin="0,10"
-                         RadioButtonGroup.GroupName="PingCountOption">
-                <RadioButton Content="Send an unlimited number of pings" />
+            <StackLayout Grid.Row="2" Orientation="Vertical" Margin="0,10">
+                <RadioButton Content="Send an unlimited number of pings" IsChecked="{Binding UseSpecificCount, Converter={x:Static converters:Converters.Negate}}" />
 
                 <StackLayout Orientation="Horizontal">
-                    <RadioButton Content="Send only" />
-                    <Editor WidthRequest="70" Text="10" />
+                    <RadioButton Content="Send only" IsChecked="{Binding UseSpecificCount}" />
+                    <Editor WidthRequest="70" Text="{Binding SpecificCount}" />
                     <Label VerticalOptions="Center">pings</Label>
                 </StackLayout>
             </StackLayout>

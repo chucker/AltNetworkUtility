@@ -18,6 +18,9 @@ namespace AltNetworkUtility.Converters
                 return string.Join("\n", vca.Value.Cast<object>());
             });
 
+        public static readonly IValueConverter Negate =
+            ValueConverter.Create<bool, bool>(vca => !vca.Value);
+
         public static readonly IValueConverter TrueIfNotNull =
             ValueConverter.Create<object?, bool>(vca => vca.Value is not null);
     }
