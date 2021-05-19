@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:AltNetworkUtility.Converters"
+    xmlns:local="clr-namespace:AltNetworkUtility.Tabs"
+    x:Class="AltNetworkUtility.Tabs.PingPage"
+    Title="Ping">
+
+    <ContentPage.BindingContext>
+        <local:PingPageViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <Grid Padding="20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Label Grid.Row="0">Enter the network address to ping.</Label>
+
+            <StackLayout Grid.Row="1" Orientation="Horizontal">
+                <Editor WidthRequest="170" Text="{Binding Host}"></Editor>
+                <Label FontSize="11">(ex. 10.0.2.1 or www.example.com)</Label>
+            </StackLayout>
+
+            <StackLayout Grid.Row="2" Orientation="Vertical" Margin="0,10">
+                <RadioButton Content="Send an unlimited number of pings" IsChecked="{Binding UseSpecificCount, Converter={x:Static converters:Converters.Negate}}" />
+
+                <StackLayout Orientation="Horizontal">
+                    <RadioButton Content="Send only" IsChecked="{Binding UseSpecificCount}" />
+                    <Editor WidthRequest="70" Text="{Binding SpecificCount}" />
+                    <Label VerticalOptions="Center">pings</Label>
+                </StackLayout>
+            </StackLayout>
+
+            <StackLayout Grid.Row="2" Grid.Column="1" Orientation="Horizontal" VerticalOptions="End">
+                <Button Text="Run" Padding="2" IsVisible="{Binding DebufferedCommandViewModel.IsNotBusy}"
+                        Command="{Binding DebufferedCommandViewModel.RunCommand}" />
+
+                <ActivityIndicator IsRunning="{Binding DebufferedCommandViewModel.IsBusy}"
+                                   IsVisible="{Binding DebufferedCommandViewModel.IsBusy}"
+                                   HeightRequest="16" WidthRequest="16" />
+                
+                <Button Text="Cancel" Padding="2"
+                        IsVisible="{Binding DebufferedCommandViewModel.IsBusy}"
+                        Command="{Binding DebufferedCommandViewModel.CancelCommand}" />
+            </StackLayout>
+
+            <Editor Grid.Row="3" Grid.ColumnSpan="2" IsReadOnly="True"
+                    Text="{Binding DebufferedCommandViewModel.Output}" />
+
+            <StackLayout Grid.Row="4" Grid.ColumnSpan="2" Orientation="Horizontal">
+                <Label>Command:</Label>
+
+                <Editor IsReadOnly="True" WidthRequest="300"
+                        Text="{Binding DebufferedCommandViewModel.CommandLine}" />
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
