@@ -52,6 +52,11 @@ namespace AltNetworkUtility.ViewModels
         }
         public IAsyncRelayCommand RunCommand { get; }
 
+        public Func<bool> RunCommandCanExecute { get; set; }
+
+        public void RefreshRunCommandCanExecute()
+            => RunCommand.NotifyCanExecuteChanged();
+
         public void SetArguments(ArgumentsBuilder arguments)
         {
             Arguments = arguments.Build();
@@ -62,9 +67,9 @@ namespace AltNetworkUtility.ViewModels
         public DebufferedCommandViewModel(string binary)
         {
             Binary = binary;
-
-            RunCommand = new AsyncRelayCommand(Run);
-            // TODO MAYBE () => !string.IsNullOrWhiteSpace(Host));
+            
+            RunCommand = new AsyncRelayCommand(Run,
+                () => RunCommandCanExecute?.Invoke() ?? true);
 
             CancelCommand = new RelayCommand(Cancel);
         }

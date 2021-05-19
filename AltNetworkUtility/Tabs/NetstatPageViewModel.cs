@@ -101,8 +101,8 @@ namespace AltNetworkUtility.Tabs
 
             DisableHostnameLookup = Preferences.Get(nameof(DisableHostnameLookup), false);
 
-            // TODO pass validation to child VM
-            // () => NetstatMode > 0);
+            DebufferedCommandViewModel.RunCommandCanExecute =
+                () => NetstatMode > 0;
 
             ToggleDisableHostnameLookupCommand = new RelayCommand(() =>
                 DisableHostnameLookup = !DisableHostnameLookup);
