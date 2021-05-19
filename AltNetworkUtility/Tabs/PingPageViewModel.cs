@@ -21,6 +21,8 @@ namespace AltNetworkUtility.Tabs
             {
                 SetProperty(ref _Host, value);
 
+                Preferences.Set(nameof(Host), value);
+
                 UpdateCommandLine();
                 DebufferedCommandViewModel.RefreshRunCommandCanExecute();
             }
@@ -39,13 +41,15 @@ namespace AltNetworkUtility.Tabs
 
         public PingPageViewModel()
         {
-            Preferences = PreferencesService.GetInstance<PingPageViewModel>();
-
             DebufferedCommandViewModel = new DebufferedCommandViewModel(PingBinary)
             {
                 RunCommandCanExecute =
                 () => !string.IsNullOrWhiteSpace(Host)
             };
+
+            Preferences = PreferencesService.GetInstance<PingPageViewModel>();
+
+            Host = Preferences.Get(nameof(Host), "");
         }
     }
 }
