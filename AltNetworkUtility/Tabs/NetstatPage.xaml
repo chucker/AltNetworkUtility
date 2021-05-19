@@ -33,7 +33,12 @@
 
                 <StackLayout Orientation="Horizontal" Margin="0,10,0,0">
                     <CheckBox IsChecked="{Binding DisableHostnameLookup}" />
-                    <Label Text="Skip looking up hostnames" />
+
+                    <Label Text="Skip looking up hostnames">
+                        <Label.GestureRecognizers>
+                            <ClickGestureRecognizer Command="{Binding ToggleDisableHostnameLookupCommand}" />
+                        </Label.GestureRecognizers>
+                    </Label>
                 </StackLayout>
 
                 <Label FontSize="11" Text="Hostname lookup can be very slow" />

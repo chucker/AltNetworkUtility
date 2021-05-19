@@ -1,7 +1,11 @@
-﻿using AltNetworkUtility.Services;
+﻿using System.Windows.Input;
+
+using AltNetworkUtility.Services;
 using AltNetworkUtility.ViewModels;
 
 using CliWrap.Builders;
+
+using Microsoft.Toolkit.Mvvm.Input;
 
 namespace AltNetworkUtility.Tabs
 {
@@ -67,6 +71,8 @@ namespace AltNetworkUtility.Tabs
 
         public PreferencesService Preferences { get; }
 
+        public ICommand ToggleDisableHostnameLookupCommand { get; }
+
         private void UpdateCommandLine()
         {
             switch (NetstatMode)
@@ -96,7 +102,10 @@ namespace AltNetworkUtility.Tabs
             DisableHostnameLookup = Preferences.Get(nameof(DisableHostnameLookup), false);
 
             // TODO pass validation to child VM
-                // () => NetstatMode > 0);
+            // () => NetstatMode > 0);
+
+            ToggleDisableHostnameLookupCommand = new RelayCommand(() =>
+                DisableHostnameLookup = !DisableHostnameLookup);
         }
     }
 }
