@@ -165,6 +165,15 @@ namespace AltNetworkUtility.macOS.Services
 
                     // Mono's IsUp cannot be trusted
                     viewModel.IsUp = scNetworkInterface.IsUp;
+
+                    scNetworkInterface.PropertyChanged += (s, e) =>
+                    {
+                        if (s is SCNetworkInterface scNetworkInterface &&
+                            e.PropertyName == nameof(SCNetworkInterface.IsUp))
+                        {
+                            viewModel.IsUp = scNetworkInterface.IsUp;
+                        }
+                    };
                 }
             }
 
@@ -181,7 +190,6 @@ namespace AltNetworkUtility.macOS.Services
                 {
                     var item = new SCNetworkInterface(nativeInterfaces.ValueAt(i));
                     scNetworkInterfaces[item.BsdName] = item;
-
                 }
             }
 
