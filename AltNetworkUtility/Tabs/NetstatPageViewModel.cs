@@ -1,16 +1,7 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using AltNetworkUtility.Services;
+using AltNetworkUtility.ViewModels;
 
-using AltNetworkUtility.Services;
-
-using CliWrap;
 using CliWrap.Builders;
-
-using Microsoft.Toolkit.Mvvm.Input;
-
-using Xamarin.Forms;
 
 namespace AltNetworkUtility.Tabs
 {
@@ -29,23 +20,9 @@ namespace AltNetworkUtility.Tabs
 
         readonly Serilog.ILogger Log = Serilog.Log.ForContext<NetstatPageViewModel>();
 
-        public string Arguments { get; set; } = "";
-
-        public ICommand CancelCommand { get; }
-
-        public CancellationTokenSource? CancellationTokenSource;
-
-        private string _CommandLine = "";
-        public string CommandLine
-        {
-            get => _CommandLine;
-            set => SetProperty(ref _CommandLine, value);
-        }
+        public DebufferedCommandViewModel DebufferedCommandViewModel { get; }
 
         private bool _DisableHostnameLookup;
-
-        public PreferencesService Preferences { get; }
-
         public bool DisableHostnameLookup
         {
             get => _DisableHostnameLookup;
@@ -58,19 +35,6 @@ namespace AltNetworkUtility.Tabs
                 UpdateCommandLine();
             }
         }
-
-        private bool _IsBusy;
-        public bool IsBusy
-        {
-            get => _IsBusy;
-            set
-            {
-                SetProperty(ref _IsBusy, value);
-                OnPropertyChanged(nameof(IsNotBusy));
-            }
-        }
-
-        public bool IsNotBusy => !IsBusy;
 
         // WORKAROUND for https://github.com/chucker/AltNetworkUtility/issues/10
         private object _Mode = NetstatMode.RoutingTable;
@@ -101,14 +65,7 @@ namespace AltNetworkUtility.Tabs
             }
         }
 
-        private string _Output = "";
-        public string Output
-        {
-            get => _Output;
-            set => SetProperty(ref _Output, value);
-        }
-
-        public IAsyncRelayCommand RunCommand { get; }
+        public PreferencesService Preferences { get; }
 
         private void UpdateCommandLine()
         {
@@ -122,60 +79,24 @@ namespace AltNetworkUtility.Tabs
 
                     arguments.Add("-r");
 
-                    Arguments = arguments.Build();
+                    DebufferedCommandViewModel.SetArguments(arguments);
 
                     break;
                 default:
                     break;
             }
-
-            CommandLine = $"{NetstatBinary} {Arguments}";
         }
 
         public NetstatPageViewModel()
         {
+            DebufferedCommandViewModel = new DebufferedCommandViewModel(NetstatBinary);
+
             Preferences = PreferencesService.GetInstance<NetstatPageViewModel>();
 
             DisableHostnameLookup = Preferences.Get(nameof(DisableHostnameLookup), false);
 
-            RunCommand = new AsyncRelayCommand(
-                Netstat,
-                () => NetstatMode > 0);
-
-            CancelCommand = new RelayCommand(Cancel);
-        }
-
-        public void Cancel()
-        {
-            CancellationTokenSource?.Cancel();
-            IsBusy = false;
-        }
-
-        public async Task Netstat()
-        {
-            IsBusy = true;
-            CancellationTokenSource = new CancellationTokenSource();
-
-            Output = "";
-
-            // we wrap this in 'script -q /dev/null' because it buffers too much:
-            // https://github.com/Tyrrrz/CliWrap/discussions/113#discussioncomment-731047
-            await Cli.Wrap("/usr/bin/script")
-                     .WithArguments(ab => ab.Add("-q")
-                                            .Add("/dev/null")
-                                            .Add(NetstatBinary)
-                                            .Add(Arguments, false))
-                     .WithStandardOutputPipe(PipeTarget.ToDelegate(async s =>
-                     {
-                         await Device.InvokeOnMainThreadAsync(() =>
-                         {
-                             // UGLY: need to filter out ^D from `script`, apparently
-                             return Output += s.Replace("^D", "") + Environment.NewLine;
-                         });
-                     }))
-                     .ExecuteAsync(CancellationTokenSource.Token);
-
-            IsBusy = false;
+            // TODO pass validation to child VM
+                // () => NetstatMode > 0);
         }
     }
 }

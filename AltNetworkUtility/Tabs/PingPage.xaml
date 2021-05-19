@@ -32,7 +32,8 @@
                 <Label FontSize="11">(ex. 10.0.2.1 or www.example.com)</Label>
             </StackLayout>
 
-            <StackLayout Grid.Row="2" Orientation="Vertical" RadioButtonGroup.GroupName="PingCountOption" Margin="0,10">
+            <StackLayout Grid.Row="2" Orientation="Vertical" Margin="0,10"
+                         RadioButtonGroup.GroupName="PingCountOption">
                 <RadioButton Content="Send an unlimited number of pings" />
 
                 <StackLayout Orientation="Horizontal">
@@ -43,23 +44,26 @@
             </StackLayout>
 
             <StackLayout Grid.Row="2" Grid.Column="1" Orientation="Horizontal" VerticalOptions="End">
-                <Button Text="Run" Padding="2" IsVisible="{Binding IsNotBusy}"
-                        Command="{Binding RunCommand}" />
+                <Button Text="Run" Padding="2" IsVisible="{Binding DebufferedCommandViewModel.IsNotBusy}"
+                        Command="{Binding DebufferedCommandViewModel.RunCommand}" />
 
-                <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
+                <ActivityIndicator IsRunning="{Binding DebufferedCommandViewModel.IsBusy}"
+                                   IsVisible="{Binding DebufferedCommandViewModel.IsBusy}"
                                    HeightRequest="16" WidthRequest="16" />
                 
-                <Button Text="Cancel" Padding="2" IsVisible="{Binding IsBusy}"
-                        Command="{Binding CancelCommand}" />
+                <Button Text="Cancel" Padding="2"
+                        IsVisible="{Binding DebufferedCommandViewModel.IsBusy}"
+                        Command="{Binding DebufferedCommandViewModel.CancelCommand}" />
             </StackLayout>
 
             <Editor Grid.Row="3" Grid.ColumnSpan="2" IsReadOnly="True"
-                    Text="{Binding Output}" />
+                    Text="{Binding DebufferedCommandViewModel.Output}" />
 
             <StackLayout Grid.Row="4" Grid.ColumnSpan="2" Orientation="Horizontal">
                 <Label>Command:</Label>
 
-                <Editor IsReadOnly="True" Text="{Binding CommandLine}" WidthRequest="300" />
+                <Editor IsReadOnly="True" WidthRequest="300"
+                        Text="{Binding DebufferedCommandViewModel.CommandLine}" />
             </StackLayout>
         </Grid>
     </ContentPage.Content>
