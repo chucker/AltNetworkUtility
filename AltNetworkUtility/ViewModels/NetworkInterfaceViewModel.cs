@@ -56,8 +56,15 @@ namespace AltNetworkUtility.ViewModels
         public bool IsUp
         {
             get => _IsUp;
-            set => SetProperty(ref _IsUp, value);
+            set
+            {
+                SetProperty(ref _IsUp, value);
+
+                OnPropertyChanged(nameof(IsUpDescription));
+            }
         }
+
+        public string IsUpDescription => IsUp ? "Connected" : "Not Connected";
 
         private string? _LocalizedDisplayName;
         public string? LocalizedDisplayName
@@ -93,13 +100,6 @@ namespace AltNetworkUtility.ViewModels
             }
         }
 
-        private OperationalStatus _OperationalStatus;
-        public OperationalStatus OperationalStatus
-        {
-            get => _OperationalStatus;
-            set => SetProperty(ref _OperationalStatus, value);
-        }
-
         public InfoPageViewModel? ParentVM { get; internal set; }
 
         private string? _PhysicalAddress;
@@ -130,13 +130,9 @@ namespace AltNetworkUtility.ViewModels
 
             IPAddresses = networkInterface.GetIPProperties().UnicastAddresses.Select(ua => ua.Address).ToArray();
 
-            IsUp = networkInterface.OperationalStatus == OperationalStatus.Up;
-
             Name = networkInterface.Name;
 
             NetworkInterfaceType = networkInterface.NetworkInterfaceType;
-
-            OperationalStatus = networkInterface.OperationalStatus;
 
             PhysicalAddress = BitConverter.ToString(networkInterface.GetPhysicalAddress().GetAddressBytes()).Replace("-", ":");
 

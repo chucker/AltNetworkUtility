@@ -19,7 +19,7 @@
                                         Filter="{Binding NetworkInterfaceFilter, Mode=OneWay}">
             <rotorsoft:CollectionViewSource.SortDescriptions>
                 <x:Array Type="{x:Type rotorsoft:SortDescription}">
-                    <rotorsoft:SortDescription Direction="Ascending" PropertyName="OperationalStatus" />
+                    <rotorsoft:SortDescription Direction="Descending" PropertyName="IsUp" />
                     <rotorsoft:SortDescription Direction="Ascending" PropertyName="DisplayName" />
                 </x:Array>
             </rotorsoft:CollectionViewSource.SortDescriptions>
@@ -64,7 +64,8 @@
                                 <Label Text="{Binding DisplayName}" VerticalOptions="Center" Grid.Column="1" />
 
                                 <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="1">
-                                    <Label FontSize="Small" TextColor="Gray">up</Label>
+                                    <!-- TODO colored circle; waiting on #15 -->
+                                    <Label FontSize="11" TextColor="Gray" Text="{Binding IsUpDescription}" />
                                 </StackLayout>
                             </Grid>
                         </ViewCell>
@@ -114,7 +115,7 @@
                         <Label Grid.Row="3" Grid.Column="1" Text="{Binding Speed}" />
 
                         <Label Grid.Row="4" HorizontalOptions="End">Link Status:</Label>
-                        <Label Grid.Row="4" Grid.Column="1" Text="{Binding OperationalStatus}" />
+                        <Label Grid.Row="4" Grid.Column="1" Text="{Binding IsUpDescription}" />
                     </Grid>
 
                     <Label FontAttributes="Bold" Margin="10">Transfer Statistics</Label>

@@ -162,6 +162,9 @@ namespace AltNetworkUtility.macOS.Services
                         Log.Information($"Unknown network interface type for {item.Name}. " +
                                         $"macOS gives {nameof(scNetworkInterface.LocalizedDisplayName)} {scNetworkInterface.LocalizedDisplayName}, " +
                                         $"{nameof(scNetworkInterface.InterfaceType)} {scNetworkInterface.InterfaceType}");
+
+                    // Mono's IsUp cannot be trusted
+                    viewModel.IsUp = scNetworkInterface.IsUp;
                 }
             }
 
