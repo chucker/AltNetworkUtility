@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-using AltNetworkUtility.ViewModels;
+using AltNetworkUtility.macOS.Services;
+using AltNetworkUtility.Services;
 
 using CoreFoundation;
 
@@ -15,6 +16,8 @@ namespace AltNetworkUtility.macOS.Models
 {
     public class SCNetworkInterface : ViewModelBase
     {
+        readonly Serilog.ILogger Log = Serilog.Log.ForContext<SCNetworkInterface>();
+
         private class NativeMethods
         {
             /* 
@@ -95,15 +98,23 @@ namespace AltNetworkUtility.macOS.Models
             scInfo = NativeMethods.SCNetworkInterfaceGetInterfaceType(scNetworkInterfaceRef);
             InterfaceType = Runtime.GetNSObject<NSString>(scInfo);
 
-            IsUp = RefreshIsUp(this);
+            IsUp = GetIsUp(BsdName);
 
             IntPtr allocator = default;
             var dynamicStoreName = new NSString("testWithCallback");
             var callback = new NativeMethods.SCDynamicStoreCallBack((store, changedKeys, info) =>
             {
-                // FIXME how do we get the name back?
+                // FIXME
+                string bsdName = "en0";
 
-                IsUp = RefreshIsUp(this);
+                var svc = Xamarin.Forms.DependencyService.Get<INetworkInterfacesService>() as MacNetworkInterfacesService;
+
+                if (svc == null) return;
+
+                if (!svc.SCNetworkInterfaces.TryGetValue(bsdName, out var networkInterface))
+                    Log.Warning($"Couldn't find SCNetworkInterface for BSD name {bsdName} from callback.");
+                else
+                    networkInterface.IsUp = GetIsUp(bsdName);
             });
             var dynSt = NativeMethods.SCDynamicStoreCreate(allocator, dynamicStoreName.GetHandle(), callback, default);
 
@@ -113,29 +124,17 @@ namespace AltNetworkUtility.macOS.Models
             }
         }
 
-        private static bool RefreshIsUp(object o)
+        private static bool GetIsUp(string bsdName)
         {
-            // I'm not sure if this is a Mono runtime peculiarity
-
-            string bsdName;
-
-            switch (o)
+            if (GetDynamicStoreDictionaryValue($"State:/Network/Interface/{bsdName}/Link") is NSDictionary dict)
             {
-                case SCNetworkInterface scNetworkInterface:
-                    bsdName = scNetworkInterface.BsdName;
-                    break;
-                case NetworkInterfaceViewModel networkInterfaceViewModel:
-                    bsdName = networkInterfaceViewModel.Name!;
-                    break;
-                default:
-                    throw new InvalidOperationException($"Type was unexpectedly {o?.GetType()}");
-            }
-
-            if (GetDynamicStoreDictionaryValue($"State:/Network/Interface/{bsdName}/Link") is NSDictionary dict &&
-                dict.TryGetValue(new NSString("Active"), out var isActive) &&
-                isActive is NSNumber number)
-            {
-                return number.BoolValue;
+                if (dict.TryGetValue(new NSString("Active"), out var isActive))
+                {
+                    if (isActive is NSNumber number)
+                    {
+                        return number.BoolValue;
+                    }
+                }
             }
 
             return false;

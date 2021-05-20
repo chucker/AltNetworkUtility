@@ -130,13 +130,15 @@ namespace AltNetworkUtility.macOS.Services
             };
         }
 
+        public Dictionary<string, SCNetworkInterface> SCNetworkInterfaces { get; private set; }
+
         public IEnumerable<NetworkInterfaceViewModel> GetAvailableInterfaces()
         {
             // CHECK: are BSD names always unique?
 
             var monoNetworkInterfaces = NetworkInterface.GetAllNetworkInterfaces();
 
-            var scNetworkInterfaces = GetSystemConfigurationNetworkInterfaces();
+            SCNetworkInterfaces = GetSystemConfigurationNetworkInterfaces();
 
             var viewModels = new List<NetworkInterfaceViewModel>();
 
@@ -145,7 +147,7 @@ namespace AltNetworkUtility.macOS.Services
                 var viewModel = new NetworkInterfaceViewModel(item);
                 viewModels.Add(viewModel);
 
-                if (scNetworkInterfaces.TryGetValue(item.Name, out var scNetworkInterface))
+                if (SCNetworkInterfaces.TryGetValue(item.Name, out var scNetworkInterface))
                 {
                     viewModel.LocalizedDisplayName = scNetworkInterface.LocalizedDisplayName;
 
@@ -189,6 +191,7 @@ namespace AltNetworkUtility.macOS.Services
                 for (nuint i = 0; i < nativeInterfaces.Count; i++)
                 {
                     var item = new SCNetworkInterface(nativeInterfaces.ValueAt(i));
+
                     scNetworkInterfaces[item.BsdName] = item;
                 }
             }
