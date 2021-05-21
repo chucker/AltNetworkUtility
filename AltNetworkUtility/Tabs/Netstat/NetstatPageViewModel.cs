@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Windows.Input;
 
 using AltNetworkUtility.Services;
 using AltNetworkUtility.ViewModels;
@@ -47,12 +48,18 @@ namespace AltNetworkUtility.Tabs.Netstat
             get => _Mode;
             set
             {
-                if (value is not NetstatMode netstatMode)
-                    value = NetstatMode.RoutingTable;
+                NetstatMode netstatMode;
 
-                SetProperty(ref _Mode, value);
+                if (value is NetstatMode)
+                    netstatMode = (NetstatMode)value;
+                else if (value is string strValue && Enum.TryParse<NetstatMode>(strValue, out var _netstatMode))
+                    netstatMode = _netstatMode;
+                else
+                    netstatMode = NetstatMode.RoutingTable;
 
-                Log.Debug($"Mode: {value}");
+                SetProperty(ref _Mode, netstatMode);
+
+                Log.Debug($"Mode: {netstatMode}");
 
                 UpdateCommandLine();
             }
@@ -106,6 +113,8 @@ namespace AltNetworkUtility.Tabs.Netstat
 
             ToggleDisableHostnameLookupCommand = new RelayCommand(() =>
                 DisableHostnameLookup = !DisableHostnameLookup);
+
+            Mode = NetstatMode.RoutingTable;
         }
     }
 }
