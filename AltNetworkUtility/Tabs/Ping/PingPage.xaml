@@ -22,6 +22,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
@@ -45,23 +46,37 @@
                 </StackLayout>
             </StackLayout>
 
-            <StackLayout Grid.Row="2" Grid.Column="1" Orientation="Horizontal" VerticalOptions="End">
+            <StackLayout Grid.Row="3" Orientation="Horizontal">
+                <CheckBox IsChecked="{Binding UseSpecificInterface}" />
+
+                <Label Text="Ping using this interface:" VerticalOptions="Center">
+                    <Label.GestureRecognizers>
+                        <ClickGestureRecognizer Command="{Binding ToggleUseSpecificInterfaceCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+
+                <Picker IsEnabled="{Binding UseSpecificInterface}" SelectedItem="{Binding SpecificInterface}"
+                        ItemsSource="{Binding AvailableNetworkInterfaces}"
+                        ItemDisplayBinding="{Binding DisplayName}" />
+            </StackLayout>
+
+            <StackLayout Grid.Row="3" Grid.Column="1" Orientation="Horizontal" VerticalOptions="End">
                 <Button Text="Run" Padding="2" IsVisible="{Binding DebufferedCommandViewModel.IsNotBusy}"
                         Command="{Binding DebufferedCommandViewModel.RunCommand}" />
 
                 <ActivityIndicator IsRunning="{Binding DebufferedCommandViewModel.IsBusy}"
                                    IsVisible="{Binding DebufferedCommandViewModel.IsBusy}"
                                    HeightRequest="16" WidthRequest="16" />
-                
+
                 <Button Text="Cancel" Padding="2"
                         IsVisible="{Binding DebufferedCommandViewModel.IsBusy}"
                         Command="{Binding DebufferedCommandViewModel.CancelCommand}" />
             </StackLayout>
 
-            <Editor Grid.Row="3" Grid.ColumnSpan="2" IsReadOnly="True"
+            <Editor Grid.Row="4" Grid.ColumnSpan="2" IsReadOnly="True"
                     Text="{Binding DebufferedCommandViewModel.Output}" />
 
-            <StackLayout Grid.Row="4" Grid.ColumnSpan="2" Orientation="Horizontal">
+            <StackLayout Grid.Row="5" Grid.ColumnSpan="2" Orientation="Horizontal">
                 <Label>Command:</Label>
 
                 <Editor IsReadOnly="True" WidthRequest="300"

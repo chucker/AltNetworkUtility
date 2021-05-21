@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 using AltNetworkUtility.Services;
 using AltNetworkUtility.ViewModels;
 
 using CliWrap.Builders;
+
+using Microsoft.Toolkit.Mvvm.Input;
 
 namespace AltNetworkUtility.Tabs.Ping
 {
@@ -19,7 +23,7 @@ namespace AltNetworkUtility.Tabs.Ping
 
         readonly Serilog.ILogger Log = Serilog.Log.ForContext<PingPageViewModel>();
 
-        public DebufferedCommandViewModel DebufferedCommandViewModel { get; }
+        public ObservableCollection<NetworkInterfaceViewModel> AvailableNetworkInterfaces { get; } = new();
 
         // WORKAROUND for https://github.com/chucker/AltNetworkUtility/issues/10
         private object _CountMode = PingCountMode.Unlimited;
@@ -59,6 +63,8 @@ namespace AltNetworkUtility.Tabs.Ping
             }
         }
 
+        public DebufferedCommandViewModel DebufferedCommandViewModel { get; }
+
         private string _Host = "";
         public string Host
         {
@@ -92,6 +98,20 @@ namespace AltNetworkUtility.Tabs.Ping
 
         public bool UseSpecificCount => PingCountMode == PingCountMode.Specific;
 
+        private bool _UseSpecificInterface = false;
+        public bool UseSpecificInterface
+        {
+            get => _UseSpecificInterface;
+            set
+            {
+                SetProperty(ref _UseSpecificInterface, value);
+
+                Preferences.Set(nameof(UseSpecificInterface), value);
+            }
+        }
+
+        public ICommand ToggleUseSpecificInterfaceCommand { get; }
+
         private void UpdateCommandLine()
         {
             var arguments = new ArgumentsBuilder();
@@ -118,8 +138,22 @@ namespace AltNetworkUtility.Tabs.Ping
             Preferences = PreferencesService.GetInstance<PingPageViewModel>();
 
             Host = Preferences.Get(nameof(Host), "");
-            SpecificCount = Preferences.Get(nameof(SpecificCount), 10);
+
             CountMode = Preferences.Get(nameof(UseSpecificCount), false) ? PingCountMode.Specific : PingCountMode.Unlimited;
+            SpecificCount = Preferences.Get(nameof(SpecificCount), 10);
+
+            UseSpecificInterface = Preferences.Get(nameof(UseSpecificInterface), false);
+
+            ToggleUseSpecificInterfaceCommand = new RelayCommand(() =>
+                UseSpecificInterface = !UseSpecificInterface);
+
+            // FIXME: this should be a repository. we shouldn't fetch this stuff twice.
+            var svc = Xamarin.Forms.DependencyService.Get<INetworkInterfacesService>();
+
+            foreach (var item in svc.GetAvailableInterfaces())
+            {
+                AvailableNetworkInterfaces.Add(item);
+            }
         }
     }
 }
