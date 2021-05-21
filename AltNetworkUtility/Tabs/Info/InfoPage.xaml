@@ -3,10 +3,10 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:converters="clr-namespace:AltNetworkUtility.Converters"
-    xmlns:local="clr-namespace:AltNetworkUtility.Tabs"
+    xmlns:local="clr-namespace:AltNetworkUtility.Tabs.Info"
     xmlns:localservices="clr-namespace:AltNetworkUtility.Services"
     xmlns:rotorsoft="clr-namespace:Rotorsoft.Forms;assembly=CollectionViewSource.Forms"
-    x:Class="AltNetworkUtility.Tabs.InfoPage" x:Name="_page"
+    x:Class="AltNetworkUtility.Tabs.Info.InfoPage" x:Name="_page"
     BindingContextChanged="ContentPage_BindingContextChanged"
     Title="Info">
 

@@ -12,7 +12,7 @@ using System.Windows.Input;
 
 using Xamarin.Forms;
 
-namespace AltNetworkUtility.Tabs
+namespace AltNetworkUtility.Tabs.Info
 {
     public class InfoPageViewModel : ViewModelBase
     {

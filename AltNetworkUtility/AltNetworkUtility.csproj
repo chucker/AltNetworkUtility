@@ -32,5 +32,13 @@
     <Folder Include="Services\" />
     <Folder Include="ViewModels\" />
     <Folder Include="Models\" />
+    <Folder Include="Tabs\Info\" />
+    <Folder Include="Tabs\Netstat\" />
+    <Folder Include="Tabs\Ping\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Tabs\Info\" />
+    <None Remove="Tabs\Netstat\" />
+    <None Remove="Tabs\Ping\" />
   </ItemGroup>
 </Project>

@@ -1,6 +1,6 @@
 ﻿using Xamarin.Forms;
 
-namespace AltNetworkUtility.Tabs
+namespace AltNetworkUtility.Tabs.Netstat
 {
     public partial class NetstatPage : ContentPage
     {

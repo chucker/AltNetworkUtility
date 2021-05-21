@@ -3,8 +3,8 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:converters="clr-namespace:AltNetworkUtility.Converters"
-    xmlns:local="clr-namespace:AltNetworkUtility.Tabs"
-    x:Class="AltNetworkUtility.Tabs.PingPage"
+    xmlns:local="clr-namespace:AltNetworkUtility.Tabs.Ping"
+    x:Class="AltNetworkUtility.Tabs.Ping.PingPage"
     Title="Ping">
 
     <ContentPage.BindingContext>

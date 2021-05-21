@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Xamarin.Forms;
 
-using Xamarin.Forms;
-
-namespace AltNetworkUtility.Tabs
+namespace AltNetworkUtility.Tabs.Ping
 {
     public partial class PingPage : ContentPage
     {

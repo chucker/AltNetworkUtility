@@ -2,7 +2,7 @@
 
 using Xamarin.Forms;
 
-namespace AltNetworkUtility.Tabs
+namespace AltNetworkUtility.Tabs.Info
 {
     public partial class InfoPage : ContentPage
     {

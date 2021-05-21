@@ -3,7 +3,7 @@ using AltNetworkUtility.ViewModels;
 
 using CliWrap.Builders;
 
-namespace AltNetworkUtility.Tabs
+namespace AltNetworkUtility.Tabs.Ping
 {
     public class PingPageViewModel : ViewModelBase
     {

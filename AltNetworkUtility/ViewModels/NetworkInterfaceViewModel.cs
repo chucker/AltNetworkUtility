@@ -6,7 +6,7 @@ using System.Reactive.Linq;
 
 using AltNetworkUtility.Models;
 using AltNetworkUtility.Services;
-using AltNetworkUtility.Tabs;
+using AltNetworkUtility.Tabs.Info;
 
 using Xamarin.Forms;
 

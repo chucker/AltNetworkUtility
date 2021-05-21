@@ -7,7 +7,7 @@ using CliWrap.Builders;
 
 using Microsoft.Toolkit.Mvvm.Input;
 
-namespace AltNetworkUtility.Tabs
+namespace AltNetworkUtility.Tabs.Netstat
 {
     public enum NetstatMode
     {
