@@ -1,10 +1,18 @@
-﻿using AltNetworkUtility.Services;
+﻿using System;
+
+using AltNetworkUtility.Services;
 using AltNetworkUtility.ViewModels;
 
 using CliWrap.Builders;
 
 namespace AltNetworkUtility.Tabs.Ping
 {
+    public enum PingCountMode
+    {
+        Unlimited,
+        Specific
+    }
+
     public class PingPageViewModel : ViewModelBase
     {
         private const string PingBinary = "/sbin/ping";
@@ -12,6 +20,44 @@ namespace AltNetworkUtility.Tabs.Ping
         readonly Serilog.ILogger Log = Serilog.Log.ForContext<PingPageViewModel>();
 
         public DebufferedCommandViewModel DebufferedCommandViewModel { get; }
+
+        // WORKAROUND for https://github.com/chucker/AltNetworkUtility/issues/10
+        private object _CountMode = PingCountMode.Unlimited;
+        public object CountMode
+        {
+            get => _CountMode;
+            set
+            {
+                PingCountMode pingCountMode;
+
+                if (value is PingCountMode)
+                    pingCountMode = (PingCountMode)value;
+                else if (value is string strValue && Enum.TryParse<PingCountMode>(strValue, out var _pingCountMode))
+                    pingCountMode = _pingCountMode;
+                else
+                    pingCountMode = PingCountMode.Unlimited;
+
+                Preferences.Set(nameof(UseSpecificCount),
+                                pingCountMode == PingCountMode.Specific);
+
+                SetProperty(ref _CountMode, pingCountMode);
+
+                Log.Debug($"Mode: {pingCountMode}");
+
+                UpdateCommandLine();
+            }
+        }
+
+        private PingCountMode PingCountMode
+        {
+            get
+            {
+                if (CountMode is PingCountMode netstatMode)
+                    return netstatMode;
+
+                return 0;
+            }
+        }
 
         private string _Host = "";
         public string Host
@@ -44,20 +90,7 @@ namespace AltNetworkUtility.Tabs.Ping
             }
         }
 
-        private bool _UseSpecificCount;
-        public bool UseSpecificCount
-        {
-            get => _UseSpecificCount;
-            set
-            {
-                // FIXME binding is broken
-                SetProperty(ref _UseSpecificCount, value);
-
-                Preferences.Set(nameof(UseSpecificCount), value);
-
-                UpdateCommandLine();
-            }
-        }
+        public bool UseSpecificCount => PingCountMode == PingCountMode.Specific;
 
         private void UpdateCommandLine()
         {
@@ -86,7 +119,7 @@ namespace AltNetworkUtility.Tabs.Ping
 
             Host = Preferences.Get(nameof(Host), "");
             SpecificCount = Preferences.Get(nameof(SpecificCount), 10);
-            UseSpecificCount = Preferences.Get(nameof(UseSpecificCount), false);
+            CountMode = Preferences.Get(nameof(UseSpecificCount), false) ? PingCountMode.Specific : PingCountMode.Unlimited;
         }
     }
 }

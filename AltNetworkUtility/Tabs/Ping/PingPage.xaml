@@ -33,11 +33,13 @@
                 <Label FontSize="11">(ex. 10.0.2.1 or www.example.com)</Label>
             </StackLayout>
 
-            <StackLayout Grid.Row="2" Orientation="Vertical" Margin="0,10">
-                <RadioButton Content="Send an unlimited number of pings" IsChecked="{Binding UseSpecificCount, Converter={x:Static converters:Converters.Negate}}" />
+            <StackLayout Grid.Row="2" Orientation="Vertical" Margin="0,10"
+                         RadioButtonGroup.GroupName="CountMode"
+                         RadioButtonGroup.SelectedValue="{Binding CountMode}">
+                <RadioButton Value="Unlimited" Content="Send an unlimited number of pings" />
 
                 <StackLayout Orientation="Horizontal">
-                    <RadioButton Content="Send only" IsChecked="{Binding UseSpecificCount}" />
+                    <RadioButton Value="Specific" Content="Send only" />
                     <Editor WidthRequest="70" Text="{Binding SpecificCount}" />
                     <Label VerticalOptions="Center">pings</Label>
                 </StackLayout>
