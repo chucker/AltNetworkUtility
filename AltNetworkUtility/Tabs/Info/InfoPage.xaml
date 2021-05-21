@@ -13,7 +13,7 @@
     <ContentPage.Resources>
         <localservices:IconFontConverter x:Key="IconFontConverter" />
 
-        <rotorsoft:CollectionViewSource x:Key="NetworkInterfaces"
+        <rotorsoft:CollectionViewSource x:Key="NetworkInterfaces" x:DataType="local:InfoPageViewModel"
                                         BindingContext="{Binding Path=BindingContext, Source={x:Reference _page}, Mode=OneWay}"
                                         Source="{Binding AvailableNetworkInterfaces, Mode=OneWay}"
                                         Filter="{Binding NetworkInterfaceFilter, Mode=OneWay}">
