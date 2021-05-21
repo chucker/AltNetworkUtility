@@ -93,6 +93,9 @@
     <Reference Include="CollectionViewSource.Forms">
       <HintPath>..\packages\CollectionViewSource.Forms.1.0.0.2\lib\netstandard2.0\CollectionViewSource.Forms.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.5.0.0\lib\netstandard2.1\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />

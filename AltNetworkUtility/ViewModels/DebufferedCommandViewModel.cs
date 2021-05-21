@@ -4,7 +4,9 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 
 using CliWrap;
+using CliWrap.Buffered;
 using CliWrap.Builders;
+using CliWrap.EventStream;
 
 using Microsoft.Toolkit.Mvvm.Input;
 
@@ -50,9 +52,12 @@ namespace AltNetworkUtility.ViewModels
             get => _Output;
             set => SetProperty(ref _Output, value);
         }
+
+        public int? ProcessId { get; private set; }
+
         public IAsyncRelayCommand RunCommand { get; }
 
-        public Func<bool> RunCommandCanExecute { get; set; }
+        public Func<bool> RunCommandCanExecute { get; set; } = () => true;
 
         public void RefreshRunCommandCanExecute()
             => RunCommand.NotifyCanExecuteChanged();
@@ -67,15 +72,64 @@ namespace AltNetworkUtility.ViewModels
         public DebufferedCommandViewModel(string binary)
         {
             Binary = binary;
-            
+
             RunCommand = new AsyncRelayCommand(Run,
                 () => RunCommandCanExecute?.Invoke() ?? true);
 
-            CancelCommand = new RelayCommand(Cancel);
+            CancelCommand = new AsyncRelayCommand(Cancel);
         }
 
-        public void Cancel()
+        /// <summary>
+        /// Ping (and maybe others?) will print a summary after receiving
+        /// SIGINT, so let's send that.
+        /// </summary>
+        private async Task SendSigIntToChild()
         {
+            if (ProcessId == null)
+            {
+                Log.Warning("Don't have a PID, so we can't SIGINT");
+
+                return;
+            }
+
+            /* 
+             * we need the _child_ process ID. The one CliWrap gets is the one
+             * for `script`. E.g.:
+             * 
+             * ~> pstree -p 1450
+             * -+= 00001 root /sbin/launchd
+             *  \-+= 01417 chucker /Users/chucker/Projects/AltNetworkUtility/AltNetworkUtility
+             *    \-+- 01450 chucker /usr/bin/script -q /dev/null /sbin/ping ix.de
+             *      \--= 01451 chucker /sbin/ping ix.de
+             */
+
+            var findChildCmd = await Cli.Wrap("/usr/bin/pgrep")
+                                        .WithArguments(ab => ab.Add("-P")
+                                                               .Add(ProcessId))
+                                        .ExecuteBufferedAsync();
+
+            if (!int.TryParse(findChildCmd.StandardOutput, out var childPid))
+            {
+                Log.Warning($"Couldn't find child PID for parent {ProcessId}, so we can't SIGINT");
+
+                return;
+            }
+
+            await Cli.Wrap("/bin/kill")
+                     .WithArguments(ab => ab.Add("-s")
+                                            .Add("INT")
+                                            .Add(childPid))
+                     .ExecuteAsync();
+        }
+
+        public async Task Cancel()
+        {
+            await SendSigIntToChild();
+
+            // give SigInt 3 seconds' worth of grace period
+
+            await Task.Delay(3000);
+
             CancellationTokenSource?.Cancel();
             IsBusy = false;
         }
@@ -87,20 +141,35 @@ namespace AltNetworkUtility.ViewModels
 
             Output = "";
 
-            await Cli.Wrap("/usr/bin/script")
-                     .WithArguments(ab => ab.Add("-q")
-                                            .Add("/dev/null")
-                                            .Add(Binary)
-                                            .Add(Arguments, false))
-                     .WithStandardOutputPipe(PipeTarget.ToDelegate(async s =>
-                     {
-                         await Device.InvokeOnMainThreadAsync(() =>
-                         {
-                             // UGLY: need to filter out ^D from `script`, apparently
-                             return Output += s.Replace("^D", "") + Environment.NewLine;
-                         });
-                     }))
-                     .ExecuteAsync(CancellationTokenSource.Token);
+            PipeTarget outputPipe = PipeTarget.ToDelegate(async s =>
+            {
+                await Device.InvokeOnMainThreadAsync(() =>
+                {
+                    // UGLY: need to filter out ^D from `script`, apparently
+                    return Output += s.Replace("^D", "") + Environment.NewLine;
+                });
+            });
+
+            var cmd = Cli.Wrap("/usr/bin/script")
+                         .WithArguments(ab => ab.Add("-q")
+                                                .Add("/dev/null")
+                                                .Add(Binary)
+                                                .Add(Arguments, false))
+                         .WithStandardOutputPipe(outputPipe);
+
+            await foreach (var cmdEvent in cmd.ListenAsync(CancellationTokenSource.Token))
+            {
+                switch (cmdEvent)
+                {
+                    case StartedCommandEvent started:
+                        ProcessId = started.ProcessId;
+                        Log.Debug($"Process started; ID: {started.ProcessId}");
+                        break;
+                    case StandardErrorCommandEvent stdErr:
+                        Log.Debug($"Err> {stdErr.Text}");
+                        break;
+                }
+            }
 
             IsBusy = false;
         }
