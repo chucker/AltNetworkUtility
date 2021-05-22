@@ -1,5 +1,6 @@
 ﻿using AltNetworkUtility.macOS.Services;
 using AltNetworkUtility.Services;
+using AltNetworkUtility.Services.IconFont;
 
 using AppKit;
 

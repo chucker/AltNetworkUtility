@@ -6,6 +6,7 @@ using System.Reactive.Linq;
 
 using AltNetworkUtility.Models;
 using AltNetworkUtility.Services;
+using AltNetworkUtility.Services.IconFont;
 using AltNetworkUtility.Tabs.Info;
 
 using Xamarin.Forms;
@@ -35,15 +36,12 @@ namespace AltNetworkUtility.ViewModels
             }
         }
 
-        public string Icon
+        public IconSpec Icon => new(NetworkInterfaceType switch
         {
-            get => NetworkInterfaceType switch
-            {
-                NetworkInterfaceType.Ethernet => "network",
-                NetworkInterfaceType.Wireless80211 => "wifi",
-                _ => "questionmark.diamond"
-            };
-        }
+            NetworkInterfaceType.Ethernet => "network",
+            NetworkInterfaceType.Wireless80211 => "wifi",
+            _ => "questionmark.diamond"
+        });
 
         private IPAddress[]? _IPAddresses;
         public IPAddress[]? IPAddresses
