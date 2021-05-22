@@ -73,13 +73,13 @@
                         Command="{Binding DebufferedCommandViewModel.CancelCommand}" />
             </StackLayout>
 
-            <Editor Grid.Row="4" Grid.ColumnSpan="2" IsReadOnly="True"
+            <Editor Grid.Row="4" Grid.ColumnSpan="2" IsReadOnly="True" StyleClass="monospace"
                     Text="{Binding DebufferedCommandViewModel.Output}" />
 
             <StackLayout Grid.Row="5" Grid.ColumnSpan="2" Orientation="Horizontal">
                 <Label>Command:</Label>
 
-                <Editor IsReadOnly="True" WidthRequest="300" StyleClass="monospace"
+                <Editor IsReadOnly="True" WidthRequest="300"
                         Text="{Binding DebufferedCommandViewModel.CommandLine}" />
             </StackLayout>
         </Grid>
