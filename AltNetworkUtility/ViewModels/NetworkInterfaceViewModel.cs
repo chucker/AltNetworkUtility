@@ -62,6 +62,10 @@ namespace AltNetworkUtility.ViewModels
             }
         }
 
+        public IconSpec IsUpImage => new("circle.fill")
+        {
+            Color = IsUp ? Color.FromRgb(0x34, 0xC8, 0x4A) : Color.FromRgb(0xFA, 0x4B, 0x49)
+        };
         public string IsUpDescription => IsUp ? "Connected" : "Not Connected";
 
         private string? _LocalizedDisplayName;

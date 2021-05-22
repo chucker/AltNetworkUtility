@@ -6,6 +6,7 @@
     xmlns:iconfontservices="clr-namespace:AltNetworkUtility.Services.IconFont"
     xmlns:local="clr-namespace:AltNetworkUtility.Tabs.Info"
     xmlns:rotorsoft="clr-namespace:Rotorsoft.Forms;assembly=CollectionViewSource.Forms"
+    xmlns:viewmodels="clr-namespace:AltNetworkUtility.ViewModels"
     x:Class="AltNetworkUtility.Tabs.Info.InfoPage" x:Name="_page"
     BindingContextChanged="ContentPage_BindingContextChanged"
     Title="Info">
@@ -62,8 +63,10 @@
 
                                 <Label Text="{Binding DisplayName}" VerticalOptions="Center" Grid.Column="1" />
 
-                                <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="1">
-                                    <!-- TODO colored circle; waiting on #15 -->
+                                <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="1"
+                                             x:DataType="viewmodels:NetworkInterfaceViewModel">
+                                    <Image Source="{Binding IsUpImage, Converter={x:Static iconfontservices:Converters.IconSpecToImageSource}}"
+                                           Grid.RowSpan="2" />
                                     <Label FontSize="11" TextColor="Gray" Text="{Binding IsUpDescription}" />
                                 </StackLayout>
                             </Grid>

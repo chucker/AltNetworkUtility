@@ -7,7 +7,7 @@ namespace AltNetworkUtility.Services.IconFont
     public class IconSpec
     {
         public Color? Color { get; set; }
-        public string Name { get; set; }
+        public string Name { get; private set; }
 
         public IconSpec(string name) => Name = name;
     }
