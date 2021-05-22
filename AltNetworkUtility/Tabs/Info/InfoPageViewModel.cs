@@ -59,45 +59,7 @@ namespace AltNetworkUtility.Tabs.Info
                 if (ShowAllNetworkInterfaces)
                     return true;
 
-                bool shouldShowType = networkInterface.NetworkInterfaceType switch
-                {
-                    NetworkInterfaceType.AsymmetricDsl => true,
-                    NetworkInterfaceType.Atm => true,
-                    NetworkInterfaceType.BasicIsdn => true,
-                    NetworkInterfaceType.Ethernet => true,
-                    NetworkInterfaceType.Ethernet3Megabit => true,
-                    NetworkInterfaceType.FastEthernetFx => true,
-                    NetworkInterfaceType.FastEthernetT => true,
-                    NetworkInterfaceType.Fddi => true,
-                    NetworkInterfaceType.GenericModem => true,
-                    NetworkInterfaceType.GigabitEthernet => true,
-                    NetworkInterfaceType.HighPerformanceSerialBus => true,
-                    NetworkInterfaceType.IPOverAtm => true,
-                    NetworkInterfaceType.Isdn => true,
-                    NetworkInterfaceType.MultiRateSymmetricDsl => true,
-                    NetworkInterfaceType.Ppp => true,
-                    NetworkInterfaceType.PrimaryIsdn => true,
-                    NetworkInterfaceType.RateAdaptDsl => true,
-                    NetworkInterfaceType.Slip => true,
-                    NetworkInterfaceType.SymmetricDsl => true,
-                    NetworkInterfaceType.TokenRing => true,
-                    NetworkInterfaceType.VeryHighSpeedDsl => true,
-                    NetworkInterfaceType.Wireless80211 => true,
-                    NetworkInterfaceType.Wman => true,
-                    NetworkInterfaceType.Wwanpp => true,
-                    NetworkInterfaceType.Wwanpp2 => true,
-
-                    NetworkInterfaceType.Loopback => false,
-                    NetworkInterfaceType.Tunnel => false,
-                    _ => false
-                };
-
-                // Mono considers these "Ethernet"
-                bool filterName = networkInterface.Name!.StartsWith("p2p") ||
-                                  networkInterface.Name.StartsWith("awdl") ||
-                                  networkInterface.Name.StartsWith("llw");
-
-                return shouldShowType && !filterName;
+                return networkInterface.ShouldCommonlyShow;
             };
 
             ToggleShowAllNetworkInterfacesCommand = new RelayCommand(() =>
