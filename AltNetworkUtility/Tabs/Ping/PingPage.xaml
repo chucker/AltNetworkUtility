@@ -23,6 +23,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
@@ -60,7 +61,7 @@
                         ItemDisplayBinding="{Binding DisplayName}" />
             </StackLayout>
 
-            <StackLayout Grid.Row="3" Grid.Column="1" Orientation="Horizontal" VerticalOptions="End">
+            <StackLayout Grid.Row="4" Grid.Column="1" Orientation="Horizontal" VerticalOptions="End">
                 <Button Text="Run" Padding="2" IsVisible="{Binding DebufferedCommandViewModel.IsNotBusy}"
                         Command="{Binding DebufferedCommandViewModel.RunCommand}" />
 
@@ -73,10 +74,19 @@
                         Command="{Binding DebufferedCommandViewModel.CancelCommand}" />
             </StackLayout>
 
-            <Editor Grid.Row="4" Grid.ColumnSpan="2" StyleClass="monospace"
+            <StackLayout Grid.Row="4" Orientation="Horizontal"
+                         RadioButtonGroup.GroupName="AudibleMode"
+                         RadioButtonGroup.SelectedValue="{Binding AudibleMode}">
+                <Label VerticalOptions="Center">Make sound:</Label>
+                <RadioButton Value="OnSuccess" Content="On success" />
+                <RadioButton Value="OnFailure" Content="On failure" />
+                <RadioButton Value="Never" IsChecked="True" Content="Never" />
+            </StackLayout>
+
+            <Editor Grid.Row="5" Grid.ColumnSpan="2" StyleClass="monospace"
                     Text="{Binding DebufferedCommandViewModel.Output}" />
 
-            <StackLayout Grid.Row="5" Grid.ColumnSpan="2" Orientation="Horizontal">
+            <StackLayout Grid.Row="6" Grid.ColumnSpan="2" Orientation="Horizontal">
                 <Label VerticalOptions="Center">Command:</Label>
 
                 <Editor WidthRequest="300" Text="{Binding DebufferedCommandViewModel.CommandLine}" />

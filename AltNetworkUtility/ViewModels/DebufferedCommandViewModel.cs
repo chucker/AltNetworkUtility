@@ -3,6 +3,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
+using AltNetworkUtility.Services;
+
 using CliWrap;
 using CliWrap.Buffered;
 using CliWrap.Builders;
@@ -21,6 +23,7 @@ namespace AltNetworkUtility.ViewModels
         public string Arguments { get; set; } = "";
 
         public ICommand CancelCommand { get; }
+        public ISystemSoundService SystemSoundService { get; }
 
         public CancellationTokenSource? CancellationTokenSource;
 
@@ -77,6 +80,8 @@ namespace AltNetworkUtility.ViewModels
                 () => RunCommandCanExecute?.Invoke() ?? true);
 
             CancelCommand = new AsyncRelayCommand(Cancel);
+
+            SystemSoundService = DependencyService.Get<ISystemSoundService>();
         }
 
         /// <summary>
@@ -143,6 +148,9 @@ namespace AltNetworkUtility.ViewModels
 
             PipeTarget outputPipe = PipeTarget.ToDelegate(async s =>
             {
+                if (s.Contains("\a"))
+                    await SystemSoundService.PlayAsync();
+
                 await Device.InvokeOnMainThreadAsync(() =>
                 {
                     // UGLY: need to filter out ^D from `script`, apparently

@@ -12,6 +12,13 @@ using Microsoft.Toolkit.Mvvm.Input;
 
 namespace AltNetworkUtility.Tabs.Ping
 {
+    public enum PingAudibleMode
+    {
+        Never = 0,
+        OnSuccess,
+        OnFailure
+    }
+
     public enum PingCountMode
     {
         Unlimited,
@@ -25,6 +32,42 @@ namespace AltNetworkUtility.Tabs.Ping
         readonly Serilog.ILogger Log = Serilog.Log.ForContext<PingPageViewModel>();
 
         public ObservableCollection<NetworkInterfaceViewModel> AvailableNetworkInterfaces { get; } = new();
+
+        private object _AudibleMode = PingAudibleMode.Never;
+        public object AudibleMode
+        {
+            get => _AudibleMode;
+            set
+            {
+                PingAudibleMode pingAudibleMode;
+
+                if (value is PingAudibleMode)
+                    pingAudibleMode = (PingAudibleMode)value;
+                else if (value is string strValue && Enum.TryParse<PingAudibleMode>(strValue, out var _pingCountMode))
+                    pingAudibleMode = _pingCountMode;
+                else
+                    pingAudibleMode = PingAudibleMode.Never;
+
+                Preferences.Set(nameof(AudibleMode), (int)pingAudibleMode);
+
+                SetProperty(ref _AudibleMode, pingAudibleMode);
+
+                Log.Debug($"Mode: {pingAudibleMode}");
+
+                UpdateCommandLine();
+            }
+        }
+
+        private PingAudibleMode PingAudibleMode
+        {
+            get
+            {
+                if (AudibleMode is PingAudibleMode mode)
+                    return mode;
+
+                return 0;
+            }
+        }
 
         // WORKAROUND for https://github.com/chucker/AltNetworkUtility/issues/10
         private object _CountMode = PingCountMode.Unlimited;
@@ -57,8 +100,8 @@ namespace AltNetworkUtility.Tabs.Ping
         {
             get
             {
-                if (CountMode is PingCountMode netstatMode)
-                    return netstatMode;
+                if (CountMode is PingCountMode mode)
+                    return mode;
 
                 return 0;
             }
@@ -142,6 +185,19 @@ namespace AltNetworkUtility.Tabs.Ping
                 arguments.Add(SpecificCount);
             }
 
+            switch (PingAudibleMode)
+            {
+                case PingAudibleMode.OnSuccess:
+                    arguments.Add("-a");
+                    break;
+                case PingAudibleMode.OnFailure:
+                    arguments.Add("-A");
+                    break;
+                case PingAudibleMode.Never:
+                default:
+                    break;
+            }
+
             static bool isIPv4(System.Net.IPAddress ad) =>
                 ad.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork;
 
@@ -189,6 +245,8 @@ namespace AltNetworkUtility.Tabs.Ping
             var specificInterface = Preferences.Get(nameof(SpecificInterface), "");
             if (svc.TryFindInterfaceByName(specificInterface, out var netIf))
                 SpecificInterface = netIf;
+
+            AudibleMode = (PingAudibleMode)Preferences.Get(nameof(AudibleMode), 0);
         }
     }
 }
