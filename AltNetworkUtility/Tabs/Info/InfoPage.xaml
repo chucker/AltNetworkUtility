@@ -67,7 +67,8 @@
                                              x:DataType="viewmodels:NetworkInterfaceViewModel">
                                     <Image Source="{Binding IsUpImage, Converter={x:Static iconfontservices:Converters.IconSpecToImageSource}}"
                                            Grid.RowSpan="2" />
-                                    <Label FontSize="11" TextColor="Gray" Text="{Binding IsUpDescription}" />
+                                    <Label FontSize="11" Margin="-5" TextColor="Gray"
+                                           Text="{Binding IsUpDescription}" />
                                 </StackLayout>
                             </Grid>
                         </ViewCell>
@@ -117,7 +118,12 @@
                         <Label Grid.Row="3" Grid.Column="1" Text="{Binding Speed}" />
 
                         <Label Grid.Row="4" HorizontalOptions="End">Link Status:</Label>
-                        <Label Grid.Row="4" Grid.Column="1" Text="{Binding IsUpDescription}" />
+                        <StackLayout Orientation="Horizontal" Grid.Row="4" Grid.Column="1">
+                            <Image Source="{Binding IsUpImage, Converter={x:Static iconfontservices:Converters.IconSpecToImageSource}}"
+                                   Grid.RowSpan="2" />
+
+                            <Label Margin="-3" Text="{Binding IsUpDescription}" />
+                        </StackLayout>
                     </Grid>
 
                     <Label FontAttributes="Bold" Margin="10">Transfer Statistics</Label>
