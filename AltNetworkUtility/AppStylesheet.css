@@ -2,7 +2,7 @@
     font-size: 13;
 }
 
-/**
+/*
     Not implemented as of XF 5.0.0
     https://github.com/xamarin/Xamarin.Forms/blob/main/Xamarin.Forms.Core/StyleSheets/Selector.cs#L41
 
@@ -10,3 +10,9 @@
     font-size: 11;
 }
 */
+
+/* would be nice if this were platform-specific: https://github.com/xamarin/Xamarin.Forms/issues/10510 */
+editor.monospace {
+    font-family: Menlo;
+    font-size: 11;
+}

@@ -61,7 +61,8 @@
             <StackLayout Grid.Row="3" Grid.ColumnSpan="2" Orientation="Horizontal">
                 <Label>Command:</Label>
 
-                <Editor IsReadOnly="True" Text="{Binding DebufferedCommandViewModel.CommandLine}" WidthRequest="300" />
+                <Editor IsReadOnly="True" StyleClass="monospace"
+                        Text="{Binding DebufferedCommandViewModel.CommandLine}" WidthRequest="300" />
             </StackLayout>
         </Grid>
     </ContentPage.Content>
