@@ -170,18 +170,30 @@ namespace AltNetworkUtility.ViewModels
                                                 .Add(Arguments, false))
                          .WithStandardOutputPipe(outputPipe);
 
-            await foreach (var cmdEvent in cmd.ListenAsync(CancellationTokenSource.Token))
+            try
             {
-                switch (cmdEvent)
+                await foreach (var cmdEvent in cmd.ListenAsync(CancellationTokenSource.Token))
                 {
-                    case StartedCommandEvent started:
-                        ProcessId = started.ProcessId;
-                        Log.Debug($"Process started; ID: {started.ProcessId}");
-                        break;
-                    case StandardErrorCommandEvent stdErr:
-                        Log.Debug($"Err> {stdErr.Text}");
-                        break;
+                    switch (cmdEvent)
+                    {
+                        case StartedCommandEvent started:
+                            ProcessId = started.ProcessId;
+                            Log.Debug($"Process started; ID: {started.ProcessId}");
+                            break;
+                        case StandardErrorCommandEvent stdErr:
+                            Log.Debug($"Err> {stdErr.Text}");
+                            break;
+                    }
                 }
+            }
+            catch (CliWrap.Exceptions.CommandExecutionException ex)
+            {
+                // MAYBE: do we want to make this red?
+                Output += $"\n\nNon-zero exit code: {ex.ExitCode}";
+            }
+            catch (Exception ex)
+            {
+                Log.Warning(ex, "Wrapped command failed");
             }
 
             IsBusy = false;
