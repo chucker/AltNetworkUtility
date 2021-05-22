@@ -27,6 +27,13 @@ namespace AltNetworkUtility.Tabs.Netstat
 
         public DebufferedCommandViewModel DebufferedCommandViewModel { get; }
 
+        public bool CanSkipHostnameLookup => NetstatMode switch
+        {
+            NetstatMode.RoutingTable => true,
+            NetstatMode.SocketState => true,
+            _ => false
+        };
+
         private bool _DisableHostnameLookup;
         public bool DisableHostnameLookup
         {
@@ -59,6 +66,8 @@ namespace AltNetworkUtility.Tabs.Netstat
 
                 SetProperty(ref _Mode, netstatMode);
 
+                OnPropertyChanged(nameof(CanSkipHostnameLookup));
+
                 Log.Debug($"Mode: {netstatMode}");
 
                 UpdateCommandLine();
@@ -82,22 +91,37 @@ namespace AltNetworkUtility.Tabs.Netstat
 
         private void UpdateCommandLine()
         {
+            var arguments = new ArgumentsBuilder();
+
             switch (NetstatMode)
             {
                 case NetstatMode.RoutingTable:
-                    var arguments = new ArgumentsBuilder();
-
+                default:
                     if (DisableHostnameLookup)
                         arguments.Add("-n");
 
                     arguments.Add("-r");
 
-                    DebufferedCommandViewModel.SetArguments(arguments);
+                    break;
+                case NetstatMode.NetworkStatistics:
+                    arguments.Add("-s");
 
                     break;
-                default:
+                case NetstatMode.MulticastInformation:
+                    arguments.Add("-g");
+                    arguments.Add("-s");
+
+                    break;
+                case NetstatMode.SocketState:
+                    if (DisableHostnameLookup)
+                        arguments.Add("-n");
+
+                    arguments.Add("-a");
+
                     break;
             }
+
+            DebufferedCommandViewModel.SetArguments(arguments);
         }
 
         public NetstatPageViewModel()
@@ -112,7 +136,10 @@ namespace AltNetworkUtility.Tabs.Netstat
                 () => NetstatMode > 0;
 
             ToggleDisableHostnameLookupCommand = new RelayCommand(() =>
-                DisableHostnameLookup = !DisableHostnameLookup);
+            {
+                if (CanSkipHostnameLookup)
+                    DisableHostnameLookup = !DisableHostnameLookup;
+            });
 
             Mode = NetstatMode.RoutingTable;
         }

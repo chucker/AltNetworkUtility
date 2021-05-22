@@ -31,8 +31,9 @@
                 <RadioButton Value="MulticastInformation" Content="Display multicast information" />
                 <RadioButton Value="SocketState" Content="Display the state of all current socket connections" />
 
-                <StackLayout Orientation="Horizontal" Margin="0,10,0,0">
-                    <CheckBox IsChecked="{Binding DisableHostnameLookup}" />
+                <StackLayout Orientation="Horizontal" Margin="0,10,0,0"
+                             IsEnabled="{Binding CanSkipHostnameLookup}">
+                    <CheckBox IsChecked="{Binding DisableHostnameLookup}" IsEnabled="{Binding CanSkipHostnameLookup}" />
 
                     <Label Text="Skip looking up hostnames">
                         <Label.GestureRecognizers>
