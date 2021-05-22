@@ -77,7 +77,7 @@
                     Text="{Binding DebufferedCommandViewModel.Output}" />
 
             <StackLayout Grid.Row="5" Grid.ColumnSpan="2" Orientation="Horizontal">
-                <Label>Command:</Label>
+                <Label VerticalOptions="Center">Command:</Label>
 
                 <Editor IsReadOnly="True" WidthRequest="300"
                         Text="{Binding DebufferedCommandViewModel.CommandLine}" />
