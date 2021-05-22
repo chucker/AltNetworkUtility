@@ -131,6 +131,7 @@
     <Compile Include="Services\MacIconFontProvider.cs" />
     <Compile Include="Models\SCNetworkInterface.cs" />
     <Compile Include="Renderers\MacOSRadioButtonRenderer.cs" />
+    <Compile Include="Services\MacSystemSoundService.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Main.storyboard" />

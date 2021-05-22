@@ -21,6 +21,7 @@ namespace AltNetworkUtility.macOS
         {
             DependencyService.Register<IIconFontProvider, MacIconFontProvider>();
             DependencyService.Register<INetworkInterfacesService, MacNetworkInterfacesService>();
+            DependencyService.Register<ISystemSoundService, MacSystemSoundService>();
 
             var style = NSWindowStyle.Closable | NSWindowStyle.Resizable | NSWindowStyle.Titled;
             var rect = new CoreGraphics.CGRect(200, 200, 640, 388);
