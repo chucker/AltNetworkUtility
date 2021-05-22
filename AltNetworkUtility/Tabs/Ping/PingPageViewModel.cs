@@ -80,6 +80,9 @@ namespace AltNetworkUtility.Tabs.Ping
             }
         }
 
+        private Predicate<object> _NetworkInterfaceFilter;
+        public Predicate<object> NetworkInterfaceFilter => _NetworkInterfaceFilter;
+
         public PreferencesService Preferences { get; }
 
         private int _SpecificCount;
@@ -154,6 +157,15 @@ namespace AltNetworkUtility.Tabs.Ping
             {
                 AvailableNetworkInterfaces.Add(item);
             }
+
+            _NetworkInterfaceFilter = o =>
+            {
+                return true;
+                if (o is not NetworkInterfaceViewModel networkInterface)
+                    return false;
+
+                return networkInterface.ShouldCommonlyShow;
+            };
         }
     }
 }

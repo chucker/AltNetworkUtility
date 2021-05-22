@@ -4,12 +4,19 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:converters="clr-namespace:AltNetworkUtility.Converters"
     xmlns:local="clr-namespace:AltNetworkUtility.Tabs.Ping"
-    x:Class="AltNetworkUtility.Tabs.Ping.PingPage"
+    xmlns:rotorsoft="clr-namespace:Rotorsoft.Forms;assembly=CollectionViewSource.Forms"
+    x:Class="AltNetworkUtility.Tabs.Ping.PingPage" x:Name="_page"
     Title="Ping">
 
     <ContentPage.BindingContext>
         <local:PingPageViewModel />
     </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <rotorsoft:CollectionViewSource x:Key="NetworkInterfaces"
+                                        BindingContext="{Binding Path=BindingContext, Source={x:Reference _page}, Mode=OneWay}"
+                                        Source="{Binding AvailableNetworkInterfaces, Mode=OneWay}" />
+    </ContentPage.Resources>
 
     <ContentPage.Content>
         <Grid Padding="20">
@@ -55,9 +62,14 @@
                     </Label.GestureRecognizers>
                 </Label>
 
-                <Picker IsEnabled="{Binding UseSpecificInterface}" SelectedItem="{Binding SpecificInterface}"
-                        ItemsSource="{Binding AvailableNetworkInterfaces}"
-                        ItemDisplayBinding="{Binding DisplayName}" />
+                <!--<Picker ItemsSource="{Binding AvailableNetworkInterfaces}" />-->
+                                <!--<Picker                         ItemsSource="{Binding View, Source={StaticResource NetworkInterfaces}}" />-->
+
+                <Picker ItemsSource="{Binding View, Source={StaticResource NetworkInterfaces}}" />
+
+                <!--<Picker IsEnabled="{Binding UseSpecificInterface}" SelectedItem="{Binding SpecificInterface}"
+                        ItemsSource="{Binding View, Source={StaticResource NetworkInterfaces}}"
+                        ItemDisplayBinding="{Binding DisplayName}" />-->
             </StackLayout>
 
             <StackLayout Grid.Row="3" Grid.Column="1" Orientation="Horizontal" VerticalOptions="End">
