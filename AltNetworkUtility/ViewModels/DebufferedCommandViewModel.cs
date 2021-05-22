@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -148,14 +149,18 @@ namespace AltNetworkUtility.ViewModels
 
             PipeTarget outputPipe = PipeTarget.ToDelegate(async s =>
             {
-                if (s.Contains("\a"))
-                    await SystemSoundService.PlayAsync();
+                var tasks = new List<Task>();
 
-                await Device.InvokeOnMainThreadAsync(() =>
+                if (s.Contains("\a"))
+                    tasks.Add(SystemSoundService.PlayAsync());
+
+                tasks.Add(Device.InvokeOnMainThreadAsync(() =>
                 {
                     // UGLY: need to filter out ^D from `script`, apparently
                     return Output += s.Replace("^D", "") + Environment.NewLine;
-                });
+                }));
+
+                await Task.WhenAll(tasks);
             });
 
             var cmd = Cli.Wrap("/usr/bin/script")
