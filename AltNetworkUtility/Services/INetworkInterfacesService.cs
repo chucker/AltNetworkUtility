@@ -12,5 +12,8 @@ namespace AltNetworkUtility.Services
 
         bool TryGetStatistics(NetworkInterfaceViewModel viewModel,
                               [NotNullWhen(true)] out NetworkInterfaceStatistics.RawValues? statistics);
+
+        bool TryFindInterfaceByName(string specificInterface,
+                                    [NotNullWhen(true)] out NetworkInterfaceViewModel? netIf);
     }
 }

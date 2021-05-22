@@ -1,4 +1,6 @@
-﻿using Xamarin.Essentials;
+﻿using System;
+
+using Xamarin.Essentials;
 
 namespace AltNetworkUtility.Services
 {
@@ -35,6 +37,11 @@ namespace AltNetworkUtility.Services
         /// <remarks />
         public string Get(string key, string defaultValue)
             => Preferences.Get(MakeKey(key), defaultValue);
+
+        /// <param name="key">Preference key.</param>
+        /// <summary>Removes a key and its associated value if it exists.</summary>
+        /// <remarks />
+        public void Remove(string key) => Preferences.Remove(key);
 
         /// <param name="key">Preference key.</param>
         /// <param name="value">Preference value.</param>

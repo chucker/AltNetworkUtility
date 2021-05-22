@@ -130,6 +130,8 @@ namespace AltNetworkUtility.macOS.Services
             };
         }
 
+        private List<NetworkInterfaceViewModel>? _Interfaces;
+
         public IEnumerable<NetworkInterfaceViewModel> GetAvailableInterfaces()
         {
             // CHECK: are BSD names always unique?
@@ -167,6 +169,8 @@ namespace AltNetworkUtility.macOS.Services
                     viewModel.IsUp = scNetworkInterface.IsUp;
                 }
             }
+
+            _Interfaces = viewModels;
 
             return viewModels;
         }
@@ -228,6 +232,17 @@ namespace AltNetworkUtility.macOS.Services
             }
 
             return false;
+        }
+
+        public bool TryFindInterfaceByName(string name,
+                                           [NotNullWhen(true)] out NetworkInterfaceViewModel? networkInterfaceViewModel)
+        {
+            if (_Interfaces == null)
+                throw new InvalidOperationException($"Call {nameof(GetAvailableInterfaces)} first");
+
+            networkInterfaceViewModel = _Interfaces.Find(netIf => netIf.Name == name);
+
+            return networkInterfaceViewModel != null;
         }
     }
 }

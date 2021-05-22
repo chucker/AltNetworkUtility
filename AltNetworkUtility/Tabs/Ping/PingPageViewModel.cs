@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 
 using AltNetworkUtility.Services;
@@ -107,6 +108,25 @@ namespace AltNetworkUtility.Tabs.Ping
                 SetProperty(ref _UseSpecificInterface, value);
 
                 Preferences.Set(nameof(UseSpecificInterface), value);
+
+                UpdateCommandLine();
+            }
+        }
+
+        private NetworkInterfaceViewModel? _SpecificInterface;
+        public NetworkInterfaceViewModel? SpecificInterface
+        {
+            get => _SpecificInterface;
+            set
+            {
+                SetProperty(ref _SpecificInterface, value);
+
+                if (value?.Name != null)
+                    Preferences.Set(nameof(SpecificInterface), value.Name);
+                else
+                    Preferences.Remove(nameof(SpecificInterface));
+
+                UpdateCommandLine();
             }
         }
 
@@ -120,6 +140,17 @@ namespace AltNetworkUtility.Tabs.Ping
             {
                 arguments.Add("-c");
                 arguments.Add(SpecificCount);
+            }
+
+            static bool isIPv4(System.Net.IPAddress ad) =>
+                ad.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork;
+
+            if (UseSpecificInterface &&
+                !string.IsNullOrEmpty(SpecificInterface?.Name) &&
+                SpecificInterface?.IPAddresses.Any(isIPv4) == true)
+            {
+                arguments.Add("-S");
+                arguments.Add(SpecificInterface.IPAddresses.First(isIPv4).ToString());
             }
 
             arguments.Add(Host);
@@ -154,6 +185,10 @@ namespace AltNetworkUtility.Tabs.Ping
             {
                 AvailableNetworkInterfaces.Add(item);
             }
+
+            var specificInterface = Preferences.Get(nameof(SpecificInterface), "");
+            if (svc.TryFindInterfaceByName(specificInterface, out var netIf))
+                SpecificInterface = netIf;
         }
     }
 }
