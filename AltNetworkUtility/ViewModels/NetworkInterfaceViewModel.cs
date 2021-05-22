@@ -36,12 +36,23 @@ namespace AltNetworkUtility.ViewModels
             }
         }
 
-        public IconSpec Icon => new(NetworkInterfaceType switch
+        public IconSpec Icon
         {
-            NetworkInterfaceType.Ethernet => "network",
-            NetworkInterfaceType.Wireless80211 => "wifi",
-            _ => "questionmark.diamond"
-        });
+            get
+            {
+                string iconName = NetworkInterfaceType switch
+                {
+                    NetworkInterfaceType.Ethernet => "network",
+                    NetworkInterfaceType.Wireless80211 => "wifi",
+                    _ => "questionmark.diamond"
+                };
+
+                return new IconSpec(iconName)
+                {
+                    Size = new Size(24, 24)
+                };
+            }
+        }
 
         private IPAddress[]? _IPAddresses;
         public IPAddress[]? IPAddresses

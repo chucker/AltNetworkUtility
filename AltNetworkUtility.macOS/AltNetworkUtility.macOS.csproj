@@ -116,6 +116,7 @@
     <Folder Include="Services\" />
     <Folder Include="Models\" />
     <Folder Include="Renderers\" />
+    <Folder Include="Extensions\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -131,6 +132,7 @@
     <Compile Include="Services\MacIconFontProvider.cs" />
     <Compile Include="Models\SCNetworkInterface.cs" />
     <Compile Include="Renderers\MacOSRadioButtonRenderer.cs" />
+    <Compile Include="Extensions\NSImageExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Main.storyboard" />

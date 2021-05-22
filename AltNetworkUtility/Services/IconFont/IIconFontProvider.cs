@@ -8,13 +8,14 @@ namespace AltNetworkUtility.Services.IconFont
     {
         public Color? Color { get; set; }
         public string Name { get; private set; }
+        public Size? Size { get; set; }
 
         public IconSpec(string name) => Name = name;
     }
 
     public interface IIconFontProvider
     {
-        ImageSource GetImage(string name, Color? color);
+        ImageSource GetImage(string name, Color? color, Size? size);
     }
 
     public static class Converters
@@ -24,7 +25,7 @@ namespace AltNetworkUtility.Services.IconFont
             {
                 var spec = vca.Value;
                 var svc = DependencyService.Get<IIconFontProvider>();
-                return svc.GetImage(spec.Name, spec.Color);
+                return svc.GetImage(spec.Name, spec.Color, spec.Size);
             });
     }
 }
