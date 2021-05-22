@@ -15,11 +15,13 @@ using Xamarin.Forms.Platform.MacOS;
 [assembly: ExportRenderer(typeof(Editor), typeof(MacOSEditorRenderer))]
 namespace AltNetworkUtility.macOS.Renderers
 {
-    public class MacOSEditorRenderer : ViewRenderer<Editor, NSTextField>
+    public class MacOSEditorRenderer : ViewRenderer<Editor, NSScrollView>
     {
         const string NewLineSelector = "insertNewline";
         bool _disposed;
         CGSize _previousSize;
+
+        NSTextView _nativeEditor;
 
         IEditorController ElementController => Element;
 
@@ -39,22 +41,34 @@ namespace AltNetworkUtility.macOS.Renderers
 
             if (Control == null)
             {
-                SetNativeControl(new NSTextField { UsesSingleLineMode = false });
-                Control.Cell.Scrollable = true;
-                Control.Cell.Wraps = true;
-                Control.Changed += HandleChanged;
-                Control.EditingBegan += OnEditingBegan;
-                Control.EditingEnded += OnEditingEnded;
-                Control.DoCommandBySelector = (control, textView, commandSelector) =>
+                _nativeEditor = new NSTextView();
+
+                var scroller = new NSScrollView
                 {
-                    var result = false;
-                    if (commandSelector.Name.StartsWith(NewLineSelector, StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        textView.InsertText(new NSString(Environment.NewLine));
-                        result = true;
-                    }
-                    return result;
+                    AutoresizingMask = NSViewResizingMask.HeightSizable | NSViewResizingMask.WidthSizable,
+                    DocumentView = _nativeEditor,
+                    HasVerticalScroller = true,
+                    DrawsBackground = false,
                 };
+
+                SetNativeControl(scroller);
+
+                //SetNativeControl(new NSTextField { UsesSingleLineMode = false });
+                //Control.Cell.Scrollable = true;
+                //Control.Cell.Wraps = true;
+                _nativeEditor.TextDidChange += HandleChanged;
+                //Control.EditingBegan += OnEditingBegan;
+                //Control.EditingEnded += OnEditingEnded;
+                //Control.DoCommandBySelector = (control, textView, commandSelector) =>
+                //{
+                //    var result = false;
+                //    if (commandSelector.Name.StartsWith(NewLineSelector, StringComparison.InvariantCultureIgnoreCase))
+                //    {
+                //        textView.InsertText(new NSString(Environment.NewLine));
+                //        result = true;
+                //    }
+                //    return result;
+                //};
             }
 
             if (e.NewElement == null) return;
@@ -96,16 +110,16 @@ namespace AltNetworkUtility.macOS.Renderers
 
             Control.BackgroundColor = color == Color.Default ? NSColor.Clear : color.ToNSColor();
 
-            if (color == Color.Transparent)
-            {
-                Control.DrawsBackground = false;
-                Control.Bezeled = false;
-            }
-            else
-            {
-                Control.DrawsBackground = true;
-                Control.Bezeled = true;
-            }
+            //if (color == Color.Transparent)
+            //{
+            //    Control.DrawsBackground = false;
+            //    Control.Bezeled = false;
+            //}
+            //else
+            //{
+            //    Control.DrawsBackground = true;
+            //    Control.Bezeled = true;
+            //}
 
             base.SetBackgroundColor(color);
         }
@@ -128,9 +142,9 @@ namespace AltNetworkUtility.macOS.Renderers
                 _disposed = true;
                 if (Control != null)
                 {
-                    Control.Changed -= HandleChanged;
-                    Control.EditingBegan -= OnEditingBegan;
-                    Control.EditingEnded -= OnEditingEnded;
+                    //Control.Changed -= HandleChanged;
+                    //Control.EditingBegan -= OnEditingBegan;
+                    //Control.EditingEnded -= OnEditingEnded;
                 }
             }
             base.Dispose(disposing);
@@ -140,7 +154,7 @@ namespace AltNetworkUtility.macOS.Renderers
         {
             UpdateMaxLength();
 
-            ElementController.SetValueFromRenderer(Editor.TextProperty, Control.StringValue);
+            //ElementController.SetValueFromRenderer(Editor.TextProperty, Control.StringValue);
         }
 
         void OnEditingEnded(object sender, EventArgs eventArgs)
@@ -156,7 +170,7 @@ namespace AltNetworkUtility.macOS.Renderers
 
         void UpdateEditable()
         {
-            Control.Editable = Element.IsEnabled;
+            //Control.Editable = Element.IsEnabled;
         }
 
         void UpdateFont()
@@ -167,30 +181,30 @@ namespace AltNetworkUtility.macOS.Renderers
         void UpdateText()
         {
             var text = Element.UpdateFormsText(Element.Text, Element.TextTransform);
-            if (Control.StringValue != text)
-                Control.StringValue = text;
+            if (_nativeEditor.String != text)
+                _nativeEditor.TextStorage.SetString(new NSAttributedString(text));
         }
 
         void UpdateTextColor()
         {
             var textColor = Element.TextColor;
 
-            Control.TextColor = textColor.IsDefault ? NSColor.Black : textColor.ToNSColor();
+            //Control.TextColor = textColor.IsDefault ? NSColor.Black : textColor.ToNSColor();
         }
 
         void UpdateMaxLength()
         {
-            var currentControlText = Control?.StringValue;
+            //var currentControlText = Control?.StringValue;
 
-            if (currentControlText.Length > Element?.MaxLength)
-                Control.StringValue = currentControlText.Substring(0, Element.MaxLength);
+            //if (currentControlText.Length > Element?.MaxLength)
+            //    Control.StringValue = currentControlText.Substring(0, Element.MaxLength);
         }
 
         void UpdateIsReadOnly()
         {
-            Control.Editable = !Element.IsReadOnly;
-            if (Element.IsReadOnly && Control.Window?.FirstResponder == Control.CurrentEditor)
-                Control.Window?.MakeFirstResponder(null);
+            //Control.Editable = !Element.IsReadOnly;
+            //if (Element.IsReadOnly && Control.Window?.FirstResponder == Control.CurrentEditor)
+            //    Control.Window?.MakeFirstResponder(null);
         }
     }
 }
