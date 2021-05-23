@@ -35,7 +35,7 @@ namespace AltNetworkUtility.macOS.Renderers
 
             if (Element != null && _previousSize != Bounds.Size)
                 SetBackground(Element.Background);
-
+            
             _previousSize = Bounds.Size;
         }
 
@@ -68,19 +68,18 @@ namespace AltNetworkUtility.macOS.Renderers
                 SetNativeControl(scroller);
 
                 _nativeEditor.TextDidChange += HandleChanged;
-
-                //Control.EditingBegan += OnEditingBegan;
-                //Control.EditingEnded += OnEditingEnded;
-                //Control.DoCommandBySelector = (control, textView, commandSelector) =>
-                //{
-                //    var result = false;
-                //    if (commandSelector.Name.StartsWith(NewLineSelector, StringComparison.InvariantCultureIgnoreCase))
-                //    {
-                //        textView.InsertText(new NSString(Environment.NewLine));
-                //        result = true;
-                //    }
-                //    return result;
-                //};
+                _nativeEditor.TextDidBeginEditing += OnEditingBegan;
+                _nativeEditor.TextDidEndEditing += OnEditingEnded;
+                _nativeEditor.DoCommandBySelector = (textView, commandSelector) =>
+                {
+                    var result = false;
+                    if (commandSelector.Name.StartsWith(NewLineSelector, StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        textView.InsertText(new NSString(Environment.NewLine));
+                        result = true;
+                    }
+                    return result;
+                };
             }
 
             if (e.NewElement == null) return;
