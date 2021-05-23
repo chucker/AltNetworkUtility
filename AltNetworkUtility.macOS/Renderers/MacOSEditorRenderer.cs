@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Reflection;
 
 using AltNetworkUtility.macOS.Renderers;
 
@@ -10,6 +11,7 @@ using CoreGraphics;
 using Foundation;
 
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 using Xamarin.Forms.Platform.MacOS;
 
 [assembly: ExportRenderer(typeof(Editor), typeof(MacOSEditorRenderer))]
@@ -51,7 +53,7 @@ namespace AltNetworkUtility.macOS.Renderers
                     HasHorizontalScroller = false,
                     HasVerticalScroller = true
                 };
-                
+
                 _nativeEditor = new NSTextView(new CGRect(new CGPoint(0, 0), scroller.ContentSize))
                 {
                     AutoresizingMask = NSViewResizingMask.WidthSizable,
@@ -66,6 +68,7 @@ namespace AltNetworkUtility.macOS.Renderers
                 SetNativeControl(scroller);
 
                 _nativeEditor.TextDidChange += HandleChanged;
+
                 //Control.EditingBegan += OnEditingBegan;
                 //Control.EditingEnded += OnEditingEnded;
                 //Control.DoCommandBySelector = (control, textView, commandSelector) =>
@@ -119,16 +122,16 @@ namespace AltNetworkUtility.macOS.Renderers
 
             Control.BackgroundColor = color == Color.Default ? NSColor.Clear : color.ToNSColor();
 
-            //if (color == Color.Transparent)
-            //{
-            //    Control.DrawsBackground = false;
-            //    Control.Bezeled = false;
-            //}
-            //else
-            //{
-            //    Control.DrawsBackground = true;
-            //    Control.Bezeled = true;
-            //}
+            if (color == Color.Transparent)
+            {
+                Control.DrawsBackground = false;
+                _nativeEditor.DrawsBackground = false;
+            }
+            else
+            {
+                Control.DrawsBackground = true;
+                _nativeEditor.DrawsBackground = true;
+            }
 
             base.SetBackgroundColor(color);
         }
@@ -151,9 +154,9 @@ namespace AltNetworkUtility.macOS.Renderers
                 _disposed = true;
                 if (Control != null)
                 {
-                    //Control.Changed -= HandleChanged;
-                    //Control.EditingBegan -= OnEditingBegan;
-                    //Control.EditingEnded -= OnEditingEnded;
+                    _nativeEditor.TextDidChange -= HandleChanged;
+                    _nativeEditor.TextDidBeginEditing -= OnEditingBegan;
+                    _nativeEditor.TextDidEndEditing -= OnEditingEnded;
                 }
             }
             base.Dispose(disposing);
@@ -179,41 +182,49 @@ namespace AltNetworkUtility.macOS.Renderers
 
         void UpdateEditable()
         {
-            //Control.Editable = Element.IsEnabled;
+            _nativeEditor.Editable = Element.IsEnabled;
         }
 
         void UpdateFont()
         {
-            //_nativeEditor.Font = Element.ToNSFont();
+            // the ToNSFont() overload we want is internal
+            // https://github.com/xamarin/Xamarin.Forms/blob/caab66bcf9614aca0c0805d560a34e176d196e17/Xamarin.Forms.Platform.MacOS/Extensions/FontExtensions.cs#L13
+            const BindingFlags bindingFlags = BindingFlags.NonPublic | BindingFlags.Static;
+            var method = typeof(FontExtensions).GetMethod("ToNSFont", bindingFlags, null,
+                                                          new[] { typeof(IFontElement) }, null);
+
+            if (method?.Invoke(null, new[] { Element }) is NSFont font)
+                _nativeEditor.Font = font;
         }
 
         void UpdateText()
         {
             var text = Element.UpdateFormsText(Element.Text, Element.TextTransform);
             if (_nativeEditor.String != text)
-                _nativeEditor.TextStorage.SetString(new NSAttributedString(text));
+                _nativeEditor.Value = text;
         }
 
         void UpdateTextColor()
         {
             var textColor = Element.TextColor;
 
-            //Control.TextColor = textColor.IsDefault ? NSColor.Black : textColor.ToNSColor();
+            _nativeEditor.SetTextColor(textColor.IsDefault ? NSColor.Black : textColor.ToNSColor(),
+                                       new NSRange(0, _nativeEditor.String.Length));
         }
 
         void UpdateMaxLength()
         {
-            //var currentControlText = Control?.StringValue;
+            var currentControlText = _nativeEditor?.String;
 
-            //if (currentControlText.Length > Element?.MaxLength)
-            //    Control.StringValue = currentControlText.Substring(0, Element.MaxLength);
+            if (currentControlText.Length > Element?.MaxLength)
+                _nativeEditor.Value = currentControlText.Substring(0, Element.MaxLength);
         }
 
         void UpdateIsReadOnly()
         {
-            //Control.Editable = !Element.IsReadOnly;
-            //if (Element.IsReadOnly && Control.Window?.FirstResponder == Control.CurrentEditor)
-            //    Control.Window?.MakeFirstResponder(null);
+            _nativeEditor.Editable = !Element.IsReadOnly;
+            if (Element.IsReadOnly && Control.Window?.FirstResponder == _nativeEditor)
+                Control.Window?.MakeFirstResponder(null);
         }
     }
 }
