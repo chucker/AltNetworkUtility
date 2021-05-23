@@ -17,6 +17,8 @@ namespace AltNetworkUtility.macOS.Renderers
 {
     public class MacOSEditorRenderer : ViewRenderer<Editor, NSScrollView>
     {
+        Serilog.ILogger Log = Serilog.Log.ForContext<MacOSEditorRenderer>();
+
         const string NewLineSelector = "insertNewline";
         bool _disposed;
         CGSize _previousSize;
@@ -41,21 +43,28 @@ namespace AltNetworkUtility.macOS.Renderers
 
             if (Control == null)
             {
-                _nativeEditor = new NSTextView();
-
                 var scroller = new NSScrollView
                 {
-                    AutoresizingMask = NSViewResizingMask.HeightSizable | NSViewResizingMask.WidthSizable,
-                    DocumentView = _nativeEditor,
-                    HasVerticalScroller = true,
+                    AutoresizingMask = NSViewResizingMask.WidthSizable | NSViewResizingMask.HeightSizable,
+                    BorderType = NSBorderType.NoBorder,
                     DrawsBackground = false,
+                    HasHorizontalScroller = false,
+                    HasVerticalScroller = true
                 };
+                
+                _nativeEditor = new NSTextView(new CGRect(new CGPoint(0, 0), scroller.ContentSize))
+                {
+                    AutoresizingMask = NSViewResizingMask.WidthSizable,
+                    HorizontallyResizable = false,
+                    MinSize = new CGSize(0, scroller.ContentSize.Height),
+                    MaxSize = new CGSize(float.MaxValue, float.MaxValue),
+                    VerticallyResizable = true
+                };
+
+                scroller.DocumentView = _nativeEditor;
 
                 SetNativeControl(scroller);
 
-                //SetNativeControl(new NSTextField { UsesSingleLineMode = false });
-                //Control.Cell.Scrollable = true;
-                //Control.Cell.Wraps = true;
                 _nativeEditor.TextDidChange += HandleChanged;
                 //Control.EditingBegan += OnEditingBegan;
                 //Control.EditingEnded += OnEditingEnded;
@@ -154,7 +163,7 @@ namespace AltNetworkUtility.macOS.Renderers
         {
             UpdateMaxLength();
 
-            //ElementController.SetValueFromRenderer(Editor.TextProperty, Control.StringValue);
+            ElementController.SetValueFromRenderer(Editor.TextProperty, _nativeEditor.Value);
         }
 
         void OnEditingEnded(object sender, EventArgs eventArgs)
@@ -175,7 +184,7 @@ namespace AltNetworkUtility.macOS.Renderers
 
         void UpdateFont()
         {
-            //Control.Font = Element.ToNSFont();
+            //_nativeEditor.Font = Element.ToNSFont();
         }
 
         void UpdateText()
