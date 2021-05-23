@@ -19,12 +19,12 @@ using Xamarin.Forms.Platform.MacOS;
 namespace AltNetworkUtility.macOS
 {
     [Register("AppDelegate")]
-    public class AppDelegate : FormsApplicationDelegate
+    public partial class AppDelegate : FormsApplicationDelegate
     {
         private NSWindow? _MainWindow;
         public override NSWindow? MainWindow => _MainWindow;
 
-        public static string AppName => System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
+        public static string AppName => Assembly.GetExecutingAssembly().GetName().Name;
 
         public AppDelegate()
         {
@@ -63,5 +63,10 @@ namespace AltNetworkUtility.macOS
 
         public override bool ApplicationShouldTerminateAfterLastWindowClosed(NSApplication sender)
             => true;
+
+        partial void ShowAboutBox(NSObject sender)
+        {
+            DependencyService.Get<AboutBoxWindowService>().OpenWindow();
+        }
     }
 }

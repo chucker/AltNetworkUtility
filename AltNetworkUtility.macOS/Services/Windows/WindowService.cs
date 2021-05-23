@@ -22,8 +22,7 @@ namespace AltNetworkUtility.macOS.Services.Windows
 
     public abstract class WindowService
     {
-        protected readonly ConcurrentDictionary<Window, NSWindow> _SingleInstanceWindows =
-            new ConcurrentDictionary<Window, NSWindow>();
+        protected readonly ConcurrentDictionary<Window, NSWindow> _SingleInstanceWindows = new();
 
         readonly ILogger Log = Serilog.Log.ForContext<WindowService>();
 
@@ -98,15 +97,50 @@ namespace AltNetworkUtility.macOS.Services.Windows
                 window.TabbingMode = NSWindowTabbingMode.Disallowed;
 
                 window.SetFrame(new CGRect(200, 200, 640, 480), true, true);
-                window.Center();
 
                 var page = new MainPage();
 
                 window.ContentView = page.CreateViewController().View;
 
-                NSWindowController windowController = new NSWindowController(window);
+                var windowController = new NSWindowController(window);
                 var appDelegate = NSApplication.SharedApplication.Delegate as AppDelegate;
                 windowController.ShowWindow(appDelegate);
+
+                ShowWindow(window);
+
+                return window;
+            });
+        }
+    }
+
+    public class AboutBoxWindowService : WindowService
+    {
+        public override Window Window => Window.AboutBox;
+
+        public override NSWindow OpenWindow()
+        {
+            return _SingleInstanceWindows.GetOrAdd(Window, _ =>
+            {
+                const NSWindowStyle windowStyle = NSWindowStyle.Closable | NSWindowStyle.Titled;
+
+                var window = new NSWindow
+                {
+                    BackingType = NSBackingStore.Buffered,
+                    Level = NSWindowLevel.Normal,
+                    StyleMask = windowStyle,
+                    Title = $"About {AppDelegate.AppName}"
+                };
+
+                window.TabbingMode = NSWindowTabbingMode.Disallowed;
+
+                window.SetFrame(new CGRect(200, 200, 300, 326), true, true);
+
+                var page = new AboutBoxPage();
+
+                window.ContentView = page.CreateViewController().View;
+
+                var windowController = new NSWindowController(window);
+                windowController.ShowWindow(null);
 
                 ShowWindow(window);
 
