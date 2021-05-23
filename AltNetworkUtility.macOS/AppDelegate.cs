@@ -31,6 +31,8 @@ namespace AltNetworkUtility.macOS
                 Title = "Alt Network Utility", // choose your own Title here
                 TitleVisibility = NSWindowTitleVisibility.Visible
             };
+
+            MainWindow.TabbingMode = NSWindowTabbingMode.Disallowed;
         }
 
 
