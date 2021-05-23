@@ -3,7 +3,7 @@ A clone of Apple's now-discontinued Network Utility
 
 # Status
 
-It's in pre-alpha stage. That means some conceptual decisions still need to be made, and many features are missing.
+It's in alpha stage. That means most of the architecture is there, but many features are still missing.
 
 # Build
 
@@ -27,4 +27,4 @@ Unlike NU:
 
 ## Non-goals
 
-* it is mostly about status and diagnostics, **not** configuration
+* like NU, it is mostly about status and diagnostics, **not** configuration
