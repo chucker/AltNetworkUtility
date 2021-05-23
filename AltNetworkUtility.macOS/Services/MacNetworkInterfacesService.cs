@@ -26,6 +26,24 @@ namespace AltNetworkUtility.macOS.Services
             [DllImport("/System/Library/Frameworks/SystemConfiguration.framework/SystemConfiguration")]
             public static extern IntPtr SCNetworkInterfaceCopyAll();
 
+            [DllImport("/System/Library/Frameworks/IOKit.framework/IOKit")]
+            public static extern int IOServiceGetMatchingServices(int masterPort, IntPtr matching, out IntPtr existing);
+
+            [DllImport("/System/Library/Frameworks/IOKit.framework/IOKit")]
+            public static extern IntPtr IOServiceMatching(string name);
+
+            [DllImport("/System/Library/Frameworks/IOKit.framework/IOKit")]
+            public extern static int IOServiceClose(int service);
+
+            [DllImport("/System/Library/Frameworks/IOKit.framework/IOKit")]
+            public static extern IntPtr IOIteratorNext(IntPtr iterator);
+
+            [DllImport("/System/Library/Frameworks/IOKit.framework/IOKit")]
+            public static extern IntPtr IORegistryEntryCreateCFProperty(IntPtr entry, IntPtr key, IntPtr allocator, int options);
+
+            [DllImport("/System/Library/Frameworks/IOKit.framework/IOKit")]
+            public static extern int IORegistryEntryGetParentEntry(IntPtr entry, string plane, out IntPtr parent);
+
             // see https://stackoverflow.com/a/8014012/1600
             // and https://gist.github.com/brendanzagaeski/9979929
 
@@ -140,6 +158,8 @@ namespace AltNetworkUtility.macOS.Services
 
             var scNetworkInterfaces = GetSystemConfigurationNetworkInterfaces();
 
+            var iokitNetworkInterfaces = GetIORegistryNetworkInterfaces();
+
             var viewModels = new List<NetworkInterfaceViewModel>();
 
             foreach (var item in monoNetworkInterfaces)
@@ -168,11 +188,83 @@ namespace AltNetworkUtility.macOS.Services
                     // Mono's IsUp cannot be trusted
                     viewModel.IsUp = scNetworkInterface.IsUp;
                 }
+
+                if(iokitNetworkInterfaces.TryGetValue(item.Name, out var ioKitNetworkInterface))
+                {
+                    viewModel.Vendor = ioKitNetworkInterface.Vendor;
+                    viewModel.Model = ioKitNetworkInterface.Model;
+                }
             }
 
             _Interfaces = viewModels;
 
             return viewModels;
+        }
+
+        private Dictionary<string, (string Vendor, string Model)> GetIORegistryNetworkInterfaces()
+        {
+            var dict = new Dictionary<string, (string, string)>();
+
+            var serviceDescription = NativeMethods.IOServiceMatching("IOEthernetInterface");
+            int result = NativeMethods.IOServiceGetMatchingServices(0, serviceDescription, out var ioIterator);
+
+            if (result != 0)
+            {
+                Log.Warning($"{nameof(NativeMethods.IOServiceGetMatchingServices)} returned {result}");
+                return dict;
+            }
+
+            string? bsdName;
+
+            IntPtr current;
+            while ((current = NativeMethods.IOIteratorNext(ioIterator)) != IntPtr.Zero)
+            {
+                if (!TryLookupIOKitStringProperty("BSD Name", current, out bsdName))
+                {
+                    Log.Warning("Couldn't look up BSD name");
+                    continue;
+                }
+
+                result = NativeMethods.IORegistryEntryGetParentEntry(current, "IOService", out var parent);
+
+                if (result != 0)
+                {
+                    Log.Warning($"Couldn't look up parent for {bsdName}");
+                    continue;
+                }
+
+                if (!TryLookupIOKitStringProperty("IOVendor", parent, out string? ioVendor))
+                    continue;
+                if (!TryLookupIOKitStringProperty("IOModel", parent, out string? ioModel))
+                    continue;
+
+                dict[bsdName] = (ioVendor, ioModel);
+            }
+
+            //TODO? https://medium.com/@donblas/lets-bind-an-iokit-method-by-hand-fba939b54222
+            //NativeMethods.IOServiceClose(ioIterator);
+
+            return dict;
+        }
+
+        private bool TryLookupIOKitStringProperty(string key, IntPtr ioRegistryEntry,
+                                                  [NotNullWhen(true)] out string? stringValue)
+        {
+            stringValue = null;
+
+            using (var _key = new NSString(key))
+            {
+                var prop = NativeMethods.IORegistryEntryCreateCFProperty(ioRegistryEntry, _key.Handle, IntPtr.Zero, 0);
+
+                if (prop == IntPtr.Zero)
+                {
+                    Log.Warning("Couldn't look up BSD name");
+                    return false;
+                }
+
+                stringValue = Runtime.GetNSObject<NSString>(prop);
+                return true;
+            }
         }
 
         private static Dictionary<string, SCNetworkInterface> GetSystemConfigurationNetworkInterfaces()

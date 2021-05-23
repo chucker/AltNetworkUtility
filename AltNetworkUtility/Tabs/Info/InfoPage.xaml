@@ -102,6 +102,8 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
                         <Label Grid.Row="0" Grid.ColumnSpan="2" FontAttributes="Bold"
@@ -124,6 +126,12 @@
 
                             <Label Margin="-3" Text="{Binding IsUpDescription}" />
                         </StackLayout>
+
+                        <Label Grid.Row="5" HorizontalOptions="End">Vendor:</Label>
+                        <Label Grid.Row="5" Grid.Column="1" Text="{Binding Vendor}" />
+
+                        <Label Grid.Row="6" HorizontalOptions="End">Model:</Label>
+                        <Label Grid.Row="6" Grid.Column="1" Text="{Binding Model}" />
                     </Grid>
 
                     <Label FontAttributes="Bold" Margin="10">Transfer Statistics</Label>

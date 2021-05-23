@@ -25,7 +25,7 @@ namespace AltNetworkUtility.macOS
             DependencyService.Register<ISystemSoundService, MacSystemSoundService>();
 
             var style = NSWindowStyle.Closable | NSWindowStyle.Resizable | NSWindowStyle.Titled;
-            var rect = new CoreGraphics.CGRect(200, 200, 640, 388);
+            var rect = new CoreGraphics.CGRect(200, 200, 640, 430);
             MainWindow = new NSWindow(rect, style, NSBackingStore.Buffered, false)
             {
                 Title = "Alt Network Utility", // choose your own Title here

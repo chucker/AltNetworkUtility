@@ -91,6 +91,13 @@ namespace AltNetworkUtility.ViewModels
             }
         }
 
+        private string? _Model;
+        public string? Model
+        {
+            get => _Model;
+            set => SetProperty(ref _Model, value);
+        }
+
         private string? _Name;
         public string? Name
         {
@@ -135,6 +142,13 @@ namespace AltNetworkUtility.ViewModels
         {
             get => _Speed;
             set => SetProperty(ref _Speed, value);
+        }
+
+        private string? _Vendor;
+        public string? Vendor
+        {
+            get => _Vendor;
+            set => SetProperty(ref _Vendor, value);
         }
 
         public NetworkInterfaceViewModel(NetworkInterface networkInterface)
