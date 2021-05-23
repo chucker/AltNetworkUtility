@@ -117,6 +117,7 @@
     <Folder Include="Models\" />
     <Folder Include="Renderers\" />
     <Folder Include="Extensions\" />
+    <Folder Include="Services\Windows\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -135,6 +136,10 @@
     <Compile Include="Services\MacSystemSoundService.cs" />
     <Compile Include="Extensions\NSImageExtensions.cs" />
     <Compile Include="Renderers\MacOSEditorRenderer.cs" />
+    <Compile Include="Services\Windows\WindowService.cs" />
+    <Compile Include="AppDelegate.designer.cs">
+      <DependentUpon>AppDelegate.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Main.storyboard" />

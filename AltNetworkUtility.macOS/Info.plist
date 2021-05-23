@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleName</key>
-	<string>AltNetworkUtility.macOS</string>
+	<string>Alt Network Utility</string>
 	<key>CFBundleIdentifier</key>
 	<string>me.chucker.AltNetworkUtility-macOS</string>
 	<key>CFBundleShortVersionString</key>
@@ -28,5 +28,7 @@
 	<string>Main</string>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/AppIcon.appiconset</string>
+	<key>CFBundleDisplayName</key>
+	<string>Alt Network Utility</string>
 </dict>
 </plist>
