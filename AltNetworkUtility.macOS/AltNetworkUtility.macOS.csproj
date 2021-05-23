@@ -134,6 +134,7 @@
     <Compile Include="Renderers\MacOSRadioButtonRenderer.cs" />
     <Compile Include="Services\MacSystemSoundService.cs" />
     <Compile Include="Extensions\NSImageExtensions.cs" />
+    <Compile Include="Renderers\MacOSEditorRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Main.storyboard" />
