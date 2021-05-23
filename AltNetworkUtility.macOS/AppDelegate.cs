@@ -44,5 +44,8 @@ namespace AltNetworkUtility.macOS
         }
 
         public override void WillTerminate(NSNotification notification) { }
+
+        public override bool ApplicationShouldTerminateAfterLastWindowClosed(NSApplication sender)
+            => true;
     }
 }
