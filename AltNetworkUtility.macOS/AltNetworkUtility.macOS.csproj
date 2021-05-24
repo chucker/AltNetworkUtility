@@ -118,6 +118,7 @@
     <Folder Include="Renderers\" />
     <Folder Include="Extensions\" />
     <Folder Include="Services\Windows\" />
+    <Folder Include="Renderers\Internals\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -140,6 +141,16 @@
     <Compile Include="AppDelegate.designer.cs">
       <DependentUpon>AppDelegate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Renderers\MacListViewRenderer.cs" />
+    <Compile Include="Renderers\Internals\ListViewDataSource.cs" />
+    <Compile Include="Renderers\Internals\CellNSView.cs" />
+    <Compile Include="Renderers\Internals\NSTableViewCellStyle.cs" />
+    <Compile Include="Renderers\Internals\NSMenuExtensions.cs" />
+    <Compile Include="Renderers\Internals\NSTextFieldExtensions.cs" />
+    <Compile Include="Renderers\Internals\VerticallCenteredTextFieldCell.cs" />
+    <Compile Include="Renderers\Internals\CustomNSTableHeaderView.cs" />
+    <Compile Include="Renderers\Internals\DisposeHelpers.cs" />
+    <Compile Include="Renderers\Internals\NSTableViewExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Main.storyboard" />
