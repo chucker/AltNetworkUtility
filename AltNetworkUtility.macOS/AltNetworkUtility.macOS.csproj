@@ -137,13 +137,10 @@
   <ItemGroup>
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="Nullable\MemberNotNullWhenAttribute.cs" />
-    <Compile Include="Nullable\MemberNotNullAttribute.cs" />
     <Compile Include="Services\MacNetworkInterfacesService.cs" />
     <Compile Include="Services\MacIconFontProvider.cs" />
     <Compile Include="Models\SCNetworkInterface.cs" />
@@ -155,6 +152,17 @@
     <Compile Include="AppDelegate.designer.cs">
       <DependentUpon>AppDelegate.cs</DependentUpon>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+      <PackageReference Include="CliWrap" Version="3.3.2" />
+      <PackageReference Include="CollectionViewSource.Forms" Version="1.0.0.2" />
+      <PackageReference Include="LambdaConverters.XF" Version="4.0.0-alpha2" />
+      <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="5.0.0" />
+      <PackageReference Include="Microcharts.Forms" Version="1.0.0-preview1" />
+      <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.0.1" />
+      <PackageReference Include="Serilog" Version="2.10.0" />
+      <PackageReference Include="System.Reactive" Version="5.0.0" />
+      <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Main.storyboard" />
