@@ -7,6 +7,8 @@ using CoreGraphics;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.MacOS;
 
+#nullable enable
+
 namespace AltNetworkUtility.macOS.Extensions
 {
     public static class NSImageExtensions
@@ -16,7 +18,7 @@ namespace AltNetworkUtility.macOS.Extensions
             if (!image.Template)
                 return image;
 
-            var copiedImage = image.Copy() as NSImage;
+            var copiedImage = (NSImage)image.Copy();
             copiedImage.LockFocus();
 
             var tintColor = color.ToNSColor();
@@ -31,12 +33,17 @@ namespace AltNetworkUtility.macOS.Extensions
             return copiedImage;
         }
 
-        public static NSImage WithChangedSize(this NSImage image, CGSize desiredSize)
+        public static NSImage? WithChangedSize(this NSImage? image, CGSize desiredSize)
         {
             // XamForms has ResizeTo, but it's not proportional (as of 5.0.0)
 
             if (image == null)
                 return null;
+
+            var currentContext = NSGraphicsContext.CurrentContext;
+
+            if (currentContext == null)
+                return image;
 
             image.ResizingMode = NSImageResizingMode.Stretch;
 
@@ -50,7 +57,7 @@ namespace AltNetworkUtility.macOS.Extensions
 
             resizedImage.LockFocus();
             image.Size = newSize;
-            NSGraphicsContext.CurrentContext.ImageInterpolation = NSImageInterpolation.High;
+            currentContext.ImageInterpolation = NSImageInterpolation.High;
             image.Draw(CGPoint.Empty, new CGRect(0, 0, newSize.Width, newSize.Height),
                 NSCompositingOperation.Copy, 1.0f);
             resizedImage.UnlockFocus();
