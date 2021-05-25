@@ -1,5 +1,11 @@
-﻿using AltNetworkUtility.macOS.Services;
+﻿using System;
+using System.Linq;
+using System.Reflection;
+
+using AltNetworkUtility.macOS.Services;
+using AltNetworkUtility.macOS.Services.Windows;
 using AltNetworkUtility.Services;
+using AltNetworkUtility.Services.IconFont;
 
 using AppKit;
 
@@ -13,22 +19,32 @@ using Xamarin.Forms.Platform.MacOS;
 namespace AltNetworkUtility.macOS
 {
     [Register("AppDelegate")]
-    public class AppDelegate : FormsApplicationDelegate
+    public partial class AppDelegate : FormsApplicationDelegate
     {
-        public override NSWindow MainWindow { get; }
+        private NSWindow? _MainWindow;
+        public override NSWindow? MainWindow => _MainWindow;
+
+        public static string AppName => Assembly.GetExecutingAssembly().GetName().Name;
 
         public AppDelegate()
         {
-            DependencyService.Register<INetworkInterfacesService, MacNetworkInterfacesService>();
             DependencyService.Register<IIconFontProvider, MacIconFontProvider>();
+            DependencyService.Register<INetworkInterfacesService, MacNetworkInterfacesService>();
+            DependencyService.Register<ISystemSoundService, MacSystemSoundService>();
 
-            var style = NSWindowStyle.Closable | NSWindowStyle.Resizable | NSWindowStyle.Titled;
-            var rect = new CoreGraphics.CGRect(200, 200, 640, 388);
-            MainWindow = new NSWindow(rect, style, NSBackingStore.Buffered, false)
+            // register all WindowService subtypes
+            foreach (var type in Assembly.GetExecutingAssembly().GetTypes()
+                             .Where(t => typeof(WindowService).IsAssignableFrom(t))
+                             .Distinct())
             {
-                Title = "Alt Network Utility", // choose your own Title here
-                TitleVisibility = NSWindowTitleVisibility.Visible
-            };
+                if (type == typeof(WindowService))
+                    continue;
+
+                var method = typeof(DependencyService).GetMethod("Register", 1,
+                                                                 BindingFlags.Static | BindingFlags.Public, null,
+                                                                 CallingConventions.Standard, new Type[] { }, null);
+                method.MakeGenericMethod(type).Invoke(null, new object[] { });
+            }
         }
 
 
@@ -36,11 +52,21 @@ namespace AltNetworkUtility.macOS
         {
             Forms.Init();
 
+            _MainWindow = DependencyService.Get<MainWindowService>().OpenWindow();
+
             LoadApplication(new App());
 
             base.DidFinishLaunching(notification);
         }
 
         public override void WillTerminate(NSNotification notification) { }
+
+        public override bool ApplicationShouldTerminateAfterLastWindowClosed(NSApplication sender)
+            => true;
+
+        partial void ShowAboutBox(NSObject sender)
+        {
+            DependencyService.Get<AboutBoxWindowService>().OpenWindow();
+        }
     }
 }

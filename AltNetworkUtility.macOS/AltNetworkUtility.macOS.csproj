@@ -82,6 +82,19 @@
     <Reference Include="System.Reactive">
       <HintPath>..\packages\System.Reactive.5.0.0\lib\netstandard2.0\System.Reactive.dll</HintPath>
     </Reference>
+    <Reference Include="LambdaConverters.XF">
+      <HintPath>..\packages\LambdaConverters.XF.4.0.0-alpha2\lib\netstandard2.0\LambdaConverters.XF.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Essentials">
+      <HintPath>..\packages\Xamarin.Essentials.1.6.1\lib\xamarinmac20\Xamarin.Essentials.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK" />
+    <Reference Include="System.Numerics.Vectors" />
+    <Reference Include="CollectionViewSource.Forms">
+      <HintPath>..\packages\CollectionViewSource.Forms.1.0.0.2\lib\netstandard2.0\CollectionViewSource.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.5.0.0\lib\netstandard2.1\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     <Reference Include="SkiaSharp">
       <HintPath>..\packages\SkiaSharp.2.80.2\lib\xamarinmac2.0\SkiaSharp.dll</HintPath>
     </Reference>
@@ -117,6 +130,8 @@
     <Folder Include="Services\" />
     <Folder Include="Models\" />
     <Folder Include="Renderers\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Services\Windows\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -132,6 +147,13 @@
     <Compile Include="Services\MacIconFontProvider.cs" />
     <Compile Include="Models\SCNetworkInterface.cs" />
     <Compile Include="Renderers\MacOSRadioButtonRenderer.cs" />
+    <Compile Include="Services\MacSystemSoundService.cs" />
+    <Compile Include="Extensions\NSImageExtensions.cs" />
+    <Compile Include="Renderers\MacOSEditorRenderer.cs" />
+    <Compile Include="Services\Windows\WindowService.cs" />
+    <Compile Include="AppDelegate.designer.cs">
+      <DependentUpon>AppDelegate.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Main.storyboard" />
@@ -151,4 +173,5 @@
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.5.0.0.2012\build\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.5.0.0.2012\build\Xamarin.Forms.targets')" />
   <Import Project="..\packages\SkiaSharp.2.80.2\build\xamarinmac2.0\SkiaSharp.targets" Condition="Exists('..\packages\SkiaSharp.2.80.2\build\xamarinmac2.0\SkiaSharp.targets')" />
+</Project>
 </Project>

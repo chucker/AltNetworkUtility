@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:AltNetworkUtility.Converters"
+    xmlns:local="clr-namespace:AltNetworkUtility.Tabs.Ping"
+    x:Class="AltNetworkUtility.Tabs.Ping.PingPage"
+    Title="Ping">
+
+    <ContentPage.BindingContext>
+        <local:PingPageViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <Grid Padding="20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Label Grid.Row="0">Enter the network address to ping.</Label>
+
+            <StackLayout Grid.Row="1" Orientation="Horizontal">
+                <Editor WidthRequest="170" Text="{Binding Host}"></Editor>
+                <Label FontSize="11">(ex. 10.0.2.1 or www.example.com)</Label>
+            </StackLayout>
+
+            <StackLayout Grid.Row="2" Orientation="Vertical" Margin="0,10"
+                         RadioButtonGroup.GroupName="CountMode"
+                         RadioButtonGroup.SelectedValue="{Binding CountMode}">
+                <RadioButton Value="Unlimited" Content="Send an unlimited number of pings" />
+
+                <StackLayout Orientation="Horizontal">
+                    <RadioButton Value="Specific" Content="Send only" />
+                    <Editor WidthRequest="70" Text="{Binding SpecificCount}" />
+                    <Label VerticalOptions="Center">pings</Label>
+                </StackLayout>
+            </StackLayout>
+
+            <StackLayout Grid.Row="3" Orientation="Horizontal">
+                <CheckBox IsChecked="{Binding UseSpecificInterface}" />
+
+                <Label Text="Ping using this interface:" VerticalOptions="Center">
+                    <Label.GestureRecognizers>
+                        <ClickGestureRecognizer Command="{Binding ToggleUseSpecificInterfaceCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+
+                <Picker IsEnabled="{Binding UseSpecificInterface}" SelectedItem="{Binding SpecificInterface}"
+                        ItemsSource="{Binding AvailableNetworkInterfaces}"
+                        ItemDisplayBinding="{Binding DisplayName}" />
+            </StackLayout>
+
+            <StackLayout Grid.Row="4" Grid.Column="1" Orientation="Horizontal" VerticalOptions="End">
+                <Button Text="Run" Padding="2" IsVisible="{Binding DebufferedCommandViewModel.IsNotBusy}"
+                        Command="{Binding DebufferedCommandViewModel.RunCommand}" />
+
+                <ActivityIndicator IsRunning="{Binding DebufferedCommandViewModel.IsBusy}"
+                                   IsVisible="{Binding DebufferedCommandViewModel.IsBusy}"
+                                   HeightRequest="16" WidthRequest="16" />
+
+                <Button Text="Cancel" Padding="2"
+                        IsVisible="{Binding DebufferedCommandViewModel.IsBusy}"
+                        Command="{Binding DebufferedCommandViewModel.CancelCommand}" />
+            </StackLayout>
+
+            <StackLayout Grid.Row="4" Orientation="Horizontal"
+                         RadioButtonGroup.GroupName="AudibleMode"
+                         RadioButtonGroup.SelectedValue="{Binding AudibleMode}">
+                <Label VerticalOptions="Center">Make sound:</Label>
+                <RadioButton Value="OnSuccess" Content="On success" />
+                <RadioButton Value="OnFailure" Content="On failure" />
+                <RadioButton Value="Never" IsChecked="True" Content="Never" />
+            </StackLayout>
+
+            <Editor Grid.Row="5" Grid.ColumnSpan="2" StyleClass="monospace"
+                    Text="{Binding DebufferedCommandViewModel.Output}" />
+
+            <StackLayout Grid.Row="6" Grid.ColumnSpan="2" Orientation="Horizontal">
+                <Label VerticalOptions="Center">Command:</Label>
+
+                <Entry WidthRequest="300" Text="{Binding DebufferedCommandViewModel.CommandLine}" />
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

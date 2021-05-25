@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Linq;
+using System.Net;
 using System.Net.NetworkInformation;
 using System.Reactive.Linq;
 
 using AltNetworkUtility.Models;
 using AltNetworkUtility.Services;
-using AltNetworkUtility.Tabs;
+using AltNetworkUtility.Services.IconFont;
+using AltNetworkUtility.Tabs.Info;
 
 using Xamarin.Forms;
 
@@ -12,6 +15,8 @@ namespace AltNetworkUtility.ViewModels
 {
     public class NetworkInterfaceViewModel : ViewModelBase
     {
+        readonly Serilog.ILogger Log = Serilog.Log.ForContext<NetworkInterfaceViewModel>();
+
         INetworkInterfacesService NetworkInterfacesService;
 
         public string DisplayName
@@ -31,19 +36,49 @@ namespace AltNetworkUtility.ViewModels
             }
         }
 
-        private string? _Icon;
-        public string? Icon
+        public IconSpec Icon
         {
-            get => _Icon;
-            set => SetProperty(ref _Icon, value);
+            get
+            {
+                string iconName = NetworkInterfaceType switch
+                {
+                    NetworkInterfaceType.Ethernet => "network",
+                    NetworkInterfaceType.Wireless80211 => "wifi",
+                    _ => "questionmark.diamond"
+                };
+
+                return new IconSpec(iconName)
+                {
+                    Size = new Size(24, 24)
+                };
+            }
+        }
+
+        private IPAddress[]? _IPAddresses;
+        public IPAddress[]? IPAddresses
+        {
+            get => _IPAddresses;
+            set => SetProperty(ref _IPAddresses, value);
         }
 
         private bool _IsUp = false;
         public bool IsUp
         {
             get => _IsUp;
-            set => SetProperty(ref _IsUp, value);
+            set
+            {
+                SetProperty(ref _IsUp, value);
+
+                OnPropertyChanged(nameof(IsUpDescription));
+            }
         }
+
+        public IconSpec IsUpImage => new("circle.fill")
+        {
+            Color = IsUp ? Color.FromRgb(0x34, 0xC8, 0x4A) : Color.FromRgb(0xFA, 0x4B, 0x49),
+            Size = new Size(12, 12)
+        };
+        public string IsUpDescription => IsUp ? "Connected" : "Not Connected";
 
         private string? _LocalizedDisplayName;
         public string? LocalizedDisplayName
@@ -54,6 +89,13 @@ namespace AltNetworkUtility.ViewModels
                 SetProperty(ref _LocalizedDisplayName, value);
                 OnPropertyChanged(nameof(DisplayName));
             }
+        }
+
+        private string? _Model;
+        public string? Model
+        {
+            get => _Model;
+            set => SetProperty(ref _Model, value);
         }
 
         private string? _Name;
@@ -67,11 +109,16 @@ namespace AltNetworkUtility.ViewModels
             }
         }
 
-        private OperationalStatus _OperationalStatus;
-        public OperationalStatus OperationalStatus
+        private NetworkInterfaceType _NetworkInterfaceType;
+        public NetworkInterfaceType NetworkInterfaceType
         {
-            get => _OperationalStatus;
-            set => SetProperty(ref _OperationalStatus, value);
+            get => _NetworkInterfaceType;
+            set
+            {
+                SetProperty(ref _NetworkInterfaceType, value);
+
+                OnPropertyChanged(nameof(Icon));
+            }
         }
 
         public InfoPageViewModel? ParentVM { get; internal set; }
@@ -97,20 +144,23 @@ namespace AltNetworkUtility.ViewModels
             set => SetProperty(ref _Speed, value);
         }
 
+        private string? _Vendor;
+        public string? Vendor
+        {
+            get => _Vendor;
+            set => SetProperty(ref _Vendor, value);
+        }
+
         public NetworkInterfaceViewModel(NetworkInterface networkInterface)
         {
-            Icon = networkInterface.NetworkInterfaceType switch
-            {
-                NetworkInterfaceType.Ethernet => "network",
-                NetworkInterfaceType.Wireless80211 => "wifi",
-                _ => "questionmark.diamond"
-            };
+            Log.Debug($"{networkInterface.Name}: " +
+                      $"{networkInterface.NetworkInterfaceType}, {networkInterface.OperationalStatus}");
 
-            IsUp = networkInterface.OperationalStatus == OperationalStatus.Up;
+            IPAddresses = networkInterface.GetIPProperties().UnicastAddresses.Select(ua => ua.Address).ToArray();
 
             Name = networkInterface.Name;
 
-            OperationalStatus = networkInterface.OperationalStatus;
+            NetworkInterfaceType = networkInterface.NetworkInterfaceType;
 
             PhysicalAddress = BitConverter.ToString(networkInterface.GetPhysicalAddress().GetAddressBytes()).Replace("-", ":");
 
