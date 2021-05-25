@@ -21,6 +21,7 @@ namespace AltNetworkUtility.macOS.Services
     {
         readonly Serilog.ILogger Log = Serilog.Log.ForContext<MacNetworkInterfacesService>();
 
+#pragma warning disable CS0649
         private class NativeMethods
         {
             [DllImport("/System/Library/Frameworks/SystemConfiguration.framework/SystemConfiguration")]
@@ -147,6 +148,7 @@ namespace AltNetworkUtility.macOS.Services
                 public IntPtr ifi_lastchange;        /* time of last administrative change */
             };
         }
+#pragma warning restore CS0649
 
         private List<NetworkInterfaceViewModel>? _Interfaces;
 
