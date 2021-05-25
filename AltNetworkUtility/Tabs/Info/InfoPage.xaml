@@ -5,6 +5,7 @@
     xmlns:converters="clr-namespace:AltNetworkUtility.Converters"
     xmlns:iconfontservices="clr-namespace:AltNetworkUtility.Services.IconFont"
     xmlns:local="clr-namespace:AltNetworkUtility.Tabs.Info"
+    xmlns:microcharts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
     xmlns:rotorsoft="clr-namespace:Rotorsoft.Forms;assembly=CollectionViewSource.Forms"
     xmlns:viewmodels="clr-namespace:AltNetworkUtility.ViewModels"
     x:Class="AltNetworkUtility.Tabs.Info.InfoPage" x:Name="_page"
@@ -23,6 +24,8 @@
                 </x:Array>
             </rotorsoft:CollectionViewSource.SortDescriptions>
         </rotorsoft:CollectionViewSource>
+
+        <converters:RecentValuesToLineChartConverter x:Key="RecentValuesToLineChartConverter" />
     </ContentPage.Resources>
 
     <ContentPage.BindingContext>
@@ -136,12 +139,13 @@
 
                     <Label FontAttributes="Bold" Margin="10">Transfer Statistics</Label>
 
-                    <Frame HasShadow="False" Margin="10,0,0,0" Padding="0">
+                    <Frame HasShadow="False" Margin="10,0,0,0" Padding="0" StyleClass="small" >
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="120" />
-                                <ColumnDefinition />
-                                <ColumnDefinition />
+                                <ColumnDefinition Width="60" />
+                                <ColumnDefinition Width="90" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
                             <Grid.RowDefinitions>
@@ -159,6 +163,12 @@
                                    Text="{Binding Statistics.SentPackets.MostRecentValue_SI}" />
                             <Label Grid.Row="0" Grid.Column="2"
                                    Text="{Binding Statistics.SentPackets.DeltaPerSecond_SI, StringFormat='{0}/sec'}" />
+
+                            <Frame Margin="10,0,0,0" Padding="0" HasShadow="False" Grid.Row="0" Grid.RowSpan="7" Grid.Column="3">
+                                <microcharts:ChartView Chart="{Binding Statistics,
+                                    Converter={StaticResource RecentValuesToLineChartConverter}}" />
+                            </Frame>
+
                             <Label Grid.Row="1" HorizontalOptions="End">Sent Bytes:</Label>
                             <Label Grid.Row="1" Grid.Column="1"
                                    Text="{Binding Statistics.SentBytes.MostRecentValue_SI, StringFormat='{0}B'}" />
