@@ -8,7 +8,7 @@ using CoreGraphics;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.MacOS;
 
-namespace AltNetworkUtility.macOS.Renderers.Internals
+namespace AltNetworkUtility.macOS.Renderers.MacListView
 {
 	internal class CellNSView : NSView, INativeElementView
 	{
@@ -121,6 +121,8 @@ namespace AltNetworkUtility.macOS.Renderers.Internals
 		{
 			if (_cell == null)
 				return;
+
+			Layer.BackgroundColor = Color.Transparent.ToCGColor();
 
 			//var bgColor = ColorExtensions.ControlBackgroundColor;
 			//var element = _cell.RealParent as VisualElement;

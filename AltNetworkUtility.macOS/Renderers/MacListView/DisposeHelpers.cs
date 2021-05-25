@@ -3,7 +3,7 @@
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.MacOS;
 
-namespace AltNetworkUtility.macOS.Renderers.Internals
+namespace AltNetworkUtility.macOS.Renderers.MacListView
 {
 	internal static class DisposeHelpers
 	{

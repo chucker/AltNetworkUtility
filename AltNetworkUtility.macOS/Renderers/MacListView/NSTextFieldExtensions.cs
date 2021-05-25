@@ -4,7 +4,7 @@ using AppKit;
 
 using CoreGraphics;
 
-namespace AltNetworkUtility.macOS.Renderers.Internals
+namespace AltNetworkUtility.macOS.Renderers.MacListView
 {
 	internal static class NSTextFieldExtensions
 	{

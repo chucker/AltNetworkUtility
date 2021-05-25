@@ -1,4 +1,4 @@
-﻿namespace AltNetworkUtility.macOS.Renderers.Internals
+﻿namespace AltNetworkUtility.macOS.Renderers.MacListView
 {
     internal enum NSTableViewCellStyle
 	{

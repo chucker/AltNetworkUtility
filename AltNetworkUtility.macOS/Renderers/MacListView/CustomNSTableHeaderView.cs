@@ -7,7 +7,7 @@ using Foundation;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.MacOS;
 
-namespace AltNetworkUtility.macOS.Renderers.Internals
+namespace AltNetworkUtility.macOS.Renderers.MacListView
 {
     sealed class CustomNSTableHeaderView : NSTableHeaderView
 	{

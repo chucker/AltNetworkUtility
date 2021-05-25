@@ -5,7 +5,7 @@ using AppKit;
 
 using Xamarin.Forms;
 
-namespace AltNetworkUtility.macOS.Renderers.Internals
+namespace AltNetworkUtility.macOS.Renderers.MacListView
 {
 	internal static class NSMenuExtensions
 	{

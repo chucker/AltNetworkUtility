@@ -1,6 +1,6 @@
 ﻿using AppKit;
 
-namespace AltNetworkUtility.macOS.Renderers.Internals
+namespace AltNetworkUtility.macOS.Renderers.MacListView
 {
     internal static class NSTableViewExtensions
 	{
@@ -15,7 +15,7 @@ namespace AltNetworkUtility.macOS.Renderers.Internals
 			//this is needed .. can we go around it ?
 			self.AddColumn(new NSTableColumn("1"));
 			//this line hides the header by default
-			//self.HeaderView = new CustomNSTableHeaderView();
+			self.HeaderView = new CustomNSTableHeaderView();
 			return self;
 		}
 	}

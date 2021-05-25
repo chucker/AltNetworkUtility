@@ -118,7 +118,7 @@
     <Folder Include="Renderers\" />
     <Folder Include="Extensions\" />
     <Folder Include="Services\Windows\" />
-    <Folder Include="Renderers\Internals\" />
+    <Folder Include="Renderers\MacListView\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -141,16 +141,19 @@
     <Compile Include="AppDelegate.designer.cs">
       <DependentUpon>AppDelegate.cs</DependentUpon>
     </Compile>
-    <Compile Include="Renderers\MacListViewRenderer.cs" />
-    <Compile Include="Renderers\Internals\ListViewDataSource.cs" />
-    <Compile Include="Renderers\Internals\CellNSView.cs" />
-    <Compile Include="Renderers\Internals\NSTableViewCellStyle.cs" />
-    <Compile Include="Renderers\Internals\NSMenuExtensions.cs" />
-    <Compile Include="Renderers\Internals\NSTextFieldExtensions.cs" />
-    <Compile Include="Renderers\Internals\VerticallCenteredTextFieldCell.cs" />
-    <Compile Include="Renderers\Internals\CustomNSTableHeaderView.cs" />
-    <Compile Include="Renderers\Internals\DisposeHelpers.cs" />
-    <Compile Include="Renderers\Internals\NSTableViewExtensions.cs" />
+    <Compile Include="Renderers\MacListView\CellNSView.cs" />
+    <Compile Include="Renderers\MacListView\CustomNSTableHeaderView.cs" />
+    <Compile Include="Renderers\MacListView\DisposeHelpers.cs" />
+    <Compile Include="Renderers\MacListView\ListViewDataSource.cs" />
+    <Compile Include="Renderers\MacListView\NSMenuExtensions.cs" />
+    <Compile Include="Renderers\MacListView\NSTableViewCellStyle.cs" />
+    <Compile Include="Renderers\MacListView\NSTableViewExtensions.cs" />
+    <Compile Include="Renderers\MacListView\NSTextFieldExtensions.cs" />
+    <Compile Include="Renderers\MacListView\VerticallCenteredTextFieldCell.cs" />
+    <Compile Include="Renderers\MacListView\MacListViewRenderer.cs" />
+    <Compile Include="Renderers\MacListView\CellRenderer.cs" />
+    <Compile Include="Renderers\MacListView\ViewCellRenderer.cs" />
+    <Compile Include="Renderers\MacListView\ViewCellNSView.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Main.storyboard" />

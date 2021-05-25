@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 
-using AltNetworkUtility.macOS.Renderers.Internals;
-
 using AppKit;
+
 using Foundation;
 
 using Xamarin.Forms;
@@ -15,10 +13,10 @@ using Xamarin.Forms.Platform.MacOS;
 
 #nullable enable
 
-[assembly: ExportRenderer(typeof(ListView), typeof(AltNetworkUtility.macOS.Renderers.ListViewRenderer))]
-namespace AltNetworkUtility.macOS.Renderers
+[assembly: ExportRenderer(typeof(ListView), typeof(AltNetworkUtility.macOS.Renderers.MacListView.ListViewRenderer))]
+namespace AltNetworkUtility.macOS.Renderers.MacListView
 {
-	public class ListViewRenderer : ViewRenderer<ListView, NSView>
+    public class ListViewRenderer : ViewRenderer<ListView, NSView>
 	{
 		bool _disposed;
 		NSTableView? _table;
@@ -136,7 +134,7 @@ namespace AltNetworkUtility.macOS.Renderers
 				return;
 
 			var backgroundImage = this.GetBackgroundImage(brush);
-			_table.BackgroundColor = backgroundImage != null ? NSColor.FromPatternImage(backgroundImage) : NSColor.Clear;
+			_table.BackgroundColor = backgroundImage != null ? NSColor.FromPatternImage(backgroundImage) : NSColor.White;
 		}
 
 		protected override void OnElementChanged(ElementChangedEventArgs<ListView> e)
