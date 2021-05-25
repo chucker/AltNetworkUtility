@@ -14,6 +14,8 @@ using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.Platform.MacOS;
 
+#nullable enable
+
 [assembly: ExportRenderer(typeof(Editor), typeof(MacOSEditorRenderer))]
 namespace AltNetworkUtility.macOS.Renderers
 {
@@ -25,7 +27,7 @@ namespace AltNetworkUtility.macOS.Renderers
         bool _disposed;
         CGSize _previousSize;
 
-        NSTextView _nativeEditor;
+        NSTextView? _nativeEditor;
 
         IEditorController ElementController => Element;
 
@@ -116,7 +118,7 @@ namespace AltNetworkUtility.macOS.Renderers
 
         protected override void SetBackgroundColor(Color color)
         {
-            if (Control == null)
+            if (Control == null || _nativeEditor == null)
                 return;
 
             Control.BackgroundColor = color == Color.Default ? NSColor.Clear : color.ToNSColor();
@@ -151,7 +153,7 @@ namespace AltNetworkUtility.macOS.Renderers
             if (disposing && !_disposed)
             {
                 _disposed = true;
-                if (Control != null)
+                if (_nativeEditor != null)
                 {
                     _nativeEditor.TextDidChange -= HandleChanged;
                     _nativeEditor.TextDidBeginEditing -= OnEditingBegan;
@@ -163,6 +165,9 @@ namespace AltNetworkUtility.macOS.Renderers
 
         void HandleChanged(object sender, EventArgs e)
         {
+            if (_nativeEditor == null)
+                return;
+
             UpdateMaxLength();
 
             ElementController.SetValueFromRenderer(Editor.TextProperty, _nativeEditor.Value);
@@ -181,11 +186,17 @@ namespace AltNetworkUtility.macOS.Renderers
 
         void UpdateEditable()
         {
+            if (_nativeEditor == null)
+                return;
+
             _nativeEditor.Editable = Element.IsEnabled;
         }
 
         void UpdateFont()
         {
+            if (_nativeEditor == null)
+                return;
+
             // the ToNSFont() overload we want is internal
             // https://github.com/xamarin/Xamarin.Forms/blob/caab66bcf9614aca0c0805d560a34e176d196e17/Xamarin.Forms.Platform.MacOS/Extensions/FontExtensions.cs#L13
             const BindingFlags bindingFlags = BindingFlags.NonPublic | BindingFlags.Static;
@@ -198,6 +209,9 @@ namespace AltNetworkUtility.macOS.Renderers
 
         void UpdateText()
         {
+            if (_nativeEditor == null)
+                return;
+
             var text = Element.UpdateFormsText(Element.Text, Element.TextTransform);
             if (_nativeEditor.String != text)
                 _nativeEditor.Value = text;
@@ -205,6 +219,9 @@ namespace AltNetworkUtility.macOS.Renderers
 
         void UpdateTextColor()
         {
+            if (_nativeEditor == null)
+                return;
+
             var textColor = Element.TextColor;
 
             _nativeEditor.SetTextColor(textColor.IsDefault ? NSColor.Black : textColor.ToNSColor(),
@@ -213,7 +230,10 @@ namespace AltNetworkUtility.macOS.Renderers
 
         void UpdateMaxLength()
         {
-            var currentControlText = _nativeEditor?.String;
+            if (_nativeEditor == null)
+                return;
+
+            var currentControlText = _nativeEditor.String;
 
             if (currentControlText.Length > Element?.MaxLength)
                 _nativeEditor.Value = currentControlText.Substring(0, Element.MaxLength);
@@ -221,6 +241,9 @@ namespace AltNetworkUtility.macOS.Renderers
 
         void UpdateIsReadOnly()
         {
+            if (_nativeEditor == null)
+                return;
+
             _nativeEditor.Editable = !Element.IsReadOnly;
             if (Element.IsReadOnly && Control.Window?.FirstResponder == _nativeEditor)
                 Control.Window?.MakeFirstResponder(null);

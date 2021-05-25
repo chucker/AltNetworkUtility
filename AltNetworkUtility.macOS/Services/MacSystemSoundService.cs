@@ -6,6 +6,8 @@ using AudioToolbox;
 
 using Foundation;
 
+#nullable enable
+
 namespace AltNetworkUtility.macOS.Services
 {
     public class MacSystemSoundService : ISystemSoundService

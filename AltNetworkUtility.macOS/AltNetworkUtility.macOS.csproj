@@ -150,7 +150,7 @@
     <Compile Include="Renderers\MacOSRadioButtonRenderer.cs" />
     <Compile Include="Services\MacSystemSoundService.cs" />
     <Compile Include="Extensions\NSImageExtensions.cs" />
-    <Compile Include="Renderers\MacOSEditorRenderer.cs" />
+    <Compile Include="Renderers\MacEditorRenderer.cs" />
     <Compile Include="Services\Windows\WindowService.cs" />
     <Compile Include="AppDelegate.designer.cs">
       <DependentUpon>AppDelegate.cs</DependentUpon>
