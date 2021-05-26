@@ -16,7 +16,7 @@ namespace AltNetworkUtility.Tabs.Info
 {
     public class InfoPageViewModel : ViewModelBase
     {
-        public ObservableCollection<NetworkInterfaceViewModel> AvailableNetworkInterfaces { get; } = new();
+        public ObservableCollection<NetworkInterfaceViewModel> AvailableNetworkInterfaces { get; }
 
         private Predicate<object> _NetworkInterfaceFilter;
         public Predicate<object> NetworkInterfaceFilter => _NetworkInterfaceFilter;
@@ -93,31 +93,26 @@ namespace AltNetworkUtility.Tabs.Info
                 };
 
                 // Mono considers these "Ethernet"
-                bool filterName = networkInterface.Name!.StartsWith("p2p") ||
-                                  networkInterface.Name.StartsWith("awdl") ||
-                                  networkInterface.Name.StartsWith("llw");
+                bool filterName = networkInterface.BsdName!.StartsWith("p2p") ||
+                                  networkInterface.BsdName.StartsWith("awdl") ||
+                                  networkInterface.BsdName.StartsWith("llw");
 
                 return shouldShowType && !filterName;
             };
 
             ToggleShowAllNetworkInterfacesCommand = new RelayCommand(() =>
                 ShowAllNetworkInterfaces = !ShowAllNetworkInterfaces);
+
+            var repo = DependencyService.Get<Repositories.NetworkInterfaceRepository>();
+            AvailableNetworkInterfaces = repo.AsObservable;
         }
 
         public void Init(ICollectionView? networkInterfacesView)
         {
             NetworkInterfacesView = networkInterfacesView;
 
-            var svc = DependencyService.Get<INetworkInterfacesService>();
-
-            var interfaces = svc.GetAvailableInterfaces();
-
-            foreach (var item in interfaces)
-            {
-                AvailableNetworkInterfaces.Add(item);
-
+            foreach (var item in AvailableNetworkInterfaces)
                 item.ParentVM = this;
-            }
         }
     }
 }

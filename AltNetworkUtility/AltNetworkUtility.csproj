@@ -37,6 +37,7 @@
     <Folder Include="Tabs\Netstat\" />
     <Folder Include="Tabs\Ping\" />
     <Folder Include="Services\IconFont\" />
+    <Folder Include="Repositories\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Tabs\Info\" />
@@ -44,5 +45,6 @@
     <None Remove="Tabs\Ping\" />
     <None Remove="Services\IconFont\" />
     <Folder Include="Converters\" />
+    <None Remove="Repositories\" />
   </ItemGroup>
 </Project>

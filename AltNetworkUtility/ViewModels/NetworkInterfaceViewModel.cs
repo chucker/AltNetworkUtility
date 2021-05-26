@@ -16,21 +16,22 @@ namespace AltNetworkUtility.ViewModels
     public class NetworkInterfaceViewModel : ViewModelBase
     {
         readonly Serilog.ILogger Log = Serilog.Log.ForContext<NetworkInterfaceViewModel>();
+        readonly INetworkInterfacesService NetworkInterfacesService;
 
-        INetworkInterfacesService NetworkInterfacesService;
+        public string BsdName { get; }
 
         public string DisplayName
         {
             get
             {
-                if (LocalizedDisplayName != null && Name != null)
-                    return $"{LocalizedDisplayName} ({Name})";
+                if (LocalizedDisplayName != null && BsdName != null)
+                    return $"{LocalizedDisplayName} ({BsdName})";
 
                 if (LocalizedDisplayName != null)
                     return LocalizedDisplayName;
 
-                if (Name != null)
-                    return Name;
+                if (BsdName != null)
+                    return BsdName;
 
                 return "(unknown)";
             }
@@ -98,17 +99,6 @@ namespace AltNetworkUtility.ViewModels
             set => SetProperty(ref _Model, value);
         }
 
-        private string? _Name;
-        public string? Name
-        {
-            get => _Name;
-            set
-            {
-                SetProperty(ref _Name, value);
-                OnPropertyChanged(nameof(DisplayName));
-            }
-        }
-
         private NetworkInterfaceType _NetworkInterfaceType;
         public NetworkInterfaceType NetworkInterfaceType
         {
@@ -151,6 +141,11 @@ namespace AltNetworkUtility.ViewModels
             set => SetProperty(ref _Vendor, value);
         }
 
+        public NetworkInterfaceViewModel(string bsdName)
+        {
+            BsdName = bsdName;
+        }
+
         public NetworkInterfaceViewModel(NetworkInterface networkInterface)
         {
             Log.Debug($"{networkInterface.Name}: " +
@@ -158,7 +153,7 @@ namespace AltNetworkUtility.ViewModels
 
             IPAddresses = networkInterface.GetIPProperties().UnicastAddresses.Select(ua => ua.Address).ToArray();
 
-            Name = networkInterface.Name;
+            BsdName = networkInterface.Name;
 
             NetworkInterfaceType = networkInterface.NetworkInterfaceType;
 

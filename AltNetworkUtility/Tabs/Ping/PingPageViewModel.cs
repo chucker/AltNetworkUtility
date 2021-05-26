@@ -31,7 +31,7 @@ namespace AltNetworkUtility.Tabs.Ping
 
         readonly Serilog.ILogger Log = Serilog.Log.ForContext<PingPageViewModel>();
 
-        public ObservableCollection<NetworkInterfaceViewModel> AvailableNetworkInterfaces { get; } = new();
+        public ObservableCollection<NetworkInterfaceViewModel> AvailableNetworkInterfaces { get; }
 
         private object _AudibleMode = PingAudibleMode.Never;
         public object AudibleMode
@@ -164,8 +164,8 @@ namespace AltNetworkUtility.Tabs.Ping
             {
                 SetProperty(ref _SpecificInterface, value);
 
-                if (value?.Name != null)
-                    Preferences.Set(nameof(SpecificInterface), value.Name);
+                if (value?.BsdName != null)
+                    Preferences.Set(nameof(SpecificInterface), value.BsdName);
                 else
                     Preferences.Remove(nameof(SpecificInterface));
 
@@ -202,7 +202,7 @@ namespace AltNetworkUtility.Tabs.Ping
                 ad.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork;
 
             if (UseSpecificInterface &&
-                !string.IsNullOrEmpty(SpecificInterface?.Name) &&
+                !string.IsNullOrEmpty(SpecificInterface?.BsdName) &&
                 SpecificInterface?.IPAddresses.Any(isIPv4) == true)
             {
                 arguments.Add("-S");
@@ -234,17 +234,12 @@ namespace AltNetworkUtility.Tabs.Ping
             ToggleUseSpecificInterfaceCommand = new RelayCommand(() =>
                 UseSpecificInterface = !UseSpecificInterface);
 
-            // FIXME: this should be a repository. we shouldn't fetch this stuff twice.
-            var svc = Xamarin.Forms.DependencyService.Get<INetworkInterfacesService>();
+            var repo = Xamarin.Forms.DependencyService.Get<Repositories.NetworkInterfaceRepository>();
+            AvailableNetworkInterfaces = repo.AsObservable;
 
-            foreach (var item in svc.GetAvailableInterfaces())
-            {
-                AvailableNetworkInterfaces.Add(item);
-            }
-
-            var specificInterface = Preferences.Get(nameof(SpecificInterface), "");
-            if (svc.TryFindInterfaceByName(specificInterface, out var netIf))
-                SpecificInterface = netIf;
+            //var specificInterface = Preferences.Get(nameof(SpecificInterface), "");
+            //if (repo.TryFindInterfaceByName(specificInterface, out var netIf))
+            //    SpecificInterface = netIf;
 
             AudibleMode = (PingAudibleMode)Preferences.Get(nameof(AudibleMode), 0);
         }

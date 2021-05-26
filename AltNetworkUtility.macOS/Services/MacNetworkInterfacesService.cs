@@ -305,7 +305,7 @@ namespace AltNetworkUtility.macOS.Services
                     var sockaddr = Marshal.PtrToStructure<NativeMethods.sockaddr>(addr.ifa_addr);
 
                     if ((NativeMethods.sockaddr_family)sockaddr.sa_family == NativeMethods.sockaddr_family.AF_LINK &&
-                        addr.ifa_name == viewModel.Name)
+                        addr.ifa_name == viewModel.BsdName)
                     {
                         var data = Marshal.PtrToStructure<NativeMethods.if_data>(addr.ifa_data);
 
@@ -334,7 +334,7 @@ namespace AltNetworkUtility.macOS.Services
             if (_Interfaces == null)
                 throw new InvalidOperationException($"Call {nameof(GetAvailableInterfaces)} first");
 
-            networkInterfaceViewModel = _Interfaces.Find(netIf => netIf.Name == name);
+            networkInterfaceViewModel = _Interfaces.Find(netIf => netIf.BsdName == name);
 
             return networkInterfaceViewModel != null;
         }
