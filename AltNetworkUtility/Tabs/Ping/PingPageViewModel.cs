@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 
+using AltNetworkUtility.Repositories.NetworkInterfaceRepository;
 using AltNetworkUtility.Services;
 using AltNetworkUtility.ViewModels;
 
@@ -234,7 +235,7 @@ namespace AltNetworkUtility.Tabs.Ping
             ToggleUseSpecificInterfaceCommand = new RelayCommand(() =>
                 UseSpecificInterface = !UseSpecificInterface);
 
-            var repo = Xamarin.Forms.DependencyService.Get<Repositories.NetworkInterfaceRepository>();
+            var repo = Xamarin.Forms.DependencyService.Get<NetworkInterfaceRepository>();
             AvailableNetworkInterfaces = repo.AsObservable;
 
             //var specificInterface = Preferences.Get(nameof(SpecificInterface), "");

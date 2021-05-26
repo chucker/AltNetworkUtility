@@ -132,6 +132,8 @@
     <Folder Include="Renderers\" />
     <Folder Include="Extensions\" />
     <Folder Include="Services\Windows\" />
+    <Folder Include="Repositories\" />
+    <Folder Include="Repositories\NetworkInterfaceRepository\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -151,6 +153,7 @@
     <Compile Include="AppDelegate.designer.cs">
       <DependentUpon>AppDelegate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Repositories\NetworkInterfaceRepository\SystemConfigurationDataSource.cs" />
   </ItemGroup>
   <ItemGroup>
       <PackageReference Include="CliWrap" Version="3.3.2" />

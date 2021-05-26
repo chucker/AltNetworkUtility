@@ -38,6 +38,7 @@
     <Folder Include="Tabs\Ping\" />
     <Folder Include="Services\IconFont\" />
     <Folder Include="Repositories\" />
+    <Folder Include="Repositories\NetworkInterfaceRepository\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Tabs\Info\" />
@@ -46,5 +47,6 @@
     <None Remove="Services\IconFont\" />
     <Folder Include="Converters\" />
     <None Remove="Repositories\" />
+    <None Remove="Repositories\NetworkInterfaceRepository\" />
   </ItemGroup>
 </Project>

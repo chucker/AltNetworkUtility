@@ -37,14 +37,17 @@ namespace AltNetworkUtility.ViewModels
             }
         }
 
-        public IconSpec Icon
+        public IconSpec? Icon
         {
             get
             {
-                string iconName = NetworkInterfaceType switch
+                if (!NetworkInterfaceType.HasValue)
+                    return null;
+
+                string iconName = NetworkInterfaceType.Value switch
                 {
-                    NetworkInterfaceType.Ethernet => "network",
-                    NetworkInterfaceType.Wireless80211 => "wifi",
+                    System.Net.NetworkInformation.NetworkInterfaceType.Ethernet => "network",
+                    System.Net.NetworkInformation.NetworkInterfaceType.Wireless80211 => "wifi",
                     _ => "questionmark.diamond"
                 };
 
@@ -62,8 +65,8 @@ namespace AltNetworkUtility.ViewModels
             set => SetProperty(ref _IPAddresses, value);
         }
 
-        private bool _IsUp = false;
-        public bool IsUp
+        private bool? _IsUp = false;
+        public bool? IsUp
         {
             get => _IsUp;
             set
@@ -76,10 +79,10 @@ namespace AltNetworkUtility.ViewModels
 
         public IconSpec IsUpImage => new("circle.fill")
         {
-            Color = IsUp ? Color.FromRgb(0x34, 0xC8, 0x4A) : Color.FromRgb(0xFA, 0x4B, 0x49),
+            Color = IsUp.GetValueOrDefault() ? Color.FromRgb(0x34, 0xC8, 0x4A) : Color.FromRgb(0xFA, 0x4B, 0x49),
             Size = new Size(12, 12)
         };
-        public string IsUpDescription => IsUp ? "Connected" : "Not Connected";
+        public string IsUpDescription => IsUp.GetValueOrDefault() ? "Connected" : "Not Connected";
 
         private string? _LocalizedDisplayName;
         public string? LocalizedDisplayName
@@ -99,8 +102,8 @@ namespace AltNetworkUtility.ViewModels
             set => SetProperty(ref _Model, value);
         }
 
-        private NetworkInterfaceType _NetworkInterfaceType;
-        public NetworkInterfaceType NetworkInterfaceType
+        private NetworkInterfaceType? _NetworkInterfaceType;
+        public NetworkInterfaceType? NetworkInterfaceType
         {
             get => _NetworkInterfaceType;
             set
@@ -151,11 +154,7 @@ namespace AltNetworkUtility.ViewModels
             Log.Debug($"{networkInterface.Name}: " +
                       $"{networkInterface.NetworkInterfaceType}, {networkInterface.OperationalStatus}");
 
-            IPAddresses = networkInterface.GetIPProperties().UnicastAddresses.Select(ua => ua.Address).ToArray();
-
             BsdName = networkInterface.Name;
-
-            NetworkInterfaceType = networkInterface.NetworkInterfaceType;
 
             PhysicalAddress = BitConverter.ToString(networkInterface.GetPhysicalAddress().GetAddressBytes()).Replace("-", ":");
 

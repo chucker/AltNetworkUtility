@@ -1,4 +1,5 @@
-﻿using AltNetworkUtility.Services;
+﻿using AltNetworkUtility.Repositories.NetworkInterfaceRepository;
+using AltNetworkUtility.Services;
 using AltNetworkUtility.ViewModels;
 
 using Microsoft.Toolkit.Mvvm.Input;
@@ -103,7 +104,7 @@ namespace AltNetworkUtility.Tabs.Info
             ToggleShowAllNetworkInterfacesCommand = new RelayCommand(() =>
                 ShowAllNetworkInterfaces = !ShowAllNetworkInterfaces);
 
-            var repo = DependencyService.Get<Repositories.NetworkInterfaceRepository>();
+            var repo = DependencyService.Get<NetworkInterfaceRepository>();
             AvailableNetworkInterfaces = repo.AsObservable;
         }
 

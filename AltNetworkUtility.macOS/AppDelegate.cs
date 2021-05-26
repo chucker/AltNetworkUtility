@@ -4,6 +4,7 @@ using System.Reflection;
 
 using AltNetworkUtility.macOS.Services;
 using AltNetworkUtility.macOS.Services.Windows;
+using AltNetworkUtility.Repositories.NetworkInterfaceRepository;
 using AltNetworkUtility.Services;
 using AltNetworkUtility.Services.IconFont;
 
@@ -31,7 +32,7 @@ namespace AltNetworkUtility.macOS
             DependencyService.Register<IIconFontProvider, MacIconFontProvider>();
             DependencyService.Register<ISystemSoundService, MacSystemSoundService>();
 
-            DependencyService.Register<Repositories.NetworkInterfaceRepository>();
+            DependencyService.Register<NetworkInterfaceRepository>();
 
             // register all WindowService subtypes
             foreach (var type in Assembly.GetExecutingAssembly().GetTypes()
@@ -64,20 +65,20 @@ namespace AltNetworkUtility.macOS
 
         private void InitNetworkInterfaceRepo()
         {
-            var repo = DependencyService.Get<Repositories.NetworkInterfaceRepository>();
+            var repo = DependencyService.Get<NetworkInterfaceRepository>();
 
             foreach (var type in AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes())
-                             .Where(t => typeof(Repositories.NetworkInterfaceRepository.IDataSource).IsAssignableFrom(t))
+                             .Where(t => typeof(IDataSource).IsAssignableFrom(t))
                              .Distinct())
             {
-                if (type == typeof(Repositories.NetworkInterfaceRepository.IDataSource))
+                if (type == typeof(IDataSource))
                     continue;
 
                 var instance = Activator.CreateInstance(type);
-                repo.RegisterDataSource((Repositories.NetworkInterfaceRepository.IDataSource)instance);
+                repo.RegisterDataSource((IDataSource)instance);
             }
 
-            repo.ReloadAll(Repositories.NetworkInterfaceRepository.DataSourceKind.All);
+            repo.ReloadAll(DataSourceKind.All);
         }
 
         public override void WillTerminate(NSNotification notification) { }
