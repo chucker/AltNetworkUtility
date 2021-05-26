@@ -32,7 +32,7 @@ namespace AltNetworkUtility.macOS
             DependencyService.Register<IIconFontProvider, MacIconFontProvider>();
             DependencyService.Register<ISystemSoundService, MacSystemSoundService>();
 
-            DependencyService.Register<NetworkInterfaceRepository>();
+            DependencyService.Register<Repository>();
 
             // register all WindowService subtypes
             foreach (var type in Assembly.GetExecutingAssembly().GetTypes()
@@ -65,11 +65,11 @@ namespace AltNetworkUtility.macOS
 
         private void InitNetworkInterfaceRepo()
         {
-            var repo = DependencyService.Get<NetworkInterfaceRepository>();
+            var repo = DependencyService.Get<Repository>();
 
             foreach (var type in AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes())
-                             .Where(t => typeof(IDataSource).IsAssignableFrom(t))
-                             .Distinct())
+                                          .Where(t => typeof(IDataSource).IsAssignableFrom(t))
+                                          .Distinct())
             {
                 if (type == typeof(IDataSource))
                     continue;

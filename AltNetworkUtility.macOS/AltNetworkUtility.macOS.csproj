@@ -154,13 +154,14 @@
       <DependentUpon>AppDelegate.cs</DependentUpon>
     </Compile>
     <Compile Include="Repositories\NetworkInterfaceRepository\SystemConfigurationDataSource.cs" />
+    <Compile Include="Repositories\NetworkInterfaceRepository\BsdDataSource.cs" />
   </ItemGroup>
   <ItemGroup>
       <PackageReference Include="CliWrap" Version="3.3.2" />
       <PackageReference Include="CollectionViewSource.Forms" Version="1.0.0.2" />
       <PackageReference Include="LambdaConverters.XF" Version="4.0.0-alpha2" />
-      <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="5.0.0" />
       <PackageReference Include="Microcharts.Forms" Version="1.0.0-preview1" />
+      <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="5.0.0" />
       <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.0.1" />
       <PackageReference Include="Serilog" Version="2.10.0" />
       <PackageReference Include="System.Reactive" Version="5.0.0" />

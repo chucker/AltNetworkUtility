@@ -204,7 +204,7 @@ namespace AltNetworkUtility.Tabs.Ping
 
             if (UseSpecificInterface &&
                 !string.IsNullOrEmpty(SpecificInterface?.BsdName) &&
-                SpecificInterface?.IPAddresses.Any(isIPv4) == true)
+                SpecificInterface?.IPAddresses?.Any(isIPv4) == true)
             {
                 arguments.Add("-S");
                 arguments.Add(SpecificInterface.IPAddresses.First(isIPv4).ToString());
@@ -235,7 +235,7 @@ namespace AltNetworkUtility.Tabs.Ping
             ToggleUseSpecificInterfaceCommand = new RelayCommand(() =>
                 UseSpecificInterface = !UseSpecificInterface);
 
-            var repo = Xamarin.Forms.DependencyService.Get<NetworkInterfaceRepository>();
+            var repo = Xamarin.Forms.DependencyService.Get<Repository>();
             AvailableNetworkInterfaces = repo.AsObservable;
 
             //var specificInterface = Preferences.Get(nameof(SpecificInterface), "");

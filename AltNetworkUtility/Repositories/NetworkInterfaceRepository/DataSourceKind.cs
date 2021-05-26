@@ -17,10 +17,10 @@ namespace AltNetworkUtility.Repositories.NetworkInterfaceRepository
     [Flags]
     public enum DataSourceKind
     {
-        Bsd = 1 << 0,
+        SystemConfiguration = 1 << 0,
         IoRegistry = 1 << 1,
-        Mono = 1 << 2,
-        SystemConfiguration = 1 << 3,
+        Bsd = 1 << 2,
+        Mono = 1 << 3,
 
         All = Bsd | IoRegistry | Mono | SystemConfiguration
     }

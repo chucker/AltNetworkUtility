@@ -24,6 +24,7 @@ namespace AltNetworkUtility.macOS.Services
 #pragma warning disable CS0649
         private class NativeMethods
         {
+            [Obsolete(nameof(AltNetworkUtility.Repositories.NetworkInterfaceRepository))]
             [DllImport("/System/Library/Frameworks/SystemConfiguration.framework/SystemConfiguration")]
             public static extern IntPtr SCNetworkInterfaceCopyAll();
 

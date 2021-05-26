@@ -28,7 +28,11 @@ namespace AltNetworkUtility.Tabs.Info
 
         private NetworkInterfaceViewModel? _SelectedNetworkInterface;
 
-        public NetworkInterfaceViewModel? SelectedNetworkInterface { get => _SelectedNetworkInterface; set => SetProperty(ref _SelectedNetworkInterface, value); }
+        public NetworkInterfaceViewModel? SelectedNetworkInterface
+        {
+            get => _SelectedNetworkInterface;
+            set => SetProperty(ref _SelectedNetworkInterface, value);
+        }
 
         private bool _ShowAllNetworkInterfaces;
         public bool ShowAllNetworkInterfaces
@@ -104,7 +108,7 @@ namespace AltNetworkUtility.Tabs.Info
             ToggleShowAllNetworkInterfacesCommand = new RelayCommand(() =>
                 ShowAllNetworkInterfaces = !ShowAllNetworkInterfaces);
 
-            var repo = DependencyService.Get<NetworkInterfaceRepository>();
+            var repo = DependencyService.Get<Repository>();
             AvailableNetworkInterfaces = repo.AsObservable;
         }
 

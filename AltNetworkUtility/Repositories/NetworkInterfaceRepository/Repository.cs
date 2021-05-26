@@ -1,23 +1,31 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
+using AltNetworkUtility.Models;
 using AltNetworkUtility.ViewModels;
 
 namespace AltNetworkUtility.Repositories.NetworkInterfaceRepository
 {
-    public class NetworkInterfaceRepository
+    public class Repository
     {
+        readonly Serilog.ILogger Log = Serilog.Log.ForContext<Repository>();
+
         private readonly Dictionary<DataSourceKind, IDataSource> _DataSources = new();
+        private IProvideStatistics? _StatisticsDataSource;
         public void RegisterDataSource(IDataSource dataSource)
-            => _DataSources[dataSource.Kind] = dataSource;
+        {
+            _DataSources[dataSource.Kind] = dataSource;
+
+            if (dataSource is IProvideStatistics statsProvider)
+                _StatisticsDataSource = statsProvider;
+        }
 
         public ObservableCollection<NetworkInterfaceViewModel> AsObservable { get; } = new();
 
         public void ReloadAll(DataSourceKind dataSourceKinds = DataSourceKind.All)
         {
-            // TODO precedence
-
             AsObservable.Clear();
 
             var bsdNames = new List<string>();
@@ -60,12 +68,24 @@ namespace AltNetworkUtility.Repositories.NetworkInterfaceRepository
 
                         if (oldItem.Speed == null)
                             oldItem.Speed = newItem.Speed;
-
-                        // merge info somehow
-                        //var existAsObservable.First(ni => ni.Name == item.Name).
                     }
                 }
             }
+        }
+
+        public bool TryGetStatistics(NetworkInterfaceViewModel viewModel,
+                                     [NotNullWhen(true)] out NetworkInterfaceStatistics.RawValues? statistics)
+        {
+            statistics = null;
+
+            if (_StatisticsDataSource == null)
+            {
+                Log.Warning("Nothing provides network statistics right now");
+                return false;
+            }
+
+            return _StatisticsDataSource.TryGet(viewModel, out statistics);
+
         }
     }
 }

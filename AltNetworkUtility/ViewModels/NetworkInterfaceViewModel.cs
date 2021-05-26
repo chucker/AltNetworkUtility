@@ -17,6 +17,7 @@ namespace AltNetworkUtility.ViewModels
     {
         readonly Serilog.ILogger Log = Serilog.Log.ForContext<NetworkInterfaceViewModel>();
         readonly INetworkInterfacesService NetworkInterfacesService;
+        readonly Repositories.NetworkInterfaceRepository.Repository NetworkInterfaceRepository;
 
         public string BsdName { get; }
 
@@ -147,6 +148,20 @@ namespace AltNetworkUtility.ViewModels
         public NetworkInterfaceViewModel(string bsdName)
         {
             BsdName = bsdName;
+
+            Statistics = new NetworkInterfaceStatistics();
+
+            NetworkInterfaceRepository = DependencyService.Get<Repositories.NetworkInterfaceRepository.Repository>();
+
+            Observable.Interval(TimeSpan.FromSeconds(1)).Subscribe(token =>
+            {
+                if (ParentVM?.SelectedNetworkInterface == this)
+                {
+                    if (Statistics.TryUpdate(NetworkInterfaceRepository, this))
+                        Device.BeginInvokeOnMainThread(() => OnPropertyChanged(nameof(Statistics)));
+                }
+            });
+
         }
 
         public NetworkInterfaceViewModel(NetworkInterface networkInterface)
