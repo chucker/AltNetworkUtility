@@ -4,6 +4,7 @@ using System.Reflection;
 
 using AltNetworkUtility.macOS.Services;
 using AltNetworkUtility.macOS.Services.Windows;
+using AltNetworkUtility.Repositories.NetworkInterfaceRepository;
 using AltNetworkUtility.Services;
 using AltNetworkUtility.Services.IconFont;
 
@@ -29,8 +30,9 @@ namespace AltNetworkUtility.macOS
         public AppDelegate()
         {
             DependencyService.Register<IIconFontProvider, MacIconFontProvider>();
-            DependencyService.Register<INetworkInterfacesService, MacNetworkInterfacesService>();
             DependencyService.Register<ISystemSoundService, MacSystemSoundService>();
+
+            DependencyService.Register<Repository>();
 
             // register all WindowService subtypes
             foreach (var type in Assembly.GetExecutingAssembly().GetTypes()
@@ -52,11 +54,31 @@ namespace AltNetworkUtility.macOS
         {
             Forms.Init();
 
+            InitNetworkInterfaceRepo();
+
             _MainWindow = DependencyService.Get<MainWindowService>().OpenWindow();
 
             LoadApplication(new App());
 
             base.DidFinishLaunching(notification);
+        }
+
+        private void InitNetworkInterfaceRepo()
+        {
+            var repo = DependencyService.Get<Repository>();
+
+            foreach (var type in AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes())
+                                          .Where(t => typeof(IDataSource).IsAssignableFrom(t))
+                                          .Distinct())
+            {
+                if (type == typeof(IDataSource))
+                    continue;
+
+                var instance = Activator.CreateInstance(type);
+                repo.RegisterDataSource((IDataSource)instance);
+            }
+
+            repo.ReloadAll(DataSourceKind.All);
         }
 
         public override void WillTerminate(NSNotification notification) { }

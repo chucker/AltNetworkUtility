@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Reactive.Linq;
 
 using AltNetworkUtility.Models;
-using AltNetworkUtility.Services;
 using AltNetworkUtility.Services.IconFont;
 using AltNetworkUtility.Tabs.Info;
 
@@ -16,34 +14,38 @@ namespace AltNetworkUtility.ViewModels
     public class NetworkInterfaceViewModel : ViewModelBase
     {
         readonly Serilog.ILogger Log = Serilog.Log.ForContext<NetworkInterfaceViewModel>();
+        readonly Repositories.NetworkInterfaceRepository.Repository NetworkInterfaceRepository;
 
-        INetworkInterfacesService NetworkInterfacesService;
+        public string BsdName { get; }
 
         public string DisplayName
         {
             get
             {
-                if (LocalizedDisplayName != null && Name != null)
-                    return $"{LocalizedDisplayName} ({Name})";
+                if (LocalizedDisplayName != null && BsdName != null)
+                    return $"{LocalizedDisplayName} ({BsdName})";
 
                 if (LocalizedDisplayName != null)
                     return LocalizedDisplayName;
 
-                if (Name != null)
-                    return Name;
+                if (BsdName != null)
+                    return BsdName;
 
                 return "(unknown)";
             }
         }
 
-        public IconSpec Icon
+        public IconSpec? Icon
         {
             get
             {
-                string iconName = NetworkInterfaceType switch
+                if (!NetworkInterfaceType.HasValue)
+                    return null;
+
+                string iconName = NetworkInterfaceType.Value switch
                 {
-                    NetworkInterfaceType.Ethernet => "network",
-                    NetworkInterfaceType.Wireless80211 => "wifi",
+                    System.Net.NetworkInformation.NetworkInterfaceType.Ethernet => "network",
+                    System.Net.NetworkInformation.NetworkInterfaceType.Wireless80211 => "wifi",
                     _ => "questionmark.diamond"
                 };
 
@@ -61,8 +63,8 @@ namespace AltNetworkUtility.ViewModels
             set => SetProperty(ref _IPAddresses, value);
         }
 
-        private bool _IsUp = false;
-        public bool IsUp
+        private bool? _IsUp = false;
+        public bool? IsUp
         {
             get => _IsUp;
             set
@@ -75,10 +77,10 @@ namespace AltNetworkUtility.ViewModels
 
         public IconSpec IsUpImage => new("circle.fill")
         {
-            Color = IsUp ? Color.FromRgb(0x34, 0xC8, 0x4A) : Color.FromRgb(0xFA, 0x4B, 0x49),
+            Color = IsUp.GetValueOrDefault() ? Color.FromRgb(0x34, 0xC8, 0x4A) : Color.FromRgb(0xFA, 0x4B, 0x49),
             Size = new Size(12, 12)
         };
-        public string IsUpDescription => IsUp ? "Connected" : "Not Connected";
+        public string IsUpDescription => IsUp.GetValueOrDefault() ? "Connected" : "Not Connected";
 
         private string? _LocalizedDisplayName;
         public string? LocalizedDisplayName
@@ -98,19 +100,8 @@ namespace AltNetworkUtility.ViewModels
             set => SetProperty(ref _Model, value);
         }
 
-        private string? _Name;
-        public string? Name
-        {
-            get => _Name;
-            set
-            {
-                SetProperty(ref _Name, value);
-                OnPropertyChanged(nameof(DisplayName));
-            }
-        }
-
-        private NetworkInterfaceType _NetworkInterfaceType;
-        public NetworkInterfaceType NetworkInterfaceType
+        private NetworkInterfaceType? _NetworkInterfaceType;
+        public NetworkInterfaceType? NetworkInterfaceType
         {
             get => _NetworkInterfaceType;
             set
@@ -151,37 +142,19 @@ namespace AltNetworkUtility.ViewModels
             set => SetProperty(ref _Vendor, value);
         }
 
-        public NetworkInterfaceViewModel(NetworkInterface networkInterface)
+        public NetworkInterfaceViewModel(string bsdName)
         {
-            Log.Debug($"{networkInterface.Name}: " +
-                      $"{networkInterface.NetworkInterfaceType}, {networkInterface.OperationalStatus}");
-
-            IPAddresses = networkInterface.GetIPProperties().UnicastAddresses.Select(ua => ua.Address).ToArray();
-
-            Name = networkInterface.Name;
-
-            NetworkInterfaceType = networkInterface.NetworkInterfaceType;
-
-            PhysicalAddress = BitConverter.ToString(networkInterface.GetPhysicalAddress().GetAddressBytes()).Replace("-", ":");
-
-            Speed = networkInterface.Speed switch
-            {
-                >= 1_000_000_000 => $"{networkInterface.Speed / 1_000_000_000} Tbits/s",
-                >= 1_000_000 => $"{networkInterface.Speed / 1_000_000} Gbits/s",
-                >= 1_000 => $"{networkInterface.Speed / 1_000} Mbits/s",
-                >= 1 => $"{networkInterface.Speed} kbits/s",
-                _ => networkInterface.Speed.ToString()
-            };
+            BsdName = bsdName;
 
             Statistics = new NetworkInterfaceStatistics();
 
-            NetworkInterfacesService = DependencyService.Get<INetworkInterfacesService>();
+            NetworkInterfaceRepository = DependencyService.Get<Repositories.NetworkInterfaceRepository.Repository>();
 
             Observable.Interval(TimeSpan.FromSeconds(1)).Subscribe(token =>
             {
                 if (ParentVM?.SelectedNetworkInterface == this)
                 {
-                    if (Statistics.TryUpdate(NetworkInterfacesService, this))
+                    if (Statistics.TryUpdate(NetworkInterfaceRepository, this))
                         Device.BeginInvokeOnMainThread(() => OnPropertyChanged(nameof(Statistics)));
                 }
             });

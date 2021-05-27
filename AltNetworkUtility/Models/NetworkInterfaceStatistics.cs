@@ -1,5 +1,4 @@
-﻿using AltNetworkUtility.Services;
-using AltNetworkUtility.ViewModels;
+﻿using AltNetworkUtility.ViewModels;
 
 namespace AltNetworkUtility.Models
 {
@@ -27,17 +26,18 @@ namespace AltNetworkUtility.Models
             public ulong Collisions { get; }
         }
 
-        public RecentValues<ulong> SentPackets { get; set; } = new RecentValues<ulong>();
-        public RecentValues<ulong> SentBytes { get; set; } = new RecentValues<ulong>();
-        public RecentValues<ulong> SendErrors { get; set; } = new RecentValues<ulong>();
-        public RecentValues<ulong> RecvPackets { get; set; } = new RecentValues<ulong>();
-        public RecentValues<ulong> RecvBytes { get; set; } = new RecentValues<ulong>();
-        public RecentValues<ulong> RecvErrors { get; set; } = new RecentValues<ulong>();
-        public RecentValues<ulong> Collisions { get; set; } = new RecentValues<ulong>();
+        public RecentValues<ulong> SentPackets { get; set; } = new RecentValues<ulong> { RetainSeconds = 60 };
+        public RecentValues<ulong> SentBytes { get; set; } = new RecentValues<ulong> { RetainSeconds = 60 };
+        public RecentValues<ulong> SendErrors { get; set; } = new RecentValues<ulong> { RetainSeconds = 60 };
+        public RecentValues<ulong> RecvPackets { get; set; } = new RecentValues<ulong> { RetainSeconds = 60 };
+        public RecentValues<ulong> RecvBytes { get; set; } = new RecentValues<ulong> { RetainSeconds = 60 };
+        public RecentValues<ulong> RecvErrors { get; set; } = new RecentValues<ulong> { RetainSeconds = 60 };
+        public RecentValues<ulong> Collisions { get; set; } = new RecentValues<ulong> { RetainSeconds = 60 };
 
-        public bool TryUpdate(INetworkInterfacesService networkInterfacesService, NetworkInterfaceViewModel networkInterfaceViewModel)
+        public bool TryUpdate(Repositories.NetworkInterfaceRepository.Repository networkInterfaceRepository,
+                              NetworkInterfaceViewModel networkInterfaceViewModel)
         {
-            if (!networkInterfacesService.TryGetStatistics(networkInterfaceViewModel, out var newValues))
+            if (!networkInterfaceRepository.TryGetStatistics(networkInterfaceViewModel, out var newValues))
                 return false;
 
             SentPackets.EnqueueValue(newValues.Value.SentPackets);

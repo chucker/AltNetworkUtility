@@ -7,14 +7,19 @@ using CoreGraphics;
 
 using Xamarin.Forms;
 
+#nullable enable
+
 namespace AltNetworkUtility.macOS.Services
 {
     public class MacIconFontProvider : IIconFontProvider
     {
-        public ImageSource GetImage(string name, Color? color, Size? size)
+        public ImageSource? GetImage(string name, Color? color, Size? size)
             => ImageSource.FromStream(() =>
             {
-                NSImage image = NSImage.GetSystemSymbol(name, null);
+                NSImage? image = NSImage.GetSystemSymbol(name, null);
+
+                if (image == null)
+                    return null;
 
                 if (color != null)
                     image = image.WithTintColor(color.Value);
@@ -22,7 +27,7 @@ namespace AltNetworkUtility.macOS.Services
                 if (size != null)
                     image = image.WithChangedSize(new CGSize(size.Value.Width, size.Value.Height));
 
-                return image.AsTiff().AsStream();
+                return image?.AsTiff().AsStream();
             });
     }
 }

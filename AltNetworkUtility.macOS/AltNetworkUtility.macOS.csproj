@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\Xamarin.Forms.5.0.0.2012\build\Xamarin.Forms.props" Condition="Exists('..\packages\Xamarin.Forms.5.0.0.2012\build\Xamarin.Forms.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -96,6 +95,21 @@
     <Reference Include="Microsoft.Bcl.AsyncInterfaces">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.5.0.0\lib\netstandard2.1\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
+    <Reference Include="SkiaSharp">
+      <HintPath>..\packages\SkiaSharp.2.80.2\lib\xamarinmac2.0\SkiaSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="SkiaSharp.Views.Mac">
+      <HintPath>..\packages\SkiaSharp.Views.2.80.2\lib\xamarinmac2.0\SkiaSharp.Views.Mac.dll</HintPath>
+    </Reference>
+    <Reference Include="SkiaSharp.Views.Forms">
+      <HintPath>..\packages\SkiaSharp.Views.Forms.2.80.2\lib\xamarinmac2.0\SkiaSharp.Views.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microcharts">
+      <HintPath>..\packages\Microcharts.Forms.1.0.0-preview1\lib\netstandard2.0\Microcharts.dll</HintPath>
+    </Reference>
+    <Reference Include="Microcharts.Forms">
+      <HintPath>..\packages\Microcharts.Forms.1.0.0-preview1\lib\netstandard2.0\Microcharts.Forms.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
@@ -118,28 +132,42 @@
     <Folder Include="Renderers\" />
     <Folder Include="Extensions\" />
     <Folder Include="Services\Windows\" />
+    <Folder Include="Repositories\" />
+    <Folder Include="Repositories\NetworkInterfaceRepository\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="Nullable\MemberNotNullWhenAttribute.cs" />
-    <Compile Include="Nullable\MemberNotNullAttribute.cs" />
-    <Compile Include="Services\MacNetworkInterfacesService.cs" />
     <Compile Include="Services\MacIconFontProvider.cs" />
     <Compile Include="Models\SCNetworkInterface.cs" />
-    <Compile Include="Renderers\MacOSRadioButtonRenderer.cs" />
+    <Compile Include="Renderers\MacRadioButtonRenderer.cs" />
     <Compile Include="Services\MacSystemSoundService.cs" />
     <Compile Include="Extensions\NSImageExtensions.cs" />
-    <Compile Include="Renderers\MacOSEditorRenderer.cs" />
+    <Compile Include="Renderers\MacEditorRenderer.cs" />
     <Compile Include="Services\Windows\WindowService.cs" />
     <Compile Include="AppDelegate.designer.cs">
       <DependentUpon>AppDelegate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Repositories\NetworkInterfaceRepository\SystemConfigurationDataSource.cs" />
+    <Compile Include="Repositories\NetworkInterfaceRepository\BsdDataSource.cs" />
+    <Compile Include="Repositories\NetworkInterfaceRepository\IORegistryDataSource.cs" />
+  </ItemGroup>
+  <ItemGroup>
+      <PackageReference Include="CliWrap" Version="3.3.2" />
+      <PackageReference Include="CollectionViewSource.Forms" Version="1.0.0.2" />
+      <PackageReference Include="LambdaConverters.XF" Version="4.0.0-alpha2" />
+      <PackageReference Include="Microcharts.Forms" Version="1.0.0-preview1" />
+      <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="5.0.0" />
+      <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.0.1" />
+      <PackageReference Include="Serilog" Version="2.10.0" />
+      <PackageReference Include="System.Reactive" Version="5.0.0" />
+      <PackageReference Include="TunnelVisionLabs.ReferenceAssemblyAnnotator" Version="1.0.0-alpha.160" PrivateAssets="all" />
+      <PackageDownload Include="Microsoft.NETCore.App.Ref" Version="[5.0.0]" />
+      <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Main.storyboard" />
@@ -157,5 +185,4 @@
     </NativeReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
-  <Import Project="..\packages\Xamarin.Forms.5.0.0.2012\build\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.5.0.0.2012\build\Xamarin.Forms.targets')" />
 </Project>

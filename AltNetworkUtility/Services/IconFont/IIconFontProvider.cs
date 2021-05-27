@@ -15,13 +15,13 @@ namespace AltNetworkUtility.Services.IconFont
 
     public interface IIconFontProvider
     {
-        ImageSource GetImage(string name, Color? color, Size? size);
+        ImageSource? GetImage(string name, Color? color, Size? size);
     }
 
     public static class Converters
     {
         public static readonly IValueConverter IconSpecToImageSource =
-            ValueConverter.Create<IconSpec, ImageSource>(vca =>
+            ValueConverter.Create<IconSpec, ImageSource?>(vca =>
             {
                 var spec = vca.Value;
                 var svc = DependencyService.Get<IIconFontProvider>();

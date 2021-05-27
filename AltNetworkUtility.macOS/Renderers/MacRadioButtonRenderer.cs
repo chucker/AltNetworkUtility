@@ -5,6 +5,8 @@ using AppKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.MacOS;
 
+#nullable enable
+
 //TODO: Remove after release of https://github.com/xamarin/Xamarin.Forms/pull/14139
 [assembly: ExportRenderer(typeof(Xamarin.Forms.RadioButton), typeof(Jammit.Forms.Renderers.MacOSRadioButtonRenderer))]
 namespace Jammit.Forms.Renderers

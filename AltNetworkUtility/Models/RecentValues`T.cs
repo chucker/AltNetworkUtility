@@ -6,15 +6,35 @@ namespace AltNetworkUtility.Models
 {
     public class RecentValues<TValue> where TValue : struct
     {
-        private readonly List<(DateTime Timestamp, TValue Value)> _RecentValues = new(100);
+        public List<(DateTime Timestamp, TValue Value)> Values { get; } = new(100);
 
-        public int SmoothToSeconds { get; set; } = 10;
+        public int RetainSeconds { get; set; } = 10;
 
         public void EnqueueValue(TValue value)
         {
-            _RecentValues.RemoveAll(v => v.Timestamp < DateTime.Now.AddSeconds(-SmoothToSeconds));
+            Values.RemoveAll(v => v.Timestamp < DateTime.Now.AddSeconds(-RetainSeconds));
 
-            _RecentValues.Add((DateTime.Now, value));
+            Values.Add((DateTime.Now, value));
+        }
+
+        public IEnumerable<ulong> Deltas
+        {
+            get
+            {
+                // maybe this will be nicer in C# 10 or whatever
+                if (typeof(TValue) != typeof(ulong))
+                    throw new NotImplementedException();
+
+                if (Values.Count < 2)
+                    return Enumerable.Empty<ulong>();
+
+                var values = Values.Select(v => (ulong)(object)v.Value).ToList();
+
+                //return values.Skip(1).Select((next, index) =>
+                //next - values[index - 1]);
+
+                return values.Zip(values.Skip(1), (current, next) => next - current);
+            }
         }
 
         public double DeltaPerSecond
@@ -25,11 +45,11 @@ namespace AltNetworkUtility.Models
                 if (typeof(TValue) != typeof(ulong))
                     throw new NotImplementedException();
 
-                if (_RecentValues.Count() < 2)
+                if (Values.Count < 2)
                     return default;
 
-                var last = _RecentValues.Last();
-                var first = _RecentValues.First();
+                var last = Values.Last();
+                var first = Values.First();
 
                 var valueDiff = (ulong)(object)last.Value - (ulong)(object)first.Value;
                 var timestampDiff = (last.Timestamp - first.Timestamp).TotalSeconds;
@@ -41,7 +61,7 @@ namespace AltNetworkUtility.Models
         public string DeltaPerSecond_SI => _ConvertToSI(DeltaPerSecond);
 
         public TValue? MostRecentValue
-            => _RecentValues.LastOrDefault().Value;
+            => Values.LastOrDefault().Value;
 
         public string MostRecentValue_SI => _ConvertToSI(MostRecentValue);
 
@@ -49,10 +69,10 @@ namespace AltNetworkUtility.Models
         {
             get
             {
-                if (!_RecentValues.Any())
+                if (!Values.Any())
                     return null;
 
-                if (_RecentValues is List<(DateTime, double Value)> doubleQueue)
+                if (Values is List<(DateTime, double Value)> doubleQueue)
                     return (TValue?)(object?)doubleQueue.Select(v => v.Value).Average();
 
                 throw new NotImplementedException();
