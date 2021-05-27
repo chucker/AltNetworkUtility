@@ -54,11 +54,14 @@ namespace AltNetworkUtility.Repositories.NetworkInterfaceRepository
 
                         var oldItem = AsObservable.Single(x => x.BsdName == newItem.BsdName);
 
-                        if (oldItem.IPAddresses==null)
+                        if (oldItem.IPAddresses == null)
                             oldItem.IPAddresses = newItem.IPAddresses;
 
-                        if (oldItem.IsUp==null)
+                        if (oldItem.IsUp == null)
                             oldItem.IsUp = newItem.IsUp;
+
+                        if (oldItem.Model == null)
+                            oldItem.Model = newItem.Model;
 
                         if (oldItem.NetworkInterfaceType == null)
                             oldItem.NetworkInterfaceType = newItem.NetworkInterfaceType;
@@ -68,6 +71,9 @@ namespace AltNetworkUtility.Repositories.NetworkInterfaceRepository
 
                         if (oldItem.Speed == null)
                             oldItem.Speed = newItem.Speed;
+
+                        if (oldItem.Vendor == null)
+                            oldItem.Vendor = newItem.Vendor;
                     }
                 }
             }

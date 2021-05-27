@@ -155,6 +155,7 @@
     </Compile>
     <Compile Include="Repositories\NetworkInterfaceRepository\SystemConfigurationDataSource.cs" />
     <Compile Include="Repositories\NetworkInterfaceRepository\BsdDataSource.cs" />
+    <Compile Include="Repositories\NetworkInterfaceRepository\IORegistryDataSource.cs" />
   </ItemGroup>
   <ItemGroup>
       <PackageReference Include="CliWrap" Version="3.3.2" />
