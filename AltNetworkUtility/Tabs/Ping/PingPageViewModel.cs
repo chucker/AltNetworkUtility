@@ -238,9 +238,9 @@ namespace AltNetworkUtility.Tabs.Ping
             var repo = Xamarin.Forms.DependencyService.Get<Repository>();
             AvailableNetworkInterfaces = repo.AsObservable;
 
-            //var specificInterface = Preferences.Get(nameof(SpecificInterface), "");
-            //if (repo.TryFindInterfaceByName(specificInterface, out var netIf))
-            //    SpecificInterface = netIf;
+            var specificInterfaceBsdName = Preferences.Get(nameof(SpecificInterface), "");
+            if (repo.TryFindByBsdName(specificInterfaceBsdName, out var netIf))
+                SpecificInterface = netIf;
 
             AudibleMode = (PingAudibleMode)Preferences.Get(nameof(AudibleMode), 0);
         }

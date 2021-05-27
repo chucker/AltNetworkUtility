@@ -79,6 +79,14 @@ namespace AltNetworkUtility.Repositories.NetworkInterfaceRepository
             }
         }
 
+        public bool TryFindByBsdName(string bsdName,
+                                     [NotNullWhen(true)] out NetworkInterfaceViewModel? result)
+        {
+            result = AsObservable.FirstOrDefault(ni => ni.BsdName == bsdName);
+
+            return result != null;
+        }
+
         public bool TryGetStatistics(NetworkInterfaceViewModel viewModel,
                                      [NotNullWhen(true)] out NetworkInterfaceStatistics.RawValues? statistics)
         {
