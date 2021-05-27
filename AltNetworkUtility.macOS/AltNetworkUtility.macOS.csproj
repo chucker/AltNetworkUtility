@@ -142,7 +142,6 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="Services\MacNetworkInterfacesService.cs" />
     <Compile Include="Services\MacIconFontProvider.cs" />
     <Compile Include="Models\SCNetworkInterface.cs" />
     <Compile Include="Renderers\MacRadioButtonRenderer.cs" />

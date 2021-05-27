@@ -1,5 +1,4 @@
-﻿using AltNetworkUtility.Services;
-using AltNetworkUtility.ViewModels;
+﻿using AltNetworkUtility.ViewModels;
 
 namespace AltNetworkUtility.Models
 {
@@ -34,23 +33,6 @@ namespace AltNetworkUtility.Models
         public RecentValues<ulong> RecvBytes { get; set; } = new RecentValues<ulong> { RetainSeconds = 60 };
         public RecentValues<ulong> RecvErrors { get; set; } = new RecentValues<ulong> { RetainSeconds = 60 };
         public RecentValues<ulong> Collisions { get; set; } = new RecentValues<ulong> { RetainSeconds = 60 };
-
-        public bool TryUpdate(INetworkInterfacesService networkInterfacesService,
-                              NetworkInterfaceViewModel networkInterfaceViewModel)
-        {
-            if (!networkInterfacesService.TryGetStatistics(networkInterfaceViewModel, out var newValues))
-                return false;
-
-            SentPackets.EnqueueValue(newValues.Value.SentPackets);
-            SentBytes.EnqueueValue(newValues.Value.SentBytes);
-            SendErrors.EnqueueValue(newValues.Value.SendErrors);
-            RecvPackets.EnqueueValue(newValues.Value.RecvPackets);
-            RecvBytes.EnqueueValue(newValues.Value.RecvBytes);
-            RecvErrors.EnqueueValue(newValues.Value.RecvErrors);
-            Collisions.EnqueueValue(newValues.Value.Collisions);
-
-            return true;
-        }
 
         public bool TryUpdate(Repositories.NetworkInterfaceRepository.Repository networkInterfaceRepository,
                               NetworkInterfaceViewModel networkInterfaceViewModel)

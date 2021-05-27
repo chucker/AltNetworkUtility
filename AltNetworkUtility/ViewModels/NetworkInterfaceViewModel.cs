@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Reactive.Linq;
 
 using AltNetworkUtility.Models;
-using AltNetworkUtility.Services;
 using AltNetworkUtility.Services.IconFont;
 using AltNetworkUtility.Tabs.Info;
 
@@ -16,7 +14,6 @@ namespace AltNetworkUtility.ViewModels
     public class NetworkInterfaceViewModel : ViewModelBase
     {
         readonly Serilog.ILogger Log = Serilog.Log.ForContext<NetworkInterfaceViewModel>();
-        readonly INetworkInterfacesService NetworkInterfacesService;
         readonly Repositories.NetworkInterfaceRepository.Repository NetworkInterfaceRepository;
 
         public string BsdName { get; }
@@ -158,39 +155,6 @@ namespace AltNetworkUtility.ViewModels
                 if (ParentVM?.SelectedNetworkInterface == this)
                 {
                     if (Statistics.TryUpdate(NetworkInterfaceRepository, this))
-                        Device.BeginInvokeOnMainThread(() => OnPropertyChanged(nameof(Statistics)));
-                }
-            });
-
-        }
-
-        public NetworkInterfaceViewModel(NetworkInterface networkInterface)
-        {
-            Log.Debug($"{networkInterface.Name}: " +
-                      $"{networkInterface.NetworkInterfaceType}, {networkInterface.OperationalStatus}");
-
-            BsdName = networkInterface.Name;
-
-            PhysicalAddress = BitConverter.ToString(networkInterface.GetPhysicalAddress().GetAddressBytes()).Replace("-", ":");
-
-            Speed = networkInterface.Speed switch
-            {
-                >= 1_000_000_000 => $"{networkInterface.Speed / 1_000_000_000} Tbits/s",
-                >= 1_000_000 => $"{networkInterface.Speed / 1_000_000} Gbits/s",
-                >= 1_000 => $"{networkInterface.Speed / 1_000} Mbits/s",
-                >= 1 => $"{networkInterface.Speed} kbits/s",
-                _ => networkInterface.Speed.ToString()
-            };
-
-            Statistics = new NetworkInterfaceStatistics();
-
-            NetworkInterfacesService = DependencyService.Get<INetworkInterfacesService>();
-
-            Observable.Interval(TimeSpan.FromSeconds(1)).Subscribe(token =>
-            {
-                if (ParentVM?.SelectedNetworkInterface == this)
-                {
-                    if (Statistics.TryUpdate(NetworkInterfacesService, this))
                         Device.BeginInvokeOnMainThread(() => OnPropertyChanged(nameof(Statistics)));
                 }
             });
