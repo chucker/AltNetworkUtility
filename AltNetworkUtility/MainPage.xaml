@@ -4,6 +4,7 @@
             xmlns:info="clr-namespace:AltNetworkUtility.Tabs.Info"
             xmlns:netstat="clr-namespace:AltNetworkUtility.Tabs.Netstat"
             xmlns:ping="clr-namespace:AltNetworkUtility.Tabs.Ping"
+            xmlns:lookup="clr-namespace:AltNetworkUtility.Tabs.Lookup"
             x:Class="AltNetworkUtility.MainPage"
             WidthRequest="640" HeightRequest="388">
 
@@ -13,8 +14,7 @@
 
     <ping:PingPage />
 
-    <ContentPage Title="Lookup">
-    </ContentPage>
+    <lookup:LookupPage />
 
     <ContentPage Title="Traceroute">
     </ContentPage>
