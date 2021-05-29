@@ -7,8 +7,7 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DebugType>portable</DebugType>
-		<DebugSymbols>true</DebugSymbols>
+		<DefineConstants>$(DefineConstants);Hacky_StyleSheet_HotReload</DefineConstants>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="CliWrap" Version="3.3.2" />
@@ -23,26 +22,5 @@
 		<PackageDownload Include="Microsoft.NETCore.App.Ref" Version="[5.0.0]" />
 		<PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
 		<PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
-	</ItemGroup>
-	<ItemGroup>
-		<Folder Include="Tabs\" />
-		<Folder Include="Services\" />
-		<Folder Include="ViewModels\" />
-		<Folder Include="Models\" />
-		<Folder Include="Tabs\Info\" />
-		<Folder Include="Tabs\Netstat\" />
-		<Folder Include="Tabs\Ping\" />
-		<Folder Include="Services\IconFont\" />
-		<Folder Include="Repositories\" />
-		<Folder Include="Repositories\NetworkInterfaceRepository\" />
-	</ItemGroup>
-	<ItemGroup>
-		<None Remove="Tabs\Info\" />
-		<None Remove="Tabs\Netstat\" />
-		<None Remove="Tabs\Ping\" />
-		<None Remove="Services\IconFont\" />
-		<Folder Include="Converters\" />
-		<None Remove="Repositories\" />
-		<None Remove="Repositories\NetworkInterfaceRepository\" />
 	</ItemGroup>
 </Project>
