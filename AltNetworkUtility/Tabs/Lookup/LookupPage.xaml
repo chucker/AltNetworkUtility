@@ -51,7 +51,7 @@
                     </Grid.RowDefinitions>
 
                     <Label Grid.Column="0" Grid.Row="0">Use:</Label>
-                    <RadioButton Grid.Column="1" Grid.Row="0" IsChecked="True" />
+                    <RadioButton Grid.Column="1" Grid.Row="0" IsChecked="True" Value="DsCacheUtil" />
                     <Label Grid.Column="2" Grid.Row="0">
                         <Label.GestureRecognizers>
                             <ClickGestureRecognizer Command="{Binding UseLookupBinaryCommand}"
@@ -66,7 +66,7 @@
                         </Label.FormattedText>
                     </Label>
                     <Label Grid.Column="2" Grid.Row="1" FontSize="11">Matches behavior of Safari and other Apple apps</Label>
-                    <RadioButton Grid.Column="1" Grid.Row="2" />
+                    <RadioButton Grid.Column="1" Grid.Row="2" Value="Dig" />
                     <Label Grid.Column="2" Grid.Row="2">
                         <Label.GestureRecognizers>
                             <ClickGestureRecognizer Command="{Binding UseLookupBinaryCommand}"
@@ -87,8 +87,7 @@
                              IsVisible="{Binding ShowDigOptions}">
                     <Label VerticalOptions="Center">Select the information to lookup:</Label>
                     <Picker ItemsSource="{Binding DigModes}" ItemDisplayBinding="{Binding Description}"
-                            SelectedItem="{Binding DigMode}"
-                            HorizontalOptions="FillAndExpand" />
+                            SelectedItem="{Binding DigMode}" />
                 </StackLayout>
             </StackLayout>
 
