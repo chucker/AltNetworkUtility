@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"    
+    xmlns:local="clr-namespace:AltNetworkUtility.Tabs.Lookup"
+    x:Class="AltNetworkUtility.Tabs.Lookup.LookupPage"
+    Title="Lookup">
+
+    <ContentPage.BindingContext>
+        <local:LookupPageViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <Grid Padding="20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*"  />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackLayout Orientation="Vertical" Grid.ColumnSpan="2"
+                         RadioButtonGroup.GroupName="Mode"
+                         RadioButtonGroup.SelectedValue="{Binding Mode}">
+                <Label>Enter an Internet address to lookup.</Label>
+
+                <StackLayout Orientation="Horizontal">
+                    <Editor WidthRequest="170" Text="{Binding Host}"></Editor>
+                    <Label FontSize="11">(ex. 10.0.2.1 or www.example.com)</Label>
+                </StackLayout>
+
+                <Grid Margin="0,10,0,0" 
+                      RadioButtonGroup.GroupName="BinaryMode"
+                      RadioButtonGroup.SelectedValue="{Binding BinaryMode}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="16" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Label Grid.Column="0" Grid.Row="0">Use:</Label>
+                    <RadioButton Grid.Column="1" Grid.Row="0" IsChecked="True" Value="DsCacheUtil" />
+                    <Label Grid.Column="2" Grid.Row="0">
+                        <Label.GestureRecognizers>
+                            <ClickGestureRecognizer Command="{Binding UseLookupBinaryCommand}"
+                                                    CommandParameter="DsCacheUtil" />
+                        </Label.GestureRecognizers>
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="macOS Directory Services (" />
+                                <Span FontFamily="Menlo" FontSize="12" Text="dscacheutil" />
+                                <Span Text=")" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Grid.Column="2" Grid.Row="1" FontSize="11">Matches behavior of Safari and other Apple apps</Label>
+                    <RadioButton Grid.Column="1" Grid.Row="2" Value="Dig" />
+                    <Label Grid.Column="2" Grid.Row="2">
+                        <Label.GestureRecognizers>
+                            <ClickGestureRecognizer Command="{Binding UseLookupBinaryCommand}"
+                                                    CommandParameter="Dig" />
+                        </Label.GestureRecognizers>
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Unix/BIND (" />
+                                <Span FontFamily="Menlo" FontSize="12" Text="dig" />
+                                <Span Text=")" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Grid.Column="2" Grid.Row="3" FontSize="11">Matches Unix behavior, and offers more options</Label>
+                </Grid>
+
+                <StackLayout Orientation="Horizontal" Margin="0,10,0,0"
+                             IsVisible="{Binding ShowDigOptions}">
+                    <Label VerticalOptions="Center">Select the information to lookup:</Label>
+                    <Picker ItemsSource="{Binding DigModes}" ItemDisplayBinding="{Binding Description}"
+                            SelectedItem="{Binding DigMode}" />
+                </StackLayout>
+            </StackLayout>
+
+            <StackLayout Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+                <Button Text="Run" Padding="2" IsVisible="{Binding DebufferedCommandViewModel.IsNotBusy}"
+                        Command="{Binding DebufferedCommandViewModel.RunCommand}" />
+
+                <ActivityIndicator IsRunning="{Binding DebufferedCommandViewModel.IsBusy}" IsVisible="{Binding DebufferedCommandViewModel.IsBusy}"
+                                   HeightRequest="16" WidthRequest="16" />
+
+                <Button Text="Cancel" Padding="2" IsVisible="{Binding DebufferedCommandViewModel.IsBusy}"
+                        Command="{Binding DebufferedCommandViewModel.CancelCommand}" />
+            </StackLayout>
+
+            <Editor Grid.Row="2" Grid.ColumnSpan="2" StyleClass="monospace"
+                    Text="{Binding DebufferedCommandViewModel.Output}" />
+
+            <StackLayout Grid.Row="3" Grid.ColumnSpan="2" Orientation="Horizontal">
+                <Label VerticalOptions="Center">Command:</Label>
+
+                <Entry Text="{Binding DebufferedCommandViewModel.CommandLine}" WidthRequest="300" />
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

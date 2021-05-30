@@ -32,64 +32,66 @@
     </ContentPage.BindingContext>
 
     <ContentPage.Content>
-        <Grid VerticalOptions="Start" Padding="20">
+        <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="170" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+            <Grid Background="White">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
 
-            <ListView Grid.Column="0" Background="White"
-                      ItemsSource="{Binding View, Source={StaticResource NetworkInterfaces}}"
-                      SelectedItem="{Binding SelectedNetworkInterface}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <Grid Margin="0,0,0,10" Background="White">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="16" />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
+                <ListView Background="White" Grid.Row="0"
+                          ItemsSource="{Binding View, Source={StaticResource NetworkInterfaces}}"
+                          SelectedItem="{Binding SelectedNetworkInterface}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid Margin="0,0,0,10" Background="White">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="16" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
 
-                                <Grid.RowDefinitions>
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
 
-                                <Image Source="{Binding Icon, Converter={x:Static iconfontservices:Converters.IconSpecToImageSource}}"
-                                       Grid.RowSpan="2" Margin="-20,-10,-10,-10" VerticalOptions="Center" />
+                                    <Image Source="{Binding Icon, Converter={x:Static iconfontservices:Converters.IconSpecToImageSource}}"
+                                           Grid.RowSpan="2" Margin="-20,-10,-10,-10" VerticalOptions="Center" />
 
-                                <Label Text="{Binding DisplayName}" VerticalOptions="Center" Grid.Column="1" />
+                                    <Label Text="{Binding DisplayName}" VerticalOptions="Center" Grid.Column="1" />
 
-                                <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="1"
-                                             x:DataType="viewmodels:NetworkInterfaceViewModel">
-                                    <Image Source="{Binding IsUpImage, Converter={x:Static iconfontservices:Converters.IconSpecToImageSource}}"
-                                           Grid.RowSpan="2" />
-                                    <Label FontSize="11" Margin="-5" TextColor="Gray"
-                                           Text="{Binding IsUpDescription}" />
-                                </StackLayout>
-                            </Grid>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                                    <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="1"
+                                                 x:DataType="viewmodels:NetworkInterfaceViewModel">
+                                        <Image Source="{Binding IsUpImage, Converter={x:Static iconfontservices:Converters.IconSpecToImageSource}}"
+                                               Grid.RowSpan="2" />
+                                        <Label FontSize="11" Margin="-5" TextColor="Gray"
+                                               Text="{Binding IsUpDescription}" />
+                                    </StackLayout>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
 
-            <!-- MAYBE replace this with one toggle button per interface type later -->
-            <StackLayout Orientation="Horizontal" Grid.Column="0" Grid.Row="1">
-                <CheckBox IsChecked="{Binding ShowAllNetworkInterfaces}" />
+                <!-- MAYBE replace this with one toggle button per interface type later -->
+                <StackLayout Orientation="Horizontal" Grid.Row="1" Padding="15,0,0,15">
+                    <CheckBox IsChecked="{Binding ShowAllNetworkInterfaces}" />
 
-                <Label Text="Show All Interfaces">
-                    <Label.GestureRecognizers>
-                        <ClickGestureRecognizer Command="{Binding ToggleShowAllNetworkInterfacesCommand}" />
-                    </Label.GestureRecognizers>
-                </Label>
-            </StackLayout>
+                    <Label Text="Show All Interfaces">
+                        <Label.GestureRecognizers>
+                            <ClickGestureRecognizer Command="{Binding ToggleShowAllNetworkInterfacesCommand}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </StackLayout>
+            </Grid>
 
-            <Grid Grid.Column="1" Grid.RowSpan="2"
+            <Grid Grid.Column="1"
                   IsVisible="{Binding SelectedNetworkInterface, Converter={x:Static converters:Converters.TrueIfNotNull}}">
                 <StackLayout Orientation="Vertical" BindingContext="{Binding SelectedNetworkInterface}">
                     <Grid>

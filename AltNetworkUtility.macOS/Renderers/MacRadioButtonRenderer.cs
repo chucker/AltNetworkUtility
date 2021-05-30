@@ -37,7 +37,18 @@ namespace Jammit.Forms.Renderers
 			base.OnElementChanged(e);
 			
 			if (Control != null)
+			{
 				Control.Activated += HandleActivated;
+
+				/*
+				 * is this a workaround for https://github.com/xamarin/Xamarin.Forms/issues/13752#issuecomment-842192302
+				 * or for https://github.com/xamarin/Xamarin.Forms/pull/14139#issuecomment-835744328
+				 * 
+				 * who's to say!
+				 */
+				if (e.NewElement.IsChecked)
+					Control.State = NSCellStateValue.On;
+			}
 		}
 	}
 }

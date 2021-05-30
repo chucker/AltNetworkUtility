@@ -28,7 +28,7 @@ namespace AltNetworkUtility.ViewModels
 
         public CancellationTokenSource? CancellationTokenSource;
 
-        public string Binary { get; }
+        public string Binary { get; set; }
 
         private string _CommandLine = "";
         public string CommandLine
