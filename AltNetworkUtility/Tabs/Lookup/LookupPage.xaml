@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-     xmlns:local="clr-namespace:AltNetworkUtility.Tabs.Lookup"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"    
+    xmlns:local="clr-namespace:AltNetworkUtility.Tabs.Lookup"
     x:Class="AltNetworkUtility.Tabs.Lookup.LookupPage"
     Title="Lookup">
 
@@ -82,6 +82,14 @@
                     </Label>
                     <Label Grid.Column="2" Grid.Row="3" FontSize="11">Matches Unix behavior, and offers more options</Label>
                 </Grid>
+
+                <StackLayout Orientation="Horizontal" Margin="0,10,0,0"
+                             IsVisible="{Binding ShowDigOptions}">
+                    <Label VerticalOptions="Center">Select the information to lookup:</Label>
+                    <Picker ItemsSource="{Binding DigModes}" ItemDisplayBinding="{Binding Description}"
+                            SelectedItem="{Binding DigMode}"
+                            HorizontalOptions="FillAndExpand" />
+                </StackLayout>
             </StackLayout>
 
             <StackLayout Grid.Row="1" Grid.Column="1" Orientation="Horizontal">

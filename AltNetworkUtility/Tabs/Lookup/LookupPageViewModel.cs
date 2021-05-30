@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Windows.Input;
 
 using AltNetworkUtility.Services;
@@ -14,6 +17,48 @@ namespace AltNetworkUtility.Tabs.Lookup
     {
         DsCacheUtil,
         Dig
+    }
+
+    public class DigMode
+    {
+        public string Name { get; }
+        public string Description { get; }
+        public string Argument { get; }
+
+        public DigMode(string name, string description) :
+            this(name, description, name)
+        { }
+
+        public DigMode(string name, string description, string argument)
+        {
+            if (Fields == null)
+                Fields = typeof(DigMode).GetFields(BindingFlags.Static | BindingFlags.Public);
+
+            Name = name;
+            Description = description;
+
+            Argument = argument;
+        }
+
+        public static readonly DigMode A = new("A", "A record (IPv4 host name)");
+        public static readonly DigMode AAAA = new("AAAA", "AAAA record (IPv6 host name)");
+        public static readonly DigMode MX = new("MX", "MX record (mail exchange)");
+        public static readonly DigMode PTR = new("PTR", "PTR (reverse lookup)", "-x");
+
+        private static FieldInfo[]? Fields;
+
+        public static DigMode GetFromString(string s)
+            => (Fields?.FirstOrDefault(f => f.Name == s)?.GetValue(null)) as DigMode ?? A;
+
+        public static DigMode[] GetAll()
+        {
+            var fieldValues = new List<DigMode>();
+
+            foreach (var item in Fields!)
+                fieldValues.Add((DigMode)item.GetValue(null)!);
+
+            return fieldValues.ToArray();
+        }
     }
 
     public class LookupPageViewModel : ViewModelBase
@@ -42,6 +87,8 @@ namespace AltNetworkUtility.Tabs.Lookup
 
                 SetProperty(ref _BinaryMode, LookupBinaryMode);
 
+                OnPropertyChanged(nameof(ShowDigOptions));
+
                 Log.Debug($"Mode: {LookupBinaryMode}");
 
                 UpdateCommandLine();
@@ -60,6 +107,24 @@ namespace AltNetworkUtility.Tabs.Lookup
         }
 
         public ICommand UseLookupBinaryCommand { get; }
+
+        public bool ShowDigOptions => LookupBinaryMode == LookupBinaryMode.Dig;
+
+        public DigMode[] DigModes { get; }
+
+        private DigMode _DigMode = DigMode.A;
+        public DigMode DigMode
+        {
+            get => _DigMode;
+            set
+            {
+                SetProperty(ref _DigMode, value);
+
+                Preferences.Set(nameof(DigMode), value.Name);
+
+                UpdateCommandLine();
+            }
+        }
 
         public DebufferedCommandViewModel DebufferedCommandViewModel { get; }
 
@@ -89,6 +154,8 @@ namespace AltNetworkUtility.Tabs.Lookup
                 case LookupBinaryMode.Dig:
                     DebufferedCommandViewModel.Binary = DigBinary;
 
+                    arguments.Add(DigMode.Argument);
+
                     arguments.Add(Host);
                     break;
                 case LookupBinaryMode.DsCacheUtil:
@@ -115,6 +182,12 @@ namespace AltNetworkUtility.Tabs.Lookup
             };
 
             Preferences = PreferencesService.GetInstance<LookupPageViewModel>();
+
+            if (Enum.TryParse<LookupBinaryMode>(Preferences.Get(nameof(BinaryMode), nameof(LookupBinaryMode.Dig)), out var lookupBinary))
+                BinaryMode = lookupBinary;
+
+            DigModes = DigMode.GetAll();
+            DigMode = DigMode.GetFromString(Preferences.Get(nameof(DigMode), DigMode.A.Name));
 
             Host = Preferences.Get(nameof(Host), "");
 
