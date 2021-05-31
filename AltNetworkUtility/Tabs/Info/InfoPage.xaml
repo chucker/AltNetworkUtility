@@ -34,7 +34,7 @@
     <ContentPage.Content>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="170" />
+                <ColumnDefinition Width="200" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
@@ -44,13 +44,13 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <ListView Background="White" Grid.Row="0"
+                <ListView Background="White" Grid.Row="0" Margin="-5"
                           ItemsSource="{Binding View, Source={StaticResource NetworkInterfaces}}"
                           SelectedItem="{Binding SelectedNetworkInterface}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <Grid Margin="0,0,0,10" Background="White">
+                                <Grid Margin="0,0,0,0" Background="White">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="16" />
                                         <ColumnDefinition />
