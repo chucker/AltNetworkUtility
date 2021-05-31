@@ -2,10 +2,14 @@
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:converters="clr-namespace:AltNetworkUtility.Converters"
+    xmlns:iconfontservices="clr-namespace:AltNetworkUtility.Services.IconFont"
     xmlns:local="clr-namespace:AltNetworkUtility.Tabs.Ping"
     x:Class="AltNetworkUtility.Tabs.Ping.PingPage"
     Title="Ping">
+
+    <ContentPage.Resources>
+        <iconfontservices:XamlIcon x:Key="LockIcon" Name="lock.fill" Color="SandyBrown" />
+    </ContentPage.Resources>
 
     <ContentPage.BindingContext>
         <local:PingPageViewModel />
@@ -19,6 +23,7 @@
             </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -48,6 +53,18 @@
             </StackLayout>
 
             <StackLayout Grid.Row="3" Orientation="Horizontal">
+                <!--<CheckBox IsChecked="{Binding UseSpecificInterface}" />
+
+                <Label Text="Flood Ping" VerticalOptions="Center">
+                    <Label.GestureRecognizers>
+                        <ClickGestureRecognizer Command="{Binding ToggleUseSpecificInterfaceCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>-->
+
+                <Image Source="{StaticResource Key=LockIcon}" />
+            </StackLayout>
+
+            <StackLayout Grid.Row="4" Orientation="Horizontal">
                 <CheckBox IsChecked="{Binding UseSpecificInterface}" />
 
                 <Label Text="Ping using this interface:" VerticalOptions="Center">
@@ -61,7 +78,7 @@
                         ItemDisplayBinding="{Binding DisplayName}" />
             </StackLayout>
 
-            <StackLayout Grid.Row="4" Grid.Column="1" Orientation="Horizontal" VerticalOptions="End">
+            <StackLayout Grid.Row="5" Grid.Column="1" Orientation="Horizontal" VerticalOptions="End">
                 <Button Text="Run" Padding="2" IsVisible="{Binding DebufferedCommandViewModel.IsNotBusy}"
                         Command="{Binding DebufferedCommandViewModel.RunCommand}" />
 
@@ -74,7 +91,7 @@
                         Command="{Binding DebufferedCommandViewModel.CancelCommand}" />
             </StackLayout>
 
-            <StackLayout Grid.Row="4" Orientation="Horizontal"
+            <StackLayout Grid.Row="5" Orientation="Horizontal"
                          RadioButtonGroup.GroupName="AudibleMode"
                          RadioButtonGroup.SelectedValue="{Binding AudibleMode}">
                 <Label VerticalOptions="Center">Make sound:</Label>
@@ -83,10 +100,10 @@
                 <RadioButton Value="Never" IsChecked="True" Content="Never" />
             </StackLayout>
 
-            <Editor Grid.Row="5" Grid.ColumnSpan="2" StyleClass="monospace"
+            <Editor Grid.Row="6" Grid.ColumnSpan="2" StyleClass="monospace"
                     Text="{Binding DebufferedCommandViewModel.Output}" />
 
-            <StackLayout Grid.Row="6" Grid.ColumnSpan="2" Orientation="Horizontal">
+            <StackLayout Grid.Row="7" Grid.ColumnSpan="2" Orientation="Horizontal">
                 <Label VerticalOptions="Center">Command:</Label>
 
                 <Entry WidthRequest="300" Text="{Binding DebufferedCommandViewModel.CommandLine}" />
