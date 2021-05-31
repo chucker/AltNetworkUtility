@@ -31,6 +31,7 @@ namespace AltNetworkUtility.macOS
         {
             DependencyService.Register<IIconFontProvider, MacIconFontProvider>();
             DependencyService.Register<ISystemSoundService, MacSystemSoundService>();
+            DependencyService.Register<IPrivilegedHelperService, MacPrivilegedHelperService>();
 
             DependencyService.Register<Repository>();
 
@@ -41,7 +42,7 @@ namespace AltNetworkUtility.macOS
             {
                 if (type == typeof(WindowService))
                     continue;
-
+                
                 var method = typeof(DependencyService).GetMethod("Register", 1,
                                                                  BindingFlags.Static | BindingFlags.Public, null,
                                                                  CallingConventions.Standard, new Type[] { }, null);
@@ -55,6 +56,8 @@ namespace AltNetworkUtility.macOS
             Forms.Init();
 
             InitNetworkInterfaceRepo();
+
+            DependencyService.Get<IPrivilegedHelperService>().TryInstallHelper();
 
             _MainWindow = DependencyService.Get<MainWindowService>().OpenWindow();
 
