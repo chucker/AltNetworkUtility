@@ -5,14 +5,14 @@ VisualStudioVersion = 16.0.810.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AltNetworkUtility", "AltNetworkUtility\AltNetworkUtility.csproj", "{F438D518-D0E2-45CB-B1F0-6A19E80017B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AltNetworkUtility.macOS", "AltNetworkUtility.macOS\AltNetworkUtility.macOS.csproj", "{14C5B6AF-6EAA-44AD-BCD5-1CE02385EEB7}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8DF7DD45-4E56-4054-BBF2-9B2928D93309}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "AltNetworkUtility.iOS", "AltNetworkUtility.iOS\AltNetworkUtility.iOS.csproj", "{3E0262E1-6247-4E16-A099-E808B5915AE0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AltNetworkUtility.macOS", "AltNetworkUtility.macOS\AltNetworkUtility.macOS.csproj", "{14C5B6AF-6EAA-44AD-BCD5-1CE02385EEB7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AltNetworkUtility.macOS.PrivilegedHelper", "AltNetworkUtility.macOS.PrivilegedHelper\AltNetworkUtility.macOS.PrivilegedHelper.csproj", "{D195E18A-E04D-4E32-9688-C203BE7CA600}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,18 +48,18 @@ Global
 		{14C5B6AF-6EAA-44AD-BCD5-1CE02385EEB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14C5B6AF-6EAA-44AD-BCD5-1CE02385EEB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{14C5B6AF-6EAA-44AD-BCD5-1CE02385EEB7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3E0262E1-6247-4E16-A099-E808B5915AE0}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
-		{3E0262E1-6247-4E16-A099-E808B5915AE0}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
-		{3E0262E1-6247-4E16-A099-E808B5915AE0}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
-		{3E0262E1-6247-4E16-A099-E808B5915AE0}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
-		{3E0262E1-6247-4E16-A099-E808B5915AE0}.Debug|iPhone.ActiveCfg = Debug|iPhone
-		{3E0262E1-6247-4E16-A099-E808B5915AE0}.Debug|iPhone.Build.0 = Debug|iPhone
-		{3E0262E1-6247-4E16-A099-E808B5915AE0}.Release|iPhone.ActiveCfg = Release|iPhone
-		{3E0262E1-6247-4E16-A099-E808B5915AE0}.Release|iPhone.Build.0 = Release|iPhone
-		{3E0262E1-6247-4E16-A099-E808B5915AE0}.Debug|Any CPU.ActiveCfg = Debug|iPhoneSimulator
-		{3E0262E1-6247-4E16-A099-E808B5915AE0}.Debug|Any CPU.Build.0 = Debug|iPhoneSimulator
-		{3E0262E1-6247-4E16-A099-E808B5915AE0}.Release|Any CPU.ActiveCfg = Release|iPhoneSimulator
-		{3E0262E1-6247-4E16-A099-E808B5915AE0}.Release|Any CPU.Build.0 = Release|iPhoneSimulator
+		{D195E18A-E04D-4E32-9688-C203BE7CA600}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{D195E18A-E04D-4E32-9688-C203BE7CA600}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{D195E18A-E04D-4E32-9688-C203BE7CA600}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{D195E18A-E04D-4E32-9688-C203BE7CA600}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{D195E18A-E04D-4E32-9688-C203BE7CA600}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{D195E18A-E04D-4E32-9688-C203BE7CA600}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{D195E18A-E04D-4E32-9688-C203BE7CA600}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{D195E18A-E04D-4E32-9688-C203BE7CA600}.Release|iPhone.Build.0 = Release|Any CPU
+		{D195E18A-E04D-4E32-9688-C203BE7CA600}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D195E18A-E04D-4E32-9688-C203BE7CA600}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D195E18A-E04D-4E32-9688-C203BE7CA600}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D195E18A-E04D-4E32-9688-C203BE7CA600}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
