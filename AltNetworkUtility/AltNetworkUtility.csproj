@@ -22,5 +22,9 @@
 		<PackageDownload Include="Microsoft.NETCore.App.Ref" Version="[5.0.0]" />
 		<PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
 		<PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
+		<PackageReference Include="System.Text.Json" Version="6.0.1" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Remove="System.Text.Json" />
 	</ItemGroup>
 </Project>
