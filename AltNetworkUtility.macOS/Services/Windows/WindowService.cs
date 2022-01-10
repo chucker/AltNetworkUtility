@@ -6,6 +6,8 @@ using CoreFoundation;
 
 using CoreGraphics;
 
+using Foundation;
+
 using Serilog;
 
 using Xamarin.Forms.Platform.MacOS;
@@ -142,10 +144,20 @@ namespace AltNetworkUtility.macOS.Services.Windows
                 var windowController = new NSWindowController(window);
                 windowController.ShowWindow(null);
 
+                window.Delegate = new WindowDelegate();
+
                 ShowWindow(window);
 
                 return window;
             });
+        }
+
+        private class WindowDelegate : NSWindowDelegate
+        {
+            public override void WillClose(NSNotification notification)
+            {
+                Xamarin.Forms.DependencyService.Get<AboutBoxWindowService>().CloseWindow();
+            }
         }
     }
 }
