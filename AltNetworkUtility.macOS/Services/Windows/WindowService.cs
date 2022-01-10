@@ -1,5 +1,8 @@
 ﻿using System.Collections.Concurrent;
 
+using AltNetworkUtility.About;
+using AltNetworkUtility.Services.Windows;
+
 using AppKit;
 
 using CoreFoundation;
@@ -22,9 +25,9 @@ namespace AltNetworkUtility.macOS.Services.Windows
         AboutBox
     }
 
-    public abstract class WindowService
+    public abstract class WindowService : IWindowService
     {
-        protected readonly ConcurrentDictionary<Window, NSWindow> _SingleInstanceWindows = new();
+        protected static readonly ConcurrentDictionary<Window, NSWindow> _SingleInstanceWindows = new();
 
         readonly ILogger Log = Serilog.Log.ForContext<WindowService>();
 
@@ -70,8 +73,19 @@ namespace AltNetworkUtility.macOS.Services.Windows
         {
             if (page.WidthRequest == 0 || page.HeightRequest == 0)
                 Log.Warning("Width or height weren't set");
-
+            
             window.SetFrame(new CGRect(200, 200, page.WidthRequest, page.HeightRequest), true, true);
+        }
+
+        public void ResizeToFit(Xamarin.Forms.Page page)
+        {
+            if (!_SingleInstanceWindows.TryGetValue(Window, out var nsWindow))
+                Log.Error("Couldn't find window");
+
+            if (page.WidthRequest == 0 || page.HeightRequest == 0)
+                Log.Warning("Width or height weren't set");
+
+            nsWindow.SetFrame(new CGRect(nsWindow.Frame.Left, nsWindow.Frame.Top, page.WidthRequest, page.HeightRequest), true, true);
         }
 
         protected static void ShowWindow(NSWindow window)
@@ -123,7 +137,7 @@ namespace AltNetworkUtility.macOS.Services.Windows
         }
     }
 
-    public class AboutBoxWindowService : WindowService
+    public class AboutBoxWindowService : WindowService, IAboutBoxWindowService
     {
         public override Window Window => Window.AboutBox;
 

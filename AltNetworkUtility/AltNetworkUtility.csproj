@@ -26,5 +26,11 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <None Remove="System.Text.Json" />
+	  <None Remove="About\" />
+	  <None Remove="Services\Windows\" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="About\" />
+	  <Folder Include="Services\Windows\" />
 	</ItemGroup>
 </Project>

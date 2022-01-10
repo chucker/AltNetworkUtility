@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="AltNetworkUtility.About.AboutBoxPage"
+    WidthRequest="300" HeightRequest="380">
+
+    <ContentPage.Content>
+
+        <Grid VerticalOptions="Fill" x:Name="Grid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300" />
+                <ColumnDefinition Width="500" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <StackLayout Grid.Row="1" Orientation="Vertical" VerticalOptions="Center">
+                <Label FontSize="13" FontAttributes="Bold" Margin="0,20,0,0" HorizontalOptions="Center">
+                    Alt Network Utility
+                </Label>
+
+                <Label FontSize="11" Margin="0,0,0,30" HorizontalOptions="Center">
+                    1.0
+                </Label>
+
+                <Label FontSize="11" Margin="0,20,0,10" HorizontalOptions="Center">
+                    © 2021-22 Sören Kuklau and contributors
+                </Label>
+
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                    <Switch Toggled="Switch_Toggled" VerticalOptions="Center" />
+                    <Label FontSize="13" VerticalOptions="Center">Show Third-Party Acknowledgments</Label>
+                </StackLayout>
+            </StackLayout>
+
+            <Grid Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Background="White" IsVisible="False"
+                  x:Name="AcknowledgmentsPane">
+
+                <Label HorizontalOptions="Center" VerticalOptions="Center" FontSize="13">todo</Label>
+
+            </Grid>
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>
