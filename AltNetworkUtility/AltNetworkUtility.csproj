@@ -27,6 +27,7 @@
     <PackageReference Include="LambdaConverters.XF" Version="4.0.0-alpha2" />
     <PackageReference Include="CollectionViewSource.Forms" Version="1.0.0.2" />
     <PackageReference Include="Microcharts.Forms" Version="1.0.0-preview1" />
+    <PackageReference Include="SkiaSharp.Views.Forms" Version="2.80.2" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Tabs\" />
@@ -44,5 +45,6 @@
     <None Remove="Tabs\Ping\" />
     <None Remove="Services\IconFont\" />
     <Folder Include="Converters\" />
+    <None Remove="SkiaSharp.Views.Forms" />
   </ItemGroup>
 </Project>
