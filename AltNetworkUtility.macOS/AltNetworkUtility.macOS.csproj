@@ -157,17 +157,17 @@
     <Compile Include="Repositories\NetworkInterfaceRepository\IORegistryDataSource.cs" />
   </ItemGroup>
   <ItemGroup>
-      <PackageReference Include="CliWrap" Version="3.3.2" />
+      <PackageReference Include="CliWrap" Version="3.4.0" />
       <PackageReference Include="CollectionViewSource.Forms" Version="1.0.0.2" />
       <PackageReference Include="LambdaConverters.XF" Version="4.0.0-alpha2" />
       <PackageReference Include="Microcharts.Forms" Version="1.0.0-preview1" />
-      <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="5.0.0" />
+      <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="6.0.0" />
       <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.0.1" />
       <PackageReference Include="Serilog" Version="2.10.0" />
       <PackageReference Include="System.Reactive" Version="5.0.0" />
       <PackageReference Include="TunnelVisionLabs.ReferenceAssemblyAnnotator" Version="1.0.0-alpha.160" PrivateAssets="all" />
       <PackageDownload Include="Microsoft.NETCore.App.Ref" Version="[5.0.0]" />
-      <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
+      <PackageReference Include="Xamarin.Forms" Version="5.0.0.2291" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Main.storyboard" />
