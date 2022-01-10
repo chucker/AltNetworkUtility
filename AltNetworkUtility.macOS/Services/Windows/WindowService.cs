@@ -66,6 +66,14 @@ namespace AltNetworkUtility.macOS.Services.Windows
                 ShowWindow(window);
         }
 
+        protected void SetNSWindowFrameFromXamFormsPage(NSWindow window, Xamarin.Forms.Page page)
+        {
+            if (page.WidthRequest == 0 || page.HeightRequest == 0)
+                Log.Warning("Width or height weren't set");
+
+            window.SetFrame(new CGRect(200, 200, page.WidthRequest, page.HeightRequest), true, true);
+        }
+
         protected static void ShowWindow(NSWindow window)
         {
             NSApplication.SharedApplication.ActivateIgnoringOtherApps(true);
@@ -98,9 +106,9 @@ namespace AltNetworkUtility.macOS.Services.Windows
 
                 window.TabbingMode = NSWindowTabbingMode.Disallowed;
 
-                window.SetFrame(new CGRect(200, 200, 640, 480), true, true);
-
                 var page = new MainPage();
+
+                SetNSWindowFrameFromXamFormsPage(window, page);
 
                 window.ContentView = page.CreateViewController().View;
 
@@ -135,10 +143,10 @@ namespace AltNetworkUtility.macOS.Services.Windows
 
                 window.TabbingMode = NSWindowTabbingMode.Disallowed;
 
-                window.SetFrame(new CGRect(200, 200, 300, 326), true, true);
-
                 var page = new AboutBoxPage();
 
+                SetNSWindowFrameFromXamFormsPage(window, page);
+                
                 window.ContentView = page.CreateViewController().View;
 
                 var windowController = new NSWindowController(window);

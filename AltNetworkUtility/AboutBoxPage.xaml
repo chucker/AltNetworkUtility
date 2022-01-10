@@ -2,7 +2,9 @@
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="AltNetworkUtility.AboutBoxPage">
+    x:Class="AltNetworkUtility.AboutBoxPage"
+    WidthRequest="300" HeightRequest="326">
+
     <ContentPage.Content>
 
         <Grid VerticalOptions="Fill">
