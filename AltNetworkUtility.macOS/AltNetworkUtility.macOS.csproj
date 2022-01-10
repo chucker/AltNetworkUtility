@@ -155,6 +155,7 @@
     <Compile Include="Repositories\NetworkInterfaceRepository\SystemConfigurationDataSource.cs" />
     <Compile Include="Repositories\NetworkInterfaceRepository\BsdDataSource.cs" />
     <Compile Include="Repositories\NetworkInterfaceRepository\IORegistryDataSource.cs" />
+    <Compile Include="Services\MacOpenUrlService.cs" />
   </ItemGroup>
   <ItemGroup>
       <PackageReference Include="CliWrap" Version="3.4.0" />

@@ -6,6 +6,11 @@
     font-size: 11;
 }
 
+.acknowledgments label {
+    font-size: 13;
+    text-decoration: underline;
+}
+
 /*
     Not implemented as of XF 5.0.0
     https://github.com/xamarin/Xamarin.Forms/blob/main/Xamarin.Forms.Core/StyleSheets/Selector.cs#L41

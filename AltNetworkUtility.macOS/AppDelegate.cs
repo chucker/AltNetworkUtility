@@ -34,6 +34,8 @@ namespace AltNetworkUtility.macOS
 
             DependencyService.Register<Repository>();
 
+            DependencyService.Register<IOpenUrlService, MacOpenUrlService>();
+
             // register all WindowService subtypes
             foreach (var type in Assembly.GetExecutingAssembly().GetTypes()
                              .Where(t => typeof(WindowService).IsAssignableFrom(t))
