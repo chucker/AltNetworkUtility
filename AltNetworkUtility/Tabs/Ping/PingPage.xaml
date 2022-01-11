@@ -61,7 +61,7 @@
                     </Label.GestureRecognizers>
                 </Label>-->
 
-                <Image Source="{StaticResource Key=LockIcon}" />
+                <!--<Image Source="{StaticResource Key=LockIcon}" />-->
             </StackLayout>
 
             <StackLayout Grid.Row="4" Orientation="Horizontal">
