@@ -18,7 +18,7 @@
 
     <lookup:LookupPage />
 
-    <ContentPage Title="Traceroute">
+    <!--<ContentPage Title="Traceroute">
     </ContentPage>
 
     <ContentPage Title="Whois">
@@ -28,6 +28,6 @@
     </ContentPage>
 
     <ContentPage Title="Port Scan">
-    </ContentPage>
+    </ContentPage>-->
 
 </TabbedPage>
