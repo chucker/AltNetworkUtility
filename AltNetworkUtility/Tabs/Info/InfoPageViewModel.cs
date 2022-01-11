@@ -8,6 +8,7 @@ using Rotorsoft.Forms;
 
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Net.NetworkInformation;
 using System.Windows.Input;
 
@@ -110,6 +111,8 @@ namespace AltNetworkUtility.Tabs.Info
 
             var repo = DependencyService.Get<Repository>();
             AvailableNetworkInterfaces = repo.AsObservable;
+
+            SelectedNetworkInterface = AvailableNetworkInterfaces.FirstOrDefault();
         }
 
         public void Init(ICollectionView? networkInterfacesView)

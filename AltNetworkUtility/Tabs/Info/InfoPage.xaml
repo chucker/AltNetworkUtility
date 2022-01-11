@@ -22,120 +22,134 @@
     <ContentPage.Content>
         <StackLayout Orientation="Vertical">
             <Label Margin="10,20,10,0">Please select a network interface for information</Label>
-            <Picker ItemsSource="{Binding AvailableNetworkInterfaces}" ItemDisplayBinding="{Binding DisplayName}"
-                    SelectedItem="{Binding SelectedNetworkInterface}"
-                    Margin="10" WidthRequest="200">
-            </Picker>
-            <Grid BindingContext="{Binding SelectedNetworkInterface}"
-                      IsVisible="{Binding SelectedNetworkInterface, Converter={x:Static converters:Converters.TrueIfNotNull}}">
+
+            <Grid Margin="10">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="130" />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="200" />
                 </Grid.ColumnDefinitions>
 
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="40" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-
-                        <Label Grid.Row="0" Grid.ColumnSpan="2" FontAttributes="Bold"
-                               Text="Interface Information" Margin="10" VerticalOptions="Start" />
-
-                <Label Grid.Row="1" HorizontalOptions="End">Hardware Address:</Label>
-                <Label Grid.Row="1" Grid.Column="1" Text="{Binding PhysicalAddress}" />
-
-                <Label Grid.Row="2" HorizontalOptions="End" VerticalOptions="Start">IP Address:</Label>
-                <Label Grid.Row="2" Grid.Column="1" VerticalOptions="StartAndExpand"
-                               Text="{Binding IPAddresses, Converter={x:Static converters:Converters.EnumerableToMultilineString}}" />
-
-                <Label Grid.Row="3" HorizontalOptions="End">Link Speed:</Label>
-                <Label Grid.Row="3" Grid.Column="1" Text="{Binding Speed}" />
-
-                <Label Grid.Row="4" HorizontalOptions="End">Link Status:</Label>
-                <StackLayout Orientation="Horizontal" Grid.Row="4" Grid.Column="1">
-                    <Image Source="{Binding IsUpImage, Converter={x:Static iconfontservices:Converters.IconSpecToImageSource}}"
-                                   Grid.RowSpan="2" />
-
-                    <Label Margin="-3" Text="{Binding IsUpDescription}" />
-                </StackLayout>
-
-                <Label Grid.Row="5" HorizontalOptions="End">Vendor:</Label>
-                <Label Grid.Row="5" Grid.Column="1" Text="{Binding Vendor}" />
-
-                <Label Grid.Row="6" HorizontalOptions="End">Model:</Label>
-                <Label Grid.Row="6" Grid.Column="1" Text="{Binding Model}" />
+                <Picker ItemsSource="{Binding AvailableNetworkInterfaces}"
+                    ItemDisplayBinding="{Binding DisplayName}"
+                    SelectedItem="{Binding SelectedNetworkInterface}">
+                </Picker>
             </Grid>
 
-            <Label FontAttributes="Bold" Margin="10"
-                       IsVisible="{Binding SelectedNetworkInterface, Converter={x:Static converters:Converters.TrueIfNotNull}}">
-                Transfer Statistics
-            </Label>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
-            <Frame HasShadow="False" Margin="10,0,0,0" Padding="0" StyleClass="small"
-                       BindingContext="{Binding SelectedNetworkInterface}"
-                       IsVisible="{Binding SelectedNetworkInterface, Converter={x:Static converters:Converters.TrueIfNotNull}}">
-                <Grid>
+                <Grid BindingContext="{Binding SelectedNetworkInterface}" Grid.Column="0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="120" />
-                        <ColumnDefinition Width="60" />
-                        <ColumnDefinition Width="90" />
+                        <ColumnDefinition Width="130" />
+                        <ColumnDefinition />
                     </Grid.ColumnDefinitions>
 
                     <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <Label Grid.Row="0" HorizontalOptions="End">Sent Packets:</Label>
-                    <Label Grid.Row="0" Grid.Column="1"
+                    <Label Grid.Row="0" Grid.ColumnSpan="2" FontAttributes="Bold"
+                       Text="Interface Information" Margin="10" VerticalOptions="Start" />
+
+                    <Label Grid.Row="1" HorizontalOptions="End">Hardware Address:</Label>
+                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding PhysicalAddress}" />
+
+                    <Label Grid.Row="2" HorizontalOptions="End" VerticalOptions="Start">IP Address:</Label>
+                    <Label Grid.Row="2" Grid.Column="1" VerticalOptions="StartAndExpand"
+                       Text="{Binding IPAddresses, Converter={x:Static converters:Converters.EnumerableToMultilineString}}" />
+
+                    <Label Grid.Row="3" HorizontalOptions="End">Link Speed:</Label>
+                    <Label Grid.Row="3" Grid.Column="1" Text="{Binding Speed}" />
+
+                    <Label Grid.Row="4" HorizontalOptions="End">Link Status:</Label>
+                    <StackLayout Orientation="Horizontal" Grid.Row="4" Grid.Column="1">
+                        <Image Source="{Binding IsUpImage, Converter={x:Static iconfontservices:Converters.IconSpecToImageSource}}"
+                                   Grid.RowSpan="2" />
+
+                        <Label Margin="-3" Text="{Binding IsUpDescription}" />
+                    </StackLayout>
+
+                    <Label Grid.Row="5" HorizontalOptions="End">Vendor:</Label>
+                    <Label Grid.Row="5" Grid.Column="1" Text="{Binding Vendor}" />
+
+                    <Label Grid.Row="6" HorizontalOptions="End" VerticalOptions="Start">Model:</Label>
+                    <Label Grid.Row="6" Grid.Column="1" Text="{Binding Model}" />
+                </Grid>
+
+                <StackLayout Orientation="Vertical" Grid.Column="1">
+                    <Label FontAttributes="Bold" Margin="10">
+                        Transfer Statistics
+                    </Label>
+
+                    <Grid Margin="10,0,0,0" Padding="0" StyleClass="small"
+                          BindingContext="{Binding SelectedNetworkInterface}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="120" />
+                                <ColumnDefinition Width="60" />
+                                <ColumnDefinition Width="90" />
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+
+                            <Label Grid.Row="0" HorizontalOptions="End">Sent Packets:</Label>
+                            <Label Grid.Row="0" Grid.Column="1"
                                    Text="{Binding Statistics.SentPackets.MostRecentValue_SI}" />
-                    <Label Grid.Row="0" Grid.Column="2"
+                            <Label Grid.Row="0" Grid.Column="2"
                                    Text="{Binding Statistics.SentPackets.DeltaPerSecond_SI, StringFormat='{0}/sec'}" />
 
-                    <Label Grid.Row="1" HorizontalOptions="End">Sent Bytes:</Label>
-                    <Label Grid.Row="1" Grid.Column="1"
+                            <Label Grid.Row="1" HorizontalOptions="End">Sent Bytes:</Label>
+                            <Label Grid.Row="1" Grid.Column="1"
                                    Text="{Binding Statistics.SentBytes.MostRecentValue_SI, StringFormat='{0}B'}" />
-                    <Label Grid.Row="1" Grid.Column="2"
+                            <Label Grid.Row="1" Grid.Column="2"
                                    Text="{Binding Statistics.SentBytes.DeltaPerSecond_SI, StringFormat='{0}B/sec'}" />
-                    <Label Grid.Row="2" HorizontalOptions="End">Send Errors:</Label>
-                    <Label Grid.Row="2" Grid.Column="1"
+                            <Label Grid.Row="2" HorizontalOptions="End">Send Errors:</Label>
+                            <Label Grid.Row="2" Grid.Column="1"
                                    Text="{Binding Statistics.SendErrors.MostRecentValue_SI}" />
-                    <Label Grid.Row="2" Grid.Column="2"
+                            <Label Grid.Row="2" Grid.Column="2"
                                    Text="{Binding Statistics.SendErrors.DeltaPerSecond_SI, StringFormat='{0}/sec'}" />
 
-                    <Label Grid.Row="3" HorizontalOptions="End">Recv Packets:</Label>
-                    <Label Grid.Row="3" Grid.Column="1"
+                            <Label Grid.Row="3" HorizontalOptions="End">Recv Packets:</Label>
+                            <Label Grid.Row="3" Grid.Column="1"
                                    Text="{Binding Statistics.RecvPackets.MostRecentValue_SI}" />
-                    <Label Grid.Row="3" Grid.Column="2"
+                            <Label Grid.Row="3" Grid.Column="2"
                                    Text="{Binding Statistics.RecvPackets.DeltaPerSecond_SI, StringFormat='{0}/sec'}" />
-                    <Label Grid.Row="4" HorizontalOptions="End">Recv Bytes:</Label>
-                    <Label Grid.Row="4" Grid.Column="1"
+                            <Label Grid.Row="4" HorizontalOptions="End">Recv Bytes:</Label>
+                            <Label Grid.Row="4" Grid.Column="1"
                                    Text="{Binding Statistics.RecvBytes.MostRecentValue_SI, StringFormat='{0}B'}" />
-                    <Label Grid.Row="4" Grid.Column="2"
+                            <Label Grid.Row="4" Grid.Column="2"
                                    Text="{Binding Statistics.RecvBytes.DeltaPerSecond_SI, StringFormat='{0}B/sec'}" />
-                    <Label Grid.Row="5" HorizontalOptions="End">Recv Errors:</Label>
-                    <Label Grid.Row="5" Grid.Column="1"
+                            <Label Grid.Row="5" HorizontalOptions="End">Recv Errors:</Label>
+                            <Label Grid.Row="5" Grid.Column="1"
                                    Text="{Binding Statistics.RecvErrors.MostRecentValue_SI}" />
-                    <Label Grid.Row="5" Grid.Column="2"
+                            <Label Grid.Row="5" Grid.Column="2"
                                    Text="{Binding Statistics.RecvErrors.DeltaPerSecond_SI, StringFormat='{0}/sec'}" />
 
-                    <Label Grid.Row="6" HorizontalOptions="End">Collisions:</Label>
-                    <Label Grid.Row="6" Grid.Column="1"
+                            <Label Grid.Row="6" HorizontalOptions="End">Collisions:</Label>
+                            <Label Grid.Row="6" Grid.Column="1"
                                    Text="{Binding Statistics.Collisions.MostRecentValue_SI}" />
-                    <Label Grid.Row="6" Grid.Column="2"
+                            <Label Grid.Row="6" Grid.Column="2"
                                    Text="{Binding Statistics.Collisions.DeltaPerSecond_SI, StringFormat='{0}/sec'}" />
-                </Grid>
-            </Frame>
+                        </Grid>
+                    </Grid>
+                </StackLayout>
+            </Grid>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
