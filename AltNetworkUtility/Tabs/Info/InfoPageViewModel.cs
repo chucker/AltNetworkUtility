@@ -112,6 +112,13 @@ namespace AltNetworkUtility.Tabs.Info
             var repo = DependencyService.Get<Repository>();
             AvailableNetworkInterfaces = repo.AsObservable;
 
+            // workaround for #36 interface picker, where filtering doesn't appear to work
+            foreach (var item in AvailableNetworkInterfaces.ToList())
+            {
+                if (!NetworkInterfaceFilter(item))
+                    AvailableNetworkInterfaces.Remove(item);
+            }
+
             SelectedNetworkInterface = AvailableNetworkInterfaces.FirstOrDefault();
         }
 
