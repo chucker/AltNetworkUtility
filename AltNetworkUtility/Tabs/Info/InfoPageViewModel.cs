@@ -35,35 +35,16 @@ namespace AltNetworkUtility.Tabs.Info
             set => SetProperty(ref _SelectedNetworkInterface, value);
         }
 
-        private bool _ShowAllNetworkInterfaces;
-        public bool ShowAllNetworkInterfaces
-        {
-            get => _ShowAllNetworkInterfaces;
-            set
-            {
-                SetProperty(ref _ShowAllNetworkInterfaces, value);
-
-                Preferences.Set(nameof(ShowAllNetworkInterfaces), value);
-
-                NetworkInterfacesView?.Refresh();
-            }
-        }
-
         public ICommand ToggleShowAllNetworkInterfacesCommand { get; }
 
         public InfoPageViewModel()
         {
             Preferences = PreferencesService.GetInstance<InfoPageViewModel>();
 
-            ShowAllNetworkInterfaces = Preferences.Get(nameof(ShowAllNetworkInterfaces), false);
-
             _NetworkInterfaceFilter = o =>
             {
                 if (o is not NetworkInterfaceViewModel networkInterface)
                     return false;
-
-                if (ShowAllNetworkInterfaces)
-                    return true;
 
                 bool shouldShowType = networkInterface.NetworkInterfaceType switch
                 {
@@ -106,9 +87,6 @@ namespace AltNetworkUtility.Tabs.Info
                 return shouldShowType && !filterName;
             };
 
-            ToggleShowAllNetworkInterfacesCommand = new RelayCommand(() =>
-                ShowAllNetworkInterfaces = !ShowAllNetworkInterfaces);
-
             var repo = DependencyService.Get<Repository>();
             AvailableNetworkInterfaces = repo.AsObservable;
 
@@ -122,10 +100,8 @@ namespace AltNetworkUtility.Tabs.Info
             SelectedNetworkInterface = AvailableNetworkInterfaces.FirstOrDefault();
         }
 
-        public void Init(ICollectionView? networkInterfacesView)
+        public void Init()
         {
-            NetworkInterfacesView = networkInterfacesView;
-
             foreach (var item in AvailableNetworkInterfaces)
                 item.ParentVM = this;
         }
