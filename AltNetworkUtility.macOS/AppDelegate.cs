@@ -56,6 +56,8 @@ namespace AltNetworkUtility.macOS
         {
             Forms.Init();
 
+            Xamarin.FormsMaps.Init();
+
             InitNetworkInterfaceRepo();
 
             _MainWindow = DependencyService.Get<MainWindowService>().OpenWindow();

@@ -5,6 +5,7 @@
             xmlns:netstat="clr-namespace:AltNetworkUtility.Tabs.Netstat"
             xmlns:ping="clr-namespace:AltNetworkUtility.Tabs.Ping"
             xmlns:lookup="clr-namespace:AltNetworkUtility.Tabs.Lookup"
+            xmlns:traceroute="clr-namespace:AltNetworkUtility.Tabs.Traceroute"
             x:Class="AltNetworkUtility.MainPage"
             WidthRequest="640" HeightRequest="480"
             PagesChanged="TabbedPage_PagesChanged" 
@@ -18,8 +19,7 @@
 
     <lookup:LookupPage />
 
-    <ContentPage Title="Traceroute">
-    </ContentPage>
+    <traceroute:TraceroutePage />
 
     <ContentPage Title="Whois">
     </ContentPage>
