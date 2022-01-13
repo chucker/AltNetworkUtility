@@ -1,14 +1,17 @@
-<?xml version="1.0" standalone="yes"?>
-<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
-    <channel>
-        <title>Alt Network Utility</title>
-        <item>
-            <title>1.0b4</title>
-            <pubDate>Thu, 13 Jan 2022 23:19:55 +0100</pubDate>
-            <sparkle:version>1.0.3</sparkle:version>
-            <sparkle:shortVersionString>1.0b4</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>10.16</sparkle:minimumSystemVersion>
-            <enclosure url="https://chucker.github.io/AltNetworkUtility/Alt%20Network%20Utility-1.0b4.zip" length="14247270" type="application/octet-stream" sparkle:edSignature="XLbdxply5pWbJtYVhBbgrlRIkcP6ey9xPvCn12alhhDVbET1OxG2KagevLzSpM/W/+RojoV5Aqu+K4PFcRkgCA=="/>
-        </item>
-    </channel>
-</rss>
+<?xml version="1.0" standalone="yes"?><rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
+<channel>
+<title>Alt Network Utility</title>
+<item>
+<title>1.0b6</title>
+<pubDate>Thu, 13 Jan 2022 23:48:34 +0100</pubDate>
+<sparkle:minimumSystemVersion>10.16</sparkle:minimumSystemVersion>
+<enclosure url="https://chucker.github.io/AltNetworkUtility/Alt%20Network%20Utility-1.0b6.zip" sparkle:version="1.0.6" sparkle:shortVersionString="1.0b6" length="14249054" type="application/octet-stream"/>
+</item>
+<item>
+<title>1.0b7</title>
+<pubDate>Thu, 13 Jan 2022 23:51:24 +0100</pubDate>
+<sparkle:minimumSystemVersion>10.16</sparkle:minimumSystemVersion>
+<enclosure url="https://chucker.github.io/AltNetworkUtility/Alt%20Network%20Utility-1.0b7.zip" sparkle:version="1.0.7" sparkle:shortVersionString="1.0b7" length="14249047" type="application/octet-stream"/>
+</item>
+
+</channel></rss>
