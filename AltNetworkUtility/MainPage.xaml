@@ -6,7 +6,7 @@
             xmlns:ping="clr-namespace:AltNetworkUtility.Tabs.Ping"
             xmlns:lookup="clr-namespace:AltNetworkUtility.Tabs.Lookup"
             x:Class="AltNetworkUtility.MainPage"
-            WidthRequest="640" HeightRequest="480"
+            WidthRequest="640" HeightRequest="380"
             PagesChanged="TabbedPage_PagesChanged" 
             CurrentPageChanged="TabbedPage_CurrentPageChanged">
 

@@ -13,11 +13,9 @@ namespace AltNetworkUtility.Tabs.Info
 
         void ContentPage_BindingContextChanged(object sender, System.EventArgs e)
         {
-            if (BindingContext is InfoPageViewModel viewModel &&
-                Resources.TryGetValue("NetworkInterfaces", out var resource) &&
-                resource is CollectionViewSource collectionViewSource)
+            if (BindingContext is InfoPageViewModel viewModel)
             {
-                viewModel.Init(collectionViewSource.View);
+                viewModel.Init();
             }
         }
     }
