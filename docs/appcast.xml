@@ -1,11 +1,31 @@
-<?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"  xmlns:dc="http://purl.org/dc/elements/1.1/">
-  <channel>
-    <title>AltNetworkUtility Release Notes</title>
-    <link>https://chucker.github.io/AltNetworkUtility/appcast.xml</link>
-    <description>Most recent changes with links to updates.</description>
-    <language>en</language>
-      <item>
-      </item>
-  </channel>
+<?xml version="1.0" standalone="yes"?>
+<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
+    <channel>
+        <title>Alt Network Utility</title>
+        <item>
+            <title>1.0b3</title>
+            <pubDate>Thu, 13 Jan 2022 23:06:50 +0100</pubDate>
+            <sparkle:version>1.0.2</sparkle:version>
+            <sparkle:shortVersionString>1.0b3</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>10.16</sparkle:minimumSystemVersion>
+            <enclosure url="https://chucker.github.io/AltNetworkUtility/Alt%20Network%20Utility-1.0b3.zip" length="14247197" type="application/octet-stream"/>
+        </item>
+        <item>
+            <title>1.0b2</title>
+            <pubDate>Thu, 13 Jan 2022 22:59:39 +0100</pubDate>
+            <sparkle:version>1.0.1</sparkle:version>
+            <sparkle:shortVersionString>1.0b2</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>10.16</sparkle:minimumSystemVersion>
+            <enclosure url="https://chucker.github.io/AltNetworkUtility/Alt%20Network%20Utility-1.0b2.zip" length="14247204" type="application/octet-stream"/>
+            <description><![CDATA[<strong>Test</strong>]]></description>
+        </item>
+        <item>
+            <title>1.0b1</title>
+            <pubDate>Thu, 13 Jan 2022 22:59:02 +0100</pubDate>
+            <sparkle:version>1.0.0</sparkle:version>
+            <sparkle:shortVersionString>1.0b1</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>10.16</sparkle:minimumSystemVersion>
+            <enclosure url="https://chucker.github.io/AltNetworkUtility/Alt%20Network%20Utility-1.0b1.zip" length="14247195" type="application/octet-stream"/>
+        </item>
+    </channel>
 </rss>
