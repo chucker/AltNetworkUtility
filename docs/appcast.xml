@@ -3,29 +3,12 @@
     <channel>
         <title>Alt Network Utility</title>
         <item>
-            <title>1.0b3</title>
-            <pubDate>Thu, 13 Jan 2022 23:06:50 +0100</pubDate>
-            <sparkle:version>1.0.2</sparkle:version>
-            <sparkle:shortVersionString>1.0b3</sparkle:shortVersionString>
+            <title>1.0b4</title>
+            <pubDate>Thu, 13 Jan 2022 23:19:55 +0100</pubDate>
+            <sparkle:version>1.0.3</sparkle:version>
+            <sparkle:shortVersionString>1.0b4</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>10.16</sparkle:minimumSystemVersion>
-            <enclosure url="https://chucker.github.io/AltNetworkUtility/Alt%20Network%20Utility-1.0b3.zip" length="14247197" type="application/octet-stream"/>
-        </item>
-        <item>
-            <title>1.0b2</title>
-            <pubDate>Thu, 13 Jan 2022 22:59:39 +0100</pubDate>
-            <sparkle:version>1.0.1</sparkle:version>
-            <sparkle:shortVersionString>1.0b2</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>10.16</sparkle:minimumSystemVersion>
-            <enclosure url="https://chucker.github.io/AltNetworkUtility/Alt%20Network%20Utility-1.0b2.zip" length="14247204" type="application/octet-stream"/>
-            <description><![CDATA[<strong>Test</strong>]]></description>
-        </item>
-        <item>
-            <title>1.0b1</title>
-            <pubDate>Thu, 13 Jan 2022 22:59:02 +0100</pubDate>
-            <sparkle:version>1.0.0</sparkle:version>
-            <sparkle:shortVersionString>1.0b1</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>10.16</sparkle:minimumSystemVersion>
-            <enclosure url="https://chucker.github.io/AltNetworkUtility/Alt%20Network%20Utility-1.0b1.zip" length="14247195" type="application/octet-stream"/>
+            <enclosure url="https://chucker.github.io/AltNetworkUtility/Alt%20Network%20Utility-1.0b4.zip" length="14247270" type="application/octet-stream" sparkle:edSignature="XLbdxply5pWbJtYVhBbgrlRIkcP6ey9xPvCn12alhhDVbET1OxG2KagevLzSpM/W/+RojoV5Aqu+K4PFcRkgCA=="/>
         </item>
     </channel>
 </rss>
