@@ -5,17 +5,21 @@
 // Manual changes to this file may not be handled correctly.
 //
 using Foundation;
+
 using System.CodeDom.Compiler;
 
 namespace AltNetworkUtility.macOS
 {
-	partial class AppDelegate
-	{
-		[Action ("ShowAboutBox:")]
-		partial void ShowAboutBox (Foundation.NSObject sender);
-		
-		void ReleaseDesignerOutlets ()
-		{
-		}
-	}
+    partial class AppDelegate
+    {
+        [Action("ShowAboutBox:")]
+        partial void ShowAboutBox(Foundation.NSObject sender);
+
+        [Action("CheckForUpdates:")]
+        partial void CheckForUpdates(Foundation.NSObject sender);
+
+        void ReleaseDesignerOutlets()
+        {
+        }
+    }
 }

@@ -92,5 +92,11 @@ namespace AltNetworkUtility.macOS
         {
             DependencyService.Get<AboutBoxWindowService>().OpenWindow();
         }
+
+        partial void CheckForUpdates(NSObject sender)
+        {
+            var updater = new Sparkle.SUUpdater();
+            updater.CheckForUpdates(this);
+        }
     }
 }

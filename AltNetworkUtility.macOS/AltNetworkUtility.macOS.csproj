@@ -178,6 +178,9 @@
       <Project>{F438D518-D0E2-45CB-B1F0-6A19E80017B7}</Project>
       <Name>AltNetworkUtility</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SparkleSharp\Sparkle\Sparkle.csproj">
+      <Name>Sparkle</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <NativeReference Include="Serilog.Sinks.AppleUnifiedLogging\libAppleUnifiedLoggingSink.Native.dylib">
