@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AltNetworkUtility.macOS", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AltNetworkUtility.macOS.PrivilegedHelper", "AltNetworkUtility.macOS.PrivilegedHelper\AltNetworkUtility.macOS.PrivilegedHelper.csproj", "{D195E18A-E04D-4E32-9688-C203BE7CA600}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AltNetworkUtility.macOS.Net6PrivilegedHelper", "AltNetworkUtility.macOS.Net6PrivilegedHelper\AltNetworkUtility.macOS.Net6PrivilegedHelper.csproj", "{3F5C820A-C124-4FF5-9AB0-B82CE7ACD901}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|iPhoneSimulator = Debug|iPhoneSimulator
@@ -60,6 +62,18 @@ Global
 		{D195E18A-E04D-4E32-9688-C203BE7CA600}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D195E18A-E04D-4E32-9688-C203BE7CA600}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D195E18A-E04D-4E32-9688-C203BE7CA600}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F5C820A-C124-4FF5-9AB0-B82CE7ACD901}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{3F5C820A-C124-4FF5-9AB0-B82CE7ACD901}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{3F5C820A-C124-4FF5-9AB0-B82CE7ACD901}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{3F5C820A-C124-4FF5-9AB0-B82CE7ACD901}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{3F5C820A-C124-4FF5-9AB0-B82CE7ACD901}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{3F5C820A-C124-4FF5-9AB0-B82CE7ACD901}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{3F5C820A-C124-4FF5-9AB0-B82CE7ACD901}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{3F5C820A-C124-4FF5-9AB0-B82CE7ACD901}.Release|iPhone.Build.0 = Release|Any CPU
+		{3F5C820A-C124-4FF5-9AB0-B82CE7ACD901}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F5C820A-C124-4FF5-9AB0-B82CE7ACD901}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F5C820A-C124-4FF5-9AB0-B82CE7ACD901}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F5C820A-C124-4FF5-9AB0-B82CE7ACD901}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
