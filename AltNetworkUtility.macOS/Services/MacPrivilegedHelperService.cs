@@ -7,10 +7,14 @@ using Foundation;
 
 using ObjCRuntime;
 
+using Serilog;
+
 namespace AltNetworkUtility.macOS.Services
 {
     public class MacPrivilegedHelperService : IPrivilegedHelperService
     {
+        readonly ILogger Log = Serilog.Log.ForContext<MacPrivilegedHelperService>();
+
         private class NativeMethods
         {
             [DllImport("/System/Library/Frameworks/ServiceManagement.framework/ServiceManagement")]
@@ -19,6 +23,8 @@ namespace AltNetworkUtility.macOS.Services
 
         public bool TryInstallHelper()
         {
+            Log.Debug($"Installing helper");
+
             using (var auth = Security.Authorization.Create(Security.AuthorizationFlags.Defaults))
             {
                 using (var domain = new NSString(""))
@@ -27,6 +33,8 @@ namespace AltNetworkUtility.macOS.Services
                     var result = NativeMethods.SMJobBless(domain.Handle, executableLabel.Handle, auth.Handle, out var _error);
 
                     var error = Runtime.GetNSObject<NSError>(_error);
+
+                    Log.Debug($"Called SMBjobBless; result: {error}");
                 }
             }
 
