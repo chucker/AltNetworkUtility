@@ -30,5 +30,10 @@
 	<string>Assets.xcassets/AppIcon.appiconset</string>
 	<key>CFBundleDisplayName</key>
 	<string>Alt Network Utility</string>
+	<key>SMPrivilegedExecutables</key>
+	<dict>
+		<key>me.chucker.AltNetworkUtility.PrivilegedHelper</key>
+		<string>identifier &amp;quot;me.chucker.AltNetworkUtility.PrivilegedHelper&amp;quot;</string>
+	</dict>
 </dict>
 </plist>
