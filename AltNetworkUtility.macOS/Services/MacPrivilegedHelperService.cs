@@ -23,6 +23,7 @@ namespace AltNetworkUtility.macOS.Services
 
         public bool TryInstallHelper()
         {
+            var c = new NSXpcConnection(NSXpcConnection, NSXpcConnectionOptions.)
             Log.Debug($"Installing helper");
 
             using (var auth = Security.Authorization.Create(Security.AuthorizationFlags.Defaults))

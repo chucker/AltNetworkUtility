@@ -57,11 +57,36 @@ namespace AltNetworkUtility.macOS
 
             InitNetworkInterfaceRepo();
 
-            DependencyService.Get<IPrivilegedHelperService>().TryInstallHelper();
+            //DependencyService.Get<IPrivilegedHelperService>().TryInstallHelper();
 
             _MainWindow = DependencyService.Get<MainWindowService>().OpenWindow();
 
             LoadApplication(new App());
+
+            bool connectionSuccessful = false;
+
+            var protocol = new ObjCRuntime.Protocol(typeof(IXpcProtocol));
+            NSXpcConnection connection = new NSXpcConnection("me.chucker.AltNetworkUtility.PrivilegedHelper");
+            connection.RemoteInterface = NSXpcInterface.Create(protocol);
+            connection.InvalidationHandler = () =>
+            {
+                if (!connectionSuccessful)
+                {
+                    ClickMeLabel.StringValue = "Connection failed!";
+                }
+            };
+
+            connection.Resume();
+            var remoteObject = connection.CreateRemoteObjectProxy<IXpcProtocol>();
+            remoteObject.GetHelloString(new NSString("World"), (retval) =>
+            {
+                InvokeOnMainThread(() =>
+                {
+                    ClickMeButton.Title = retval;
+                    connectionSuccessful = true;
+                    connection.Invalidate();
+                });
+            });
 
             base.DidFinishLaunching(notification);
         }

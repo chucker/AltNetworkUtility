@@ -19,7 +19,7 @@ namespace AltNetworkUtility.macOS
 #endif
                .WriteTo.AppleUnifiedLogging()
                .CreateLogger();
-
+            
             NSApplication.SharedApplication.Delegate = new AppDelegate();
             NSApplication.Main(args);
         }

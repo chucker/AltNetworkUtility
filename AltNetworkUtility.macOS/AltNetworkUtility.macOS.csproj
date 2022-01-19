@@ -187,6 +187,10 @@
 			<Project>{F438D518-D0E2-45CB-B1F0-6A19E80017B7}</Project>
 			<Name>AltNetworkUtility</Name>
 		</ProjectReference>
+		<ProjectReference Include="..\AltNetworkUtility.macOS.PrivilegedHelper.Shared\AltNetworkUtility.macOS.PrivilegedHelper.Shared.csproj">
+		  <Project>{22781A1F-9117-42C3-8657-534B6780F040}</Project>
+		  <Name>AltNetworkUtility.macOS.PrivilegedHelper.XpcProtocol</Name>
+		</ProjectReference>
 	</ItemGroup>
 	<ItemGroup>
 		<NativeReference Include="Serilog.Sinks.AppleUnifiedLogging\libAppleUnifiedLoggingSink.Native.dylib">
