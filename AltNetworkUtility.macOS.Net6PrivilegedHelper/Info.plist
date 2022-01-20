@@ -1,13 +1,13 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>CFBundleIdentifier</key>
-    <string>me.chucker.AltNetworkUtility.PrivilegedHelper</string>
-    <key>CFBundleInfoDictionaryVersion</key>
-    <string>6.0</string>
-    <key>CFBundleName</key>
-    <string>me.chucker.AltNetworkUtility.PrivilegedHelper</string>
+	<key>CFBundleIdentifier</key>
+	<string>me.chucker.AltNetworkUtility.PrivilegedHelper</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>me.chucker.AltNetworkUtility.PrivilegedHelper</string>
 	<key>SMAuthorizedClients</key>
 	<array>
 		<string></string>
@@ -23,8 +23,6 @@
 	<array>
 		<string>identifier &quot;me.chucker.AltNetworkUtility-macOS&quot;</string>
 	</array>
-	<key>LSMinimumSystemVersion</key>
-	<string>10.16</string>
 	<key>XPCService</key>
 	<dict>
 		<key>ServiceType</key>

@@ -2,19 +2,20 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0-macos</TargetFramework>
 
-<!--    <TargetFramework>net6.0-macos</TargetFramework>
+    <SupportedOSPlatformVersion>11.0</SupportedOSPlatformVersion>
+
+    <TargetFramework>net6.0-macos</TargetFramework>
     <RuntimeIdentifier>osx-x64</RuntimeIdentifier>
     <SelfContained>true</SelfContained>
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
     <PublishTrimmed>true</PublishTrimmed>
     <PublishReadyToRun>true</PublishReadyToRun>
-    <PublishSingleFile>true</PublishSingleFile>-->
+    <PublishSingleFile>true</PublishSingleFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AltNetworkUtility.macOS.PrivilegedHelper.Shared\AltNetworkUtility.macOS.PrivilegedHelper.XpcProtocol.csproj" />
+     <ProjectReference Include="..\AltNetworkUtility.macOS.PrivilegedHelper.Shared\AltNetworkUtility.macOS.PrivilegedHelper.XpcProtocol.csproj" /> 
 
     <!--<Reference Include="Xamarin.Mac, Version=0.0.0.0, Culture=neutral, PublicKeyToken=84e04ff9cfb79065" />-->
   </ItemGroup>
