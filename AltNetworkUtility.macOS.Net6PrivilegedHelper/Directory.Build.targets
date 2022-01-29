@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!-- Xamarin overrides the 'publish' target, so we reimplement it under another name -->
+  <Target Name="DotNetPublish"
+          Condition="$(IsPublishable) == 'true'"
+          DependsOnTargets="_PublishBuildAlternative;_PublishNoBuildAlternative" >
+
+    <!-- Ensure there is minimal verbosity output pointing to the publish directory and not just the
+         build step's minimal output. Otherwise there is no indication at minimal verbosity of where
+         the published assets were copied. -->
+    <Message Importance="High" Text="$(MSBuildProjectName) -> $([System.IO.Path]::GetFullPath('$(PublishDir)'))" />
+
+    <AllowEmptyTelemetry EventName="PublishProperties" EventData="PublishReadyToRun=$(PublishReadyToRun);PublishTrimmed=$(PublishTrimmed);PublishSingleFile=$(PublishSingleFile)" />
+  </Target>
+
+<!--  <ItemGroup>
+    <SourceDyLibs Include="/Users/chucker/Projects/AltNetworkUtility/AltNetworkUtility.macOS.Net6PrivilegedHelper/bin/Debug/net6.0-macos/osx-x64/*.dylib" />
+  </ItemGroup>
+
+  <Target Name="ANUCopyNativeLibraries" BeforeTargets="_LinkNativeExecutable">
+    <Message Importance="High" Text="yo waddup" />
+    <Message Importance="High" Text="@(SourceDyLibs)" />
+
+    <Copy SourceFiles="@(SourceDyLibs)" DestinationFolder="/Users/chucker/Projects/AltNetworkUtility/AltNetworkUtility.macOS.Net6PrivilegedHelper/bin/Debug/net6.0-macos/osx-x64/publish" />
+  </Target>-->
+</Project>

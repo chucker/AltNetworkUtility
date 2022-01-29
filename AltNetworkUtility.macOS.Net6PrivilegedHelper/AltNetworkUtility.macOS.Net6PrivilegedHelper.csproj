@@ -2,21 +2,43 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-
-    <SupportedOSPlatformVersion>11.0</SupportedOSPlatformVersion>
-
     <TargetFramework>net6.0-macos</TargetFramework>
+    <!--<TargetFramework>net6.0</TargetFramework>-->
+    <!--<TargetPlatformIdentifier>macOS</TargetPlatformIdentifier>-->
+    <SupportedOSPlatformVersion>12.0</SupportedOSPlatformVersion>
     <RuntimeIdentifier>osx-x64</RuntimeIdentifier>
     <SelfContained>true</SelfContained>
-    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
-    <PublishTrimmed>true</PublishTrimmed>
-    <PublishReadyToRun>true</PublishReadyToRun>
+    <!--<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>-->
+    <!--<PublishTrimmed>true</PublishTrimmed>-->
+    <!--<PublishReadyToRun>true</PublishReadyToRun>-->
+    <CreatePackage>false</CreatePackage>
+    <UseAppHost>true</UseAppHost>
     <PublishSingleFile>true</PublishSingleFile>
+
+    <!--<LinkerFlags>-L/Users/chucker/.nuget/packages/microsoft.netcore.app.runtime.osx-x64/6.0.1/runtimes/osx-x64/native -lSystem.Globalization.Native -L/Users/chucker/.nuget/packages/microsoft.netcore.app.runtime.osx-x64/6.0.1/runtimes/osx-x64/native -lSystem.IO.Compression.Native -L/Users/chucker/.nuget/packages/microsoft.netcore.app.runtime.osx-x64/6.0.1/runtimes/osx-x64/native -lSystem.Native -L/Users/chucker/.nuget/packages/microsoft.netcore.app.runtime.osx-x64/6.0.1/runtimes/osx-x64/native -lSystem.Net.Security.Native -L/Users/chucker/.nuget/packages/microsoft.netcore.app.runtime.osx-x64/6.0.1/runtimes/osx-x64/native -lSystem.Security.Cryptography.Native.Apple -L/Users/chucker/.nuget/packages/microsoft.netcore.app.runtime.osx-x64/6.0.1/runtimes/osx-x64/native -lSystem.Security.Cryptography.Native.OpenSsl -L/Users/chucker/.nuget/packages/microsoft.netcore.app.runtime.osx-x64/6.0.1/runtimes/osx-x64/native -lclrjit -L/Users/chucker/.nuget/packages/microsoft.netcore.app.runtime.osx-x64/6.0.1/runtimes/osx-x64/native -lcoreclr -L/Users/chucker/.nuget/packages/microsoft.netcore.app.runtime.osx-x64/6.0.1/runtimes/osx-x64/native -ldbgshim -L/Users/chucker/.nuget/packages/microsoft.netcore.app.runtime.osx-x64/6.0.1/runtimes/osx-x64/native -lhostfxr -L/Users/chucker/.nuget/packages/microsoft.netcore.app.runtime.osx-x64/6.0.1/runtimes/osx-x64/native -lhostpolicy -L/Users/chucker/.nuget/packages/microsoft.netcore.app.runtime.osx-x64/6.0.1/runtimes/osx-x64/native -lmscordaccore -L/Users/chucker/.nuget/packages/microsoft.netcore.app.runtime.osx-x64/6.0.1/runtimes/osx-x64/native -lmscordbi</LinkerFlags>-->
   </PropertyGroup>
 
   <ItemGroup>
-     <ProjectReference Include="..\AltNetworkUtility.macOS.PrivilegedHelper.Shared\AltNetworkUtility.macOS.PrivilegedHelper.XpcProtocol.csproj" /> 
+     <!--<ProjectReference Include="..\AltNetworkUtility.macOS.PrivilegedHelper.Shared\AltNetworkUtility.macOS.PrivilegedHelper.XpcProtocol.csproj" />-->
 
-    <!--<Reference Include="Xamarin.Mac, Version=0.0.0.0, Culture=neutral, PublicKeyToken=84e04ff9cfb79065" />-->
+     <!--<Reference Include="Xamarin.Mac, Version=0.0.0.0, Culture=neutral, PublicKeyToken=84e04ff9cfb79065" />-->
+
+<!--     <Reference Include="Xamarin.Mac">
+         <HintPath>/usr/local/share/dotnet/packs/Microsoft.macOS.Runtime.osx-x64/12.0.101-preview.11.551/runtimes/osx-x64/lib/net6.0/Xamarin.Mac.dll</HintPath>
+     </Reference>-->
+<!--
+     <Reference Include="AltNetworkUtility.macOS.PrivilegedHelper.XpcProtocol">
+         <HintPath>/Users/chucker/Projects/AltNetworkUtility/AltNetworkUtility.macOS.PrivilegedHelper.Shared/bin/Debug/net6.0-macos/AltNetworkUtility.macOS.PrivilegedHelper.XpcProtocol.dll</HintPath>
+     </Reference>-->
   </ItemGroup>
+
+  <!--
+    https://github.com/dotnet/runtime/issues/64276#issuecomment-1021874795
+    if not built: `xcodebuild -configuration Debug build`
+  -->
+  <Target Name="Simulate_sectcreate" AfterTargets="Publish;DotNetPublish">
+    <Message Importance="high" Text="Embedding Info.plist in $(MSBuildThisFileDirectory)$(PublishedSingleFilePath)" />
+    <Exec Command="$(MSBuildThisFileDirectory)/../gimmedebugah/build/Debug/gimmedebugah -p '$(MSBuildThisFileDirectory)Info.plist' '$(MSBuildThisFileDirectory)$(PublishedSingleFilePath)'" />
+    <Exec Command="chmod +x '$(MSBuildThisFileDirectory)$(PublishedSingleFilePath).patched'" />
+  </Target>
 </Project>

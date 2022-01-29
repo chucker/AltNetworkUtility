@@ -1,7 +1,7 @@
 <Project Sdk="Xamarin.Legacy.Sdk/0.1.2-alpha6">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0-macos;xamarinmac20</TargetFrameworks>
+    <TargetFrameworks>net6.0-macos</TargetFrameworks>
     <IsBindingProject>True</IsBindingProject>
 
     <SupportedOSPlatformVersion>11.0</SupportedOSPlatformVersion>
@@ -10,6 +10,10 @@
   <ItemGroup>
     <ObjcBindingApiDefinition Include="ApiDefinition.cs" />
     <ObjcBindingCoreSource Include="StructsAndEnums.cs" />
+
+<!--    <Reference Include="Xamarin.Mac">
+        <HintPath>/usr/local/share/dotnet/packs/Microsoft.macOS.Runtime.osx-x64/12.0.101-preview.11.551/runtimes/osx-x64/lib/net6.0/Xamarin.Mac.dll</HintPath>
+    </Reference>    --> 
   </ItemGroup>
 
 </Project>

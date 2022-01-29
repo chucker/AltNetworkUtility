@@ -1,0 +1,3 @@
+[submodule "gimmedebugah"]
+	path = gimmedebugah
+	url = https://github.com/gdbinit/gimmedebugah.git
