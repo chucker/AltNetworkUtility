@@ -12,9 +12,11 @@ import Foundation
 
 let listenerDelegate = ListenerDelegate()
 
-let listener = NSXPCListener.service()
+let listener = NSXPCListener(machServiceName: "me.chucker.AltNetworkUtility.PrivilegedHelper")
 listener.delegate = listenerDelegate
 listener.resume()
+
+print("running")
 
 RunLoop.main.run()
 
