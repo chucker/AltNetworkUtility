@@ -1,5 +1,4 @@
 ﻿using Xamarin.Forms;
-using Xamarin.Forms.Maps;
 
 namespace AltNetworkUtility.Tabs.Traceroute
 {
@@ -8,6 +7,12 @@ namespace AltNetworkUtility.Tabs.Traceroute
         public TraceroutePage()
         {
             InitializeComponent();
+        }
+
+        async void ContentPage_BindingContextChanged(System.Object sender, System.EventArgs e)
+        {
+            if (BindingContext is TraceroutePageViewModel viewModel)
+                await viewModel.Init(Map);
         }
     }
 }

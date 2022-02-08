@@ -6,10 +6,15 @@
     xmlns:local="clr-namespace:AltNetworkUtility.Tabs.Traceroute"
     xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
     x:Class="AltNetworkUtility.Tabs.Traceroute.TraceroutePage"
-    Title="Traceroute">
+    Title="Traceroute"
+    BindingContextChanged="ContentPage_BindingContextChanged">
+
+    <ContentPage.BindingContext>
+        <local:TraceroutePageViewModel />
+    </ContentPage.BindingContext>
 
     <ContentPage.Content>
-        <maps:Map>
+        <maps:Map x:Name="Map">
             <x:Arguments>
                 <maps:MapSpan>
                     <x:Arguments>
@@ -24,6 +29,7 @@
                     </x:Arguments>
                 </maps:MapSpan>
             </x:Arguments>
+
             <maps:Map.MapElements>
                 <maps:Circle StrokeColor="#88FF0000"
                          StrokeWidth="8"
