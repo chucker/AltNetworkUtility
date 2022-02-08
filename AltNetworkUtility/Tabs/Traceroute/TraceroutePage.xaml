@@ -14,81 +14,24 @@
     </ContentPage.BindingContext>
 
     <ContentPage.Content>
-        <maps:Map x:Name="Map">
-            <x:Arguments>
-                <maps:MapSpan>
-                    <x:Arguments>
-                        <maps:Position>
-                            <x:Arguments>
-                                <x:Double>37.79752</x:Double>
-                                <x:Double>-122.40183</x:Double>
-                            </x:Arguments>
-                        </maps:Position>
-                        <x:Double>0.01</x:Double>
-                        <x:Double>0.01</x:Double>
-                    </x:Arguments>
-                </maps:MapSpan>
-            </x:Arguments>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
-            <maps:Map.MapElements>
-                <maps:Circle StrokeColor="#88FF0000"
-                         StrokeWidth="8"
-                         FillColor="#88FFC0CB">
-                    <maps:Circle.Center>
-                        <maps:Position>
-                            <x:Arguments>
-                                <x:Double>37.79752</x:Double>
-                                <x:Double>-122.40183</x:Double>
-                            </x:Arguments>
-                        </maps:Position>
-                    </maps:Circle.Center>
-                    <maps:Circle.Radius>
-                        <maps:Distance>
-                            <x:Arguments>
-                                <x:Double>250</x:Double>
-                            </x:Arguments>
-                        </maps:Distance>
-                    </maps:Circle.Radius>
-                </maps:Circle>
+            <StackLayout Orientation="Horizontal">
+                <Label VerticalOptions="Center">Host:</Label>
+                <Editor WidthRequest="170" Text="{Binding Host}" />
+                <Button Text="Run" Padding="2"
+                        Command="{Binding DebufferedCommandViewModel.RunCommand}" />
+            </StackLayout>
 
-                <maps:Circle StrokeColor="#88FF0000"
-                         StrokeWidth="8"
-                         FillColor="#88FFC0CB">
-                    <maps:Circle.Center>
-                        <maps:Position>
-                            <x:Arguments>
-                                <x:Double>53</x:Double>
-                                <x:Double>9</x:Double>
-                            </x:Arguments>
-                        </maps:Position>
-                    </maps:Circle.Center>
-                    <maps:Circle.Radius>
-                        <maps:Distance>
-                            <x:Arguments>
-                                <x:Double>250</x:Double>
-                            </x:Arguments>
-                        </maps:Distance>
-                    </maps:Circle.Radius>
-                </maps:Circle>
+            <Editor Grid.Row="1" StyleClass="monospace"
+                    Text="{Binding DebufferedCommandViewModel.Output}" />
 
-                <maps:Polyline>
-                    <maps:Polyline.Geopath>
-                        <maps:Position>
-                            <x:Arguments>
-                                <x:Double>53</x:Double>
-                                <x:Double>9</x:Double>
-                            </x:Arguments>
-                        </maps:Position>
-
-                        <maps:Position>
-                            <x:Arguments>
-                                <x:Double>37</x:Double>
-                                <x:Double>-122</x:Double>
-                            </x:Arguments>
-                        </maps:Position>
-                    </maps:Polyline.Geopath>
-                </maps:Polyline>
-            </maps:Map.MapElements>
-        </maps:Map>
+            <maps:Map x:Name="Map" Grid.Row="2" />
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

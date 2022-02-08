@@ -19,6 +19,22 @@ namespace AltNetworkUtility.ViewModels
 {
     public class DebufferedCommandViewModel : ViewModelBase
     {
+        public event EventHandler<OutputAppendedEventArgs> OutputAppended;
+
+        public class OutputAppendedEventArgs : EventArgs
+        {
+            public string NewOutput { get; }
+
+            public OutputAppendedEventArgs(string s)
+                => NewOutput = s;
+        }
+
+        protected virtual void OnOutputAppended(OutputAppendedEventArgs e)
+        {
+            var handler = OutputAppended;
+            handler?.Invoke(this, e);
+        }
+
         readonly Serilog.ILogger Log = Serilog.Log.ForContext<DebufferedCommandViewModel>();
 
         public string Arguments { get; set; } = "";
@@ -161,6 +177,8 @@ namespace AltNetworkUtility.ViewModels
                 }));
 
                 await Task.WhenAll(tasks);
+
+                OnOutputAppended(new OutputAppendedEventArgs(s));
             });
 
             var cmd = Cli.Wrap("/usr/bin/script")

@@ -24,6 +24,7 @@
 		<PackageReference Include="Xamarin.Forms" Version="5.0.0.2291" />
 		<PackageReference Include="System.Text.Json" Version="6.0.1" />
 		<PackageReference Include="Xamarin.Forms.Maps" Version="5.0.0.2291" />
+		<PackageReference Include="System.Net.Http.Json" Version="6.0.0" />
 	</ItemGroup>
 	<ItemGroup>
 	  <None Remove="System.Text.Json" />
@@ -31,6 +32,7 @@
 	  <None Remove="Services\Windows\" />
 	  <None Remove="Tabs\Traceroute\" />
 	  <None Remove="Xamarin.Forms.Maps" />
+	  <None Remove="System.Net.Http.Json" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="About\" />
