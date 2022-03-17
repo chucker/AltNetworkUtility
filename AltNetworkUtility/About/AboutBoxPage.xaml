@@ -99,6 +99,14 @@
                 <Label>
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding OpenUrlCommand}"
+                                              CommandParameter="https://github.com/dotnet/reactive/" />
+                    </Label.GestureRecognizers>
+                    Rx.NET
+                </Label>
+
+                <Label>
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OpenUrlCommand}"
                                               CommandParameter="https://serilog.net/" />
                     </Label.GestureRecognizers>
                     Serilog
@@ -107,9 +115,9 @@
                 <Label>
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding OpenUrlCommand}"
-                                              CommandParameter="https://github.com/dotnet/reactive/" />
+                                              CommandParameter="https://sparkle-project.org" />
                     </Label.GestureRecognizers>
-                    Rx.NET
+                    Sparkle
                 </Label>
             </StackLayout>
         </Grid>
