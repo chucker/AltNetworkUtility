@@ -13,6 +13,9 @@ namespace AltNetworkUtility.macOS
 	{
 		[Action ("ShowAboutBox:")]
 		partial void ShowAboutBox (Foundation.NSObject sender);
+
+		[Action ("ShowPreferences:")]
+		partial void ShowPreferences (Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{

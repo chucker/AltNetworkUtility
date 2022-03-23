@@ -92,5 +92,10 @@ namespace AltNetworkUtility.macOS
         {
             DependencyService.Get<AboutBoxWindowService>().OpenWindow();
         }
+
+        partial void ShowPreferences(NSObject sender)
+        {
+            DependencyService.Get<PreferencesWindowService>().OpenWindow();
+        }
     }
 }

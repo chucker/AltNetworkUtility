@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="AltNetworkUtility.PreferencesWindow.PreferencesPage"
+    WidthRequest="480" HeightRequest="150">
+
+    <ContentPage.Resources>
+        <StyleSheet Source="../AppStylesheet.css" />
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical" Margin="20">
+            <Label>When running a command for a second time:</Label>
+
+            <StackLayout Orientation="Vertical" Margin="10,5">
+                <RadioButton Content="Clear the previous output" />
+                <RadioButton Content="Leave the previous output, and append" />
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
+
