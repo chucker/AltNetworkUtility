@@ -54,7 +54,7 @@ namespace AltNetworkUtility.ViewModels
         public string Output
         {
             get => _Output;
-            set => SetProperty(ref _Output, value);
+            private set => SetProperty(ref _Output, value);
         }
 
         public int? ProcessId { get; private set; }
@@ -145,7 +145,20 @@ namespace AltNetworkUtility.ViewModels
             IsBusy = true;
             CancellationTokenSource = new CancellationTokenSource();
 
-            Output = "";
+            // UGLY: maybe user-visible prefs shouldn't be prefixed at all
+            var appPreferences = PreferencesService.GetInstance<PreferencesWindow.PreferencesWindowViewModel>();
+            var appendOutput = appPreferences.GetEnum(nameof(PreferencesWindow.PreferencesWindowViewModel.AppendOutputMode),
+                                                      PreferencesWindow.AppendOutputMode.Clear);
+
+            switch (appendOutput)
+            {
+                case PreferencesWindow.AppendOutputMode.Append:
+                    Output += "\n\n";
+                    break;
+                default:
+                    Output = "";
+                    break;
+            }
 
             PipeTarget outputPipe = PipeTarget.ToDelegate(async s =>
             {
