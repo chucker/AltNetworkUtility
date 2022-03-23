@@ -1,6 +1,5 @@
 ﻿using System.Collections.Concurrent;
 
-using AltNetworkUtility.About;
 using AltNetworkUtility.Services.Windows;
 
 using AppKit;
@@ -9,11 +8,7 @@ using CoreFoundation;
 
 using CoreGraphics;
 
-using Foundation;
-
 using Serilog;
-
-using Xamarin.Forms.Platform.MacOS;
 
 #nullable enable
 
@@ -21,8 +16,9 @@ namespace AltNetworkUtility.macOS.Services.Windows
 {
     public enum Window
     {
+        AboutBox,
         MainWindow,
-        AboutBox
+        Preferences
     }
 
     public abstract class WindowService : IWindowService
@@ -73,7 +69,7 @@ namespace AltNetworkUtility.macOS.Services.Windows
         {
             if (page.WidthRequest == 0 || page.HeightRequest == 0)
                 Log.Warning("Width or height weren't set");
-            
+
             window.SetFrame(new CGRect(200, 200, page.WidthRequest, page.HeightRequest), true, true);
         }
 
@@ -97,89 +93,6 @@ namespace AltNetworkUtility.macOS.Services.Windows
         private static void HideWindow(NSWindow window)
         {
             window.IsVisible = false;
-        }
-    }
-
-    public class MainWindowService : WindowService
-    {
-        public override Window Window => Window.MainWindow;
-
-        public override NSWindow OpenWindow()
-        {
-            return _SingleInstanceWindows.GetOrAdd(Window, _ =>
-            {
-                const NSWindowStyle windowStyle = NSWindowStyle.Closable | NSWindowStyle.Resizable | NSWindowStyle.Titled;
-
-                var window = new NSWindow
-                {
-                    BackingType = NSBackingStore.Buffered,
-                    Level = NSWindowLevel.Normal,
-                    StyleMask = windowStyle,
-                    Title = AppDelegate.AppName
-                };
-
-                window.TabbingMode = NSWindowTabbingMode.Disallowed;
-
-                var page = new MainPage();
-
-                SetNSWindowFrameFromXamFormsPage(window, page);
-
-                window.ContentView = page.CreateViewController().View;
-
-                var windowController = new NSWindowController(window);
-                var appDelegate = NSApplication.SharedApplication.Delegate as AppDelegate;
-                windowController.ShowWindow(appDelegate);
-
-                ShowWindow(window);
-
-                return window;
-            });
-        }
-    }
-
-    public class AboutBoxWindowService : WindowService, IAboutBoxWindowService
-    {
-        public override Window Window => Window.AboutBox;
-
-        public override NSWindow OpenWindow()
-        {
-            return _SingleInstanceWindows.GetOrAdd(Window, _ =>
-            {
-                const NSWindowStyle windowStyle = NSWindowStyle.Closable | NSWindowStyle.Titled;
-
-                var window = new NSWindow
-                {
-                    BackingType = NSBackingStore.Buffered,
-                    Level = NSWindowLevel.Normal,
-                    StyleMask = windowStyle,
-                    Title = $"About {AppDelegate.AppName}"
-                };
-
-                window.TabbingMode = NSWindowTabbingMode.Disallowed;
-
-                var page = new AboutBoxPage();
-
-                SetNSWindowFrameFromXamFormsPage(window, page);
-                
-                window.ContentView = page.CreateViewController().View;
-
-                var windowController = new NSWindowController(window);
-                windowController.ShowWindow(null);
-
-                window.Delegate = new WindowDelegate();
-
-                ShowWindow(window);
-
-                return window;
-            });
-        }
-
-        private class WindowDelegate : NSWindowDelegate
-        {
-            public override void WillClose(NSNotification notification)
-            {
-                Xamarin.Forms.DependencyService.Get<AboutBoxWindowService>().CloseWindow();
-            }
         }
     }
 }

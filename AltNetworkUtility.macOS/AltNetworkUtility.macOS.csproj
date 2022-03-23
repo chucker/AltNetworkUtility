@@ -156,6 +156,8 @@
     <Compile Include="Repositories\NetworkInterfaceRepository\BsdDataSource.cs" />
     <Compile Include="Repositories\NetworkInterfaceRepository\IORegistryDataSource.cs" />
     <Compile Include="Services\MacOpenUrlService.cs" />
+    <Compile Include="Services\Windows\MainWindowService.cs" />
+    <Compile Include="Services\Windows\AboutBoxWindowService.cs" />
   </ItemGroup>
   <ItemGroup>
       <PackageReference Include="CliWrap" Version="3.4.0" />
