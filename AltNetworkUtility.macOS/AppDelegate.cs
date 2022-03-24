@@ -90,12 +90,14 @@ namespace AltNetworkUtility.macOS
 
         partial void ShowAboutBox(NSObject sender)
         {
-            DependencyService.Get<AboutBoxWindowService>().OpenWindow();
+            var window = DependencyService.Get<AboutBoxWindowService>().OpenWindow();
+            window.MakeKeyAndOrderFront(null);
         }
-
+        
         partial void ShowPreferences(NSObject sender)
         {
-            DependencyService.Get<PreferencesWindowService>().OpenWindow();
+            var window = DependencyService.Get<PreferencesWindowService>().OpenWindow();
+            window.MakeKeyAndOrderFront(null);
         }
     }
 }
