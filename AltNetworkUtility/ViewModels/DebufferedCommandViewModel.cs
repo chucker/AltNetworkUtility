@@ -153,7 +153,8 @@ namespace AltNetworkUtility.ViewModels
             switch (appendOutput)
             {
                 case PreferencesWindow.AppendOutputMode.Append:
-                    Output += "\n\n";
+                    if (!string.IsNullOrWhiteSpace(Output))
+                        Output += "\n\n";
                     break;
                 default:
                     Output = "";

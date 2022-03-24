@@ -21,7 +21,7 @@
 
             <StackLayout Orientation="Vertical" Margin="10,5"
                          RadioButtonGroup.GroupName="AppendOutputMode"
-                         RadioButtonGroup.SelectedValue="{Binding AppendOutputMode}">
+                         RadioButtonGroup.SelectedValue="{Binding AppendOutputMode_O}">
                 <RadioButton Content="Clear the previous output" Value="Clear" />
                 <RadioButton Content="Leave the previous output, and append" Value="Append" />
             </StackLayout>
