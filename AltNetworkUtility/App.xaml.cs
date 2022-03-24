@@ -13,7 +13,7 @@ namespace AltNetworkUtility
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            MainPage = new MainWindow.MainPage();
 
 #if Hacky_StyleSheet_HotReload
             new Timer(_ =>

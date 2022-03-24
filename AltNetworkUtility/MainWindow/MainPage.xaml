@@ -5,7 +5,7 @@
             xmlns:netstat="clr-namespace:AltNetworkUtility.Tabs.Netstat"
             xmlns:ping="clr-namespace:AltNetworkUtility.Tabs.Ping"
             xmlns:lookup="clr-namespace:AltNetworkUtility.Tabs.Lookup"
-            x:Class="AltNetworkUtility.MainPage"
+            x:Class="AltNetworkUtility.MainWindow.MainPage"
             WidthRequest="640" HeightRequest="480"
             PagesChanged="TabbedPage_PagesChanged" 
             CurrentPageChanged="TabbedPage_CurrentPageChanged">

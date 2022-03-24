@@ -6,7 +6,7 @@ using AltNetworkUtility.Tabs.Info;
 
 using Xamarin.Forms;
 
-namespace AltNetworkUtility
+namespace AltNetworkUtility.MainWindow
 {
     public partial class MainPage : TabbedPage
     {
