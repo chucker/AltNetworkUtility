@@ -10,9 +10,9 @@
 		<DefineConstants>$(DefineConstants);Hacky_StyleSheet_HotReload</DefineConstants>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="CliWrap" Version="3.4.0" />
+		<PackageReference Include="CliWrap" Version="3.4.2" />
 		<PackageReference Include="CollectionViewSource.Forms" Version="1.0.0.2" />
-		<PackageReference Include="Humanizer.Core" Version="2.13.14" />
+		<PackageReference Include="Humanizer.Core" Version="2.14.1" />
 		<PackageReference Include="LambdaConverters.XF" Version="4.0.0-alpha2" />
 		<PackageReference Include="Microcharts.Forms" Version="1.0.0-preview1" />
 		<PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.0.1" />
@@ -20,8 +20,8 @@
 		<PackageReference Include="System.Reactive" Version="5.0.0" />
 		<PackageReference Include="TunnelVisionLabs.ReferenceAssemblyAnnotator" Version="1.0.0-alpha.160" PrivateAssets="all" />
 		<PackageDownload Include="Microsoft.NETCore.App.Ref" Version="[5.0.0]" />
-		<PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
-		<PackageReference Include="Xamarin.Forms" Version="5.0.0.2291" />
-		<PackageReference Include="System.Text.Json" Version="6.0.1" />
+		<PackageReference Include="Xamarin.Essentials" Version="1.7.1" />
+		<PackageReference Include="Xamarin.Forms" Version="5.0.0.2337" />
+		<PackageReference Include="System.Text.Json" Version="6.0.2" />
 	</ItemGroup>
 </Project>

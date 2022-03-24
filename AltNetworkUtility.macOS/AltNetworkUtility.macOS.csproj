@@ -144,7 +144,6 @@
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Services\MacIconFontProvider.cs" />
     <Compile Include="Models\SCNetworkInterface.cs" />
-    <Compile Include="Renderers\MacRadioButtonRenderer.cs" />
     <Compile Include="Services\MacSystemSoundService.cs" />
     <Compile Include="Extensions\NSImageExtensions.cs" />
     <Compile Include="Renderers\MacEditorRenderer.cs" />
@@ -161,7 +160,7 @@
     <Compile Include="Services\Windows\PreferencesWindowService.cs" />
   </ItemGroup>
   <ItemGroup>
-      <PackageReference Include="CliWrap" Version="3.4.0" />
+      <PackageReference Include="CliWrap" Version="3.4.2" />
       <PackageReference Include="CollectionViewSource.Forms" Version="1.0.0.2" />
       <PackageReference Include="LambdaConverters.XF" Version="4.0.0-alpha2" />
       <PackageReference Include="Microcharts.Forms" Version="1.0.0-preview1" />
@@ -171,7 +170,7 @@
       <PackageReference Include="System.Reactive" Version="5.0.0" />
       <PackageReference Include="TunnelVisionLabs.ReferenceAssemblyAnnotator" Version="1.0.0-alpha.160" PrivateAssets="all" />
       <PackageDownload Include="Microsoft.NETCore.App.Ref" Version="[5.0.0]" />
-      <PackageReference Include="Xamarin.Forms" Version="5.0.0.2291" />
+      <PackageReference Include="Xamarin.Forms" Version="5.0.0.2337" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Main.storyboard" />
