@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:quality="clr-namespace:AltNetworkUtility.MainWindow.Tabs.Quality"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="AltNetworkUtility.MainWindow.Tabs.Quality.QualityPage"
+    x:DataType="quality:QualityPageViewModel">
+
+    <ContentPage.BindingContext>
+        <quality:QualityPageViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <Grid Padding="20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackLayout Orientation="Vertical" Grid.Row="0">
+                <StackLayout Orientation="Horizontal">
+                    <CheckBox IsChecked="{Binding UseSpecificInterface}" />
+
+                    <Label Text="Check using this interface:" VerticalOptions="Center">
+                        <Label.GestureRecognizers>
+                            <ClickGestureRecognizer Command="{Binding ToggleUseSpecificInterfaceCommand}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+
+                    <Picker IsEnabled="{Binding UseSpecificInterface}" SelectedItem="{Binding SpecificInterface}"
+                        ItemsSource="{Binding AvailableNetworkInterfaces}"
+                        ItemDisplayBinding="{Binding DisplayName}" />
+                </StackLayout>
+
+                <!--<StackLayout Orientation="Horizontal"
+                         RadioButtonGroup.GroupName="SequentialMode"
+                         RadioButtonGroup.SelectedValue="{Binding SequentialMode}">
+                <Label VerticalOptions="Center">Run tests:</Label>
+                <RadioButton Value="InParallel" Content="in parallel" />
+                <RadioButton Value="Sequentially" Content="sequentially" />
+            </StackLayout>-->
+            </StackLayout>
+
+            <StackLayout Grid.Row="0" Grid.Column="1" Orientation="Horizontal" VerticalOptions="End">
+                <Button Text="Run" Padding="2" IsVisible="{Binding DebufferedCommandViewModel.IsNotBusy}"
+                        Command="{Binding DebufferedCommandViewModel.RunCommand}" />
+
+                <ActivityIndicator IsRunning="{Binding DebufferedCommandViewModel.IsBusy}"
+                                   IsVisible="{Binding DebufferedCommandViewModel.IsBusy}"
+                                   HeightRequest="16" WidthRequest="16" />
+
+                <Button Text="Cancel" Padding="2"
+                        IsVisible="{Binding DebufferedCommandViewModel.IsBusy}"
+                        Command="{Binding DebufferedCommandViewModel.CancelCommand}" />
+            </StackLayout>
+
+            <Editor Grid.Row="1" Grid.ColumnSpan="2" StyleClass="monospace"
+                    Text="{Binding DebufferedCommandViewModel.Output}" />
+
+            <StackLayout Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal">
+                <Label VerticalOptions="Center">Command:</Label>
+
+                <Entry WidthRequest="300" Text="{Binding DebufferedCommandViewModel.CommandLine}" />
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+
+</ContentPage>
+

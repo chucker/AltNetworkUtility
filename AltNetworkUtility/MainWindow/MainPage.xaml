@@ -5,6 +5,7 @@
             xmlns:netstat="clr-namespace:AltNetworkUtility.Tabs.Netstat"
             xmlns:ping="clr-namespace:AltNetworkUtility.Tabs.Ping"
             xmlns:lookup="clr-namespace:AltNetworkUtility.Tabs.Lookup"
+            xmlns:quality="clr-namespace:AltNetworkUtility.MainWindow.Tabs.Quality"
             x:Class="AltNetworkUtility.MainWindow.MainPage"
             WidthRequest="640" HeightRequest="480"
             PagesChanged="TabbedPage_PagesChanged" 
@@ -29,5 +30,7 @@
 
     <ContentPage Title="Port Scan">
     </ContentPage>
+
+    <quality:QualityPage Title="Quality" IsVisible="False" />
 
 </TabbedPage>
